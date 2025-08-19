@@ -1,1 +1,16 @@
-<p>round-button works!</p>
+@if (href.length > 0 && !isDisabled) {
+<div class="container">
+  <a matButton="filled" onclick="onClick()" href="{{ href }}" target="_blank">{{ label }}</a>
+</div>
+}
+<!--  -->
+@if(href.length == 0 && !isDisabled) {
+<div class="container">
+  <button matButton="filled" [disabled]="isDisabled" onclick="onClick()">
+    @if(icon.length > 0) {
+    <mat-icon>{{ icon }}</mat-icon>
+    }
+    {{ label }}
+  </button>
+</div>
+}
