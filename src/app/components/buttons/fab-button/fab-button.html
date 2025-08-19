@@ -1,1 +1,8 @@
-<p>fab-button works!</p>
+<div class="container">
+  <button matFab extended>
+    <mat-icon fontIcon="{{ icon.toLocaleLowerCase() }}"></mat-icon>
+    @if (label.length > 0) {
+    {{ label }}
+    }
+  </button>
+</div>
