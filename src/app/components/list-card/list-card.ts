@@ -1,13 +1,15 @@
 import { Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 import { TabsListItem } from '../../models/tabs-list-item/tabs-list-item';
-import { MatDividerModule, MatDivider } from '@angular/material/divider';
 
 @Component({
   selector: 'app-list-card',
-  imports: [MatCardModule, MatDivider],
+  imports: [MatCardModule, MatDividerModule, MatIconModule, MatButtonModule],
   templateUrl: './list-card.html',
-  styleUrl: './list-card.scss'
+  styleUrls: ['./list-card.scss']
 })
 export class ListCard {
   @Input() item!: TabsListItem;
