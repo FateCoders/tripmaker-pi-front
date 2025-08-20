@@ -1,0 +1,22 @@
+<div class="list-controls">
+    @if (enableSearch) {
+    <input type="text" placeholder="Pesquisar..." [(ngModel)]="searchTerm" class="search-input" />
+    }
+
+    @if (enableFilter) {
+    <select [(ngModel)]="selectedCategory">
+        <option value="">Todas</option>
+        <option value="category">Categoria</option>
+    </select>
+    }
+</div>
+
+<mat-list>
+    @for (item of filteredItems; track $index) {
+    <app-list-card [item]="item"></app-list-card>
+    }
+</mat-list>
+
+@if (filteredItems.length === 0) {
+<div class="empty-state">Nenhum item encontrado.</div>
+}

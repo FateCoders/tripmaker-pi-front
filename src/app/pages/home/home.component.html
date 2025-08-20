@@ -1,4 +1,10 @@
 <div class="container">
-  <p>home works!</p>
-  <app-tabs-list [tabs]="tabs"></app-tabs-list>
+  <app-tabs-list [tabs]="tabs" (tabChanged)="onTabChanged($event)"></app-tabs-list>
+
+  <app-list-view
+    [items]="currentItems"
+    [enableSearch]="true"
+    [enableFilter]="true"
+    [cardType]="'default'"
+  ></app-list-view>
 </div>
