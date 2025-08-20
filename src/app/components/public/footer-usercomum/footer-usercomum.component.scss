@@ -1,0 +1,25 @@
+.footer_container {
+  display: flex;
+  justify-content: space-around;
+  padding: 12px 0;
+  background-color: #f8f8f8;
+
+  &__icons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--text-color-light);
+    text-decoration: none;
+
+    &:hover {
+      color: #000;
+    }
+
+    &.active mat-icon {
+      background: var(--primary-color-light);
+      color: var(--primary-color-dark);
+      border-radius: 50px;
+      padding: 6px 16px;
+    }
+  }
+}
