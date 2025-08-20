@@ -1,10 +1,10 @@
 <div class="container">
-  <mat-chip-listbox>
-    <mat-chip-option>
+  <mat-chip-option>
+    <span class="chip-content">
       @if (icon.length > 0) {
-      <mat-icon class="icon-chip-button" fontIcon="{{ icon }}" />
+        <mat-icon fontIcon="{{ icon }}"></mat-icon>
       }
       {{ label }}
-    </mat-chip-option>
-  </mat-chip-listbox>
+    </span>
+  </mat-chip-option>
 </div>
