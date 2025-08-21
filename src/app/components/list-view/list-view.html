@@ -1,7 +1,8 @@
 <div class="list-controls">
     @if (enableSearch) {
-    <input type="text" placeholder="Pesquisar..." [(ngModel)]="searchTerm" class="search-input" />
+    <app-search-bar [(value)]="searchTerm" placeholder="Pesquise aqui"></app-search-bar>
     }
+
 
     @if (enableFilter) {
     <select [(ngModel)]="selectedCategory">

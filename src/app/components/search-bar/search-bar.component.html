@@ -1,0 +1,10 @@
+<div class="search-container">
+  <mat-icon class="search-icon">search</mat-icon>
+  <input
+    type="text"
+    [(ngModel)]="value"
+    (ngModelChange)="onValueChange($event)"
+    [placeholder]="placeholder"
+    class="search-input"
+  />
+</div>

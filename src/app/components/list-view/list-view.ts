@@ -3,22 +3,20 @@ import { FormsModule } from '@angular/forms';
 import { MatListModule } from '@angular/material/list';
 import { ListCard } from '../list-card/list-card';
 import { TabsListItem } from '../../models/tabs-list-item';
+import { SearchBarComponent } from '../search-bar/search-bar.component';
 
 @Component({
   selector: 'app-list-view',
-  imports: [FormsModule, MatListModule, ListCard],
+  standalone: true,
+  imports: [FormsModule, MatListModule, ListCard, SearchBarComponent],
   templateUrl: './list-view.html',
   styleUrls: ['./list-view.scss']
 })
 export class ListView {
   @Input() items: TabsListItem[] = [];
-
-  // habilitar/desabilitar opções vindas da home
   @Input() enableSearch: boolean = false;
   @Input() enableFilter: boolean = false;
-
   @Input() cardType: string = "default";
-  // fazer variações de cards
 
   searchTerm: string = '';
   selectedCategory: string = '';
@@ -26,7 +24,7 @@ export class ListView {
   get filteredItems(): TabsListItem[] {
     let result = this.items;
 
-    // 🔍 search
+    // 🔍 search (arrumar alguma alternativa para tornar isso reutilizável)
     if (this.enableSearch && this.searchTerm?.trim()) {
       const term = this.searchTerm.toLowerCase();
       result = result.filter(item =>
@@ -35,7 +33,7 @@ export class ListView {
       );
     }
 
-    // 🎯 filtro de categoria simples (exemplo)
+    // 🎯 filtro de categoria simples
     if (this.enableFilter && this.selectedCategory) {
       result = result.filter(item => item['category'] === this.selectedCategory);
     }

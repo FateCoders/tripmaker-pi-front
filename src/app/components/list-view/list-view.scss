@@ -1,20 +1,5 @@
 .list-controls {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 12px;
-
-  .search-input {
-    flex: 1;
-    padding: 6px 8px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-  }
-
-  select {
-    padding: 6px 8px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-  }
+  margin: 12px;
 }
 
 .empty-state {
