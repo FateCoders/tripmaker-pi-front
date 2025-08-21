@@ -11,9 +11,10 @@
     }
 </div>
 
-<mat-list>
+<mat-list class="card-list">
     @for (item of filteredItems; track $index) {
     <app-list-card [item]="item"></app-list-card>
+    <mat-divider class="divider"></mat-divider>
     }
 </mat-list>
 

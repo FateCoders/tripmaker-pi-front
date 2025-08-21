@@ -16,8 +16,8 @@ export class ListView {
   // habilitar/desabilitar opções vindas da home
   @Input() enableSearch: boolean = false;
   @Input() enableFilter: boolean = false;
-  
-  @Input() cardType: string = "";
+
+  @Input() cardType: string = "default";
   // fazer variações de cards
 
   searchTerm: string = '';
