@@ -17,8 +17,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
   ]
 })
 export class ToggleInput implements ControlValueAccessor {
-  @Input() label = 'Slide me!';
-
   value: boolean = false;
   disabled = false;
 
