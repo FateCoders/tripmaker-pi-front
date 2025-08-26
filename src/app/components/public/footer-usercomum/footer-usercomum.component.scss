@@ -1,8 +1,9 @@
+
 .footer_container {
   display: flex;
   justify-content: space-around;
   padding: 12px 0;
-  background-color: #f8f8f8;
+  background-color: var(--white-color);
 
   &__icons {
     display: flex;
@@ -10,10 +11,6 @@
     align-items: center;
     color: var(--text-color-light);
     text-decoration: none;
-
-    &:hover {
-      color: #000;
-    }
 
     &.active mat-icon {
       background: var(--primary-color-light);
