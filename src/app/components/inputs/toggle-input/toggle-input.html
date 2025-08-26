@@ -1,0 +1,9 @@
+<!-- toggle-input.html -->
+<div class="container">
+  <mat-slide-toggle
+    [checked]="value"
+    [disabled]="disabled"
+    (change)="onToggleChange($event)">
+    {{ label }}
+  </mat-slide-toggle>
+</div>
