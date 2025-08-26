@@ -1,6 +1,7 @@
 .footer_container {
   display: flex;
   justify-content: space-around;
+  align-items: center;
   padding: 12px 0;
   background-color: var(--white-color);
 
@@ -15,7 +16,11 @@
     &.active mat-icon {
       background: var(--primary-color-light);
       border-radius: 50px;
-      padding: 6px 16px;
+    }
+
+    mat-icon {
+    padding: 6px 16px;
+
     }
   }
 }
