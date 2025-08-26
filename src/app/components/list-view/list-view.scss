@@ -5,10 +5,14 @@
 .empty-state {
   text-align: center;
   padding: 20px;
-  color: #777;
+  color: var(--text-color-light-light);
   font-size: 14px;
 }
 
 .card-list {
   padding: 10px;
+}
+
+mat-divider {
+  opacity: 0.4;
 }

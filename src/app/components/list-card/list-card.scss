@@ -1,6 +1,11 @@
 .list-card {
   box-shadow: none;
-  border-radius: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
 }
 
 .card-container {
@@ -13,7 +18,7 @@
 .card-image {
   width: 90px;
   height: 90px;
-  border-radius: 10%;
+  border-radius: 15% !important;
 }
 
 .card-content {
@@ -30,12 +35,12 @@
   font-size: 16px;
   font-weight: 600;
   line-height: 1.2;
-  color: #212121;
+  color: var(--text-color-dark);
 }
 
 .card-subtitle {
   font-size: 13px;
-  color: #666;
+  color: var(--text-color-light);
   margin-top: 4px;
 }
 

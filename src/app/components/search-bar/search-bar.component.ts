@@ -1,11 +1,12 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-search-bar',
-  imports: [FormsModule, MatIconModule],
-  standalone: true,
+  imports: [FormsModule, MatIconModule, MatInputModule, CommonModule],
   templateUrl: './search-bar.component.html',
   styleUrls: ['./search-bar.component.scss']
 })
