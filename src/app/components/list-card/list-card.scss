@@ -1,10 +1,10 @@
 .list-card {
   box-shadow: none;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: var(--white-color);
 
   &:hover {
-    transform: scale(1.02);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: scale(1.01);
   }
 }
 

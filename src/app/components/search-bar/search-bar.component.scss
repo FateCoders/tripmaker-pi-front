@@ -5,9 +5,10 @@
     border-radius: 25px;
     padding: 8px 14px;
     margin: 10px auto;
-    transition: all 0.25s ease;
+    transition: all 0.25s ease-in;
 
     &:focus-within {
+        outline: var(--primary-color) 1px solid;
         background-color: var(--white-color);
 
         .search-icon {
@@ -36,7 +37,7 @@
     }
 
     &:focus::placeholder {
-        color: var(--text-color-light);
+        color: var(--primary-color);
     }
 }
 
