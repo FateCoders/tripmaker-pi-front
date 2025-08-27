@@ -1,11 +1,10 @@
 <div class="container">
-  
+
+  <app-header-title title="Rotas e eventos" subtitle="Visualização e criação de rotas e eventos"></app-header-title>
+
+
   <app-tabs-list [tabs]="tabs" (tabChanged)="onTabChanged($event)"></app-tabs-list>
 
-  <app-list-view
-    [items]="currentItems"
-    [enableSearch]="true"
-    [enableFilter]="true"
-    [cardType]="'default'"
-  ></app-list-view>
+  <app-list-view [items]="currentItems" [enableSearch]="true" [enableFilter]="true"
+    [cardType]="'default'"></app-list-view>
 </div>

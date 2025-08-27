@@ -3,11 +3,11 @@ import { TabsList } from "../../components/tabs-list/tabs-list";
 import { ListView } from "../../components/list-view/list-view";
 import { TabsSection } from '../../models/tabs-section';
 import { TabsListItem } from '../../models/tabs-list-item';
+import { HeaderTitle } from '../../components/header-title/header-title';
 
 @Component({
   selector: 'app-home',
-  standalone: true,
-  imports: [TabsList, ListView],
+  imports: [TabsList, ListView, HeaderTitle],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })

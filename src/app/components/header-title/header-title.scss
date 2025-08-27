@@ -1,0 +1,18 @@
+.header-title {
+  background: #f9fafb;
+  padding: 16px 24px;
+  border-bottom: 2px solid var(--text-color-light-light);
+
+  .title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-color-dark);
+    margin: 0;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+    color: var(--text-color-light);
+    margin: 4px 0 0 0;
+  }
+}
