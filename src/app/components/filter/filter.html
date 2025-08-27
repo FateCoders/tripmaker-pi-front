@@ -1,0 +1,13 @@
+<div class="filter-select">
+  <mat-icon color="primary">swap_vert</mat-icon>
+
+  <mat-form-field class="select-field">
+    <mat-select [(ngModel)]="selectedCategory">
+      @for (cat of categories; track cat.value) {
+      <mat-option [value]="cat.value">{{ cat.viewValue }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-icon>list</mat-icon>
+</div>
