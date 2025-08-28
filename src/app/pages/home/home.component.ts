@@ -1,37 +1,33 @@
 import { Component } from '@angular/core';
-import { TabsList } from "../../components/tabs-list/tabs-list";
-import { ListView } from "../../components/list-view/list-view";
-import { TabsSection } from '../../models/tabs-section';
-import { TabsListItem } from '../../models/tabs-list-item';
-import { HeaderTitle } from '../../components/header-title/header-title';
+import { FooterUsercomumComponent } from "../../components/public/footer-usercomum/footer-usercomum.component";
 
 @Component({
   selector: 'app-home',
-  imports: [TabsList, ListView, HeaderTitle],
+  imports: [FooterUsercomumComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-  tabs: TabsSection[] = [
-    {
-      label: 'Fruits',
-      content: [
-        { id: '1', img: 'https://placehold.co/150', title: 'Apple', description: 'A sweet red fruit', category: 'A' },
-        { id: '2', img: 'https://placehold.co/150', title: 'Banana', description: 'A long yellow fruit', category: 'B' }
-      ]
-    },
-    {
-      label: 'Vegetables',
-      content: [
-        { id: '3', img: 'https://placehold.co/150', title: 'Carrot', description: 'An orange root vegetable', category: 'A' },
-        { id: '4', img: 'https://placehold.co/150', title: 'Broccoli', description: 'A green cruciferous vegetable', category: 'C' }
-      ]
-    }
-  ];
+  // tabs: TabsSection[] = [
+  //   {
+  //     label: 'Fruits',
+  //     content: [
+  //       { id: '1', img: 'https://placehold.co/150', title: 'Apple', description: 'A sweet red fruit', category: 'A' },
+  //       { id: '2', img: 'https://placehold.co/150', title: 'Banana', description: 'A long yellow fruit', category: 'B' }
+  //     ]
+  //   },
+  //   {
+  //     label: 'Vegetables',
+  //     content: [
+  //       { id: '3', img: 'https://placehold.co/150', title: 'Carrot', description: 'An orange root vegetable', category: 'A' },
+  //       { id: '4', img: 'https://placehold.co/150', title: 'Broccoli', description: 'A green cruciferous vegetable', category: 'C' }
+  //     ]
+  //   }
+  // ];
 
-  currentItems: TabsListItem[] = this.tabs[0].content;
+  // currentItems: TabsListItem[] = this.tabs[0].content;
 
-  onTabChanged(index: number) {
-    this.currentItems = this.tabs[index].content;
-  }
+  // onTabChanged(index: number) {
+  //   this.currentItems = this.tabs[index].content;
+  // }
 }
