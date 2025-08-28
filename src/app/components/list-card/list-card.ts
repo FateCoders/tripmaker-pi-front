@@ -3,7 +3,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { TabsListItem } from '../../models/tabs-list-item';
+import { TabsListCard } from '../../models/tabs-list-card';
 
 @Component({
   selector: 'app-list-card',
@@ -12,5 +12,5 @@ import { TabsListItem } from '../../models/tabs-list-item';
   styleUrls: ['./list-card.scss']
 })
 export class ListCard {
-  @Input() item!: TabsListItem;
+  @Input() item!: TabsListCard;
 }

@@ -25,7 +25,7 @@ export class HomeComponent {
   //   }
   // ];
 
-  // currentItems: TabsListItem[] = this.tabs[0].content;
+  // currentItems: TabsListCard[] = this.tabs[0].content;
 
   // onTabChanged(index: number) {
   //   this.currentItems = this.tabs[index].content;

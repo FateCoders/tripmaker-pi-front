@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatListModule } from '@angular/material/list';
 import { ListCard } from '../list-card/list-card';
-import { TabsListItem } from '../../models/tabs-list-item';
+import { TabsListCard } from '../../models/tabs-list-card';
 import { SearchBarComponent } from '../search-bar/search-bar.component';
 import { FilterBar } from '../filter-bar/filter-bar';
 
@@ -13,7 +13,7 @@ import { FilterBar } from '../filter-bar/filter-bar';
   styleUrls: ['./list-view.scss']
 })
 export class ListView {
-  @Input() items: TabsListItem[] = [];
+  @Input() items: TabsListCard[] = [];
   @Input() enableSearch: boolean = false;
   @Input() enableFilter: boolean = false;
   @Input() cardType: string = "default";
@@ -21,7 +21,7 @@ export class ListView {
   searchTerm: string = '';
   selectedCategory: string = '';
 
-  get filteredItems(): TabsListItem[] {
+  get filteredItems(): TabsListCard[] {
     let result = this.items;
 
     // 🔍 busca

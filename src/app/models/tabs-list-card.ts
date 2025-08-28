@@ -1,4 +1,4 @@
-export interface TabsListItem {
+export interface TabsListCard {
     id: string;
     img: string;
     title: string;

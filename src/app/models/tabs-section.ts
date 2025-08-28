@@ -1,6 +1,6 @@
-import { TabsListItem } from './tabs-list-item';
+import { TabsListCard } from './tabs-list-card';
 
 export interface TabsSection {
   label: string;
-  content: TabsListItem[];
+  content: TabsListCard[];
 }
