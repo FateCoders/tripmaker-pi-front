@@ -4,7 +4,6 @@ import { TabsSection } from '../../models/tabs-section';
 
 @Component({
   selector: 'app-tabs-list',
-  standalone: true,
   imports: [MatTabsModule],
   templateUrl: './tabs-list.html',
   styleUrls: ['./tabs-list.scss']

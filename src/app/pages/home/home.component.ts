@@ -16,15 +16,15 @@ export class HomeComponent {
     {
       label: 'Fruits',
       content: [
-        { id: '1', img: 'https://placehold.co/150', title: 'Apple', description: 'A sweet red fruit', category: 'gostosinho' },
-        { id: '2', img: 'https://placehold.co/150', title: 'Banana', description: 'A long yellow fruit', category: 'gostosinha' }
+        { id: '1', img: 'https://placehold.co/150', title: 'Apple', description: 'A sweet red fruit', category: 'A' },
+        { id: '2', img: 'https://placehold.co/150', title: 'Banana', description: 'A long yellow fruit', category: 'B' }
       ]
     },
     {
       label: 'Vegetables',
       content: [
-        { id: '3', img: 'https://placehold.co/150', title: 'Carrot', description: 'An orange root vegetable', category: 'gostosinha' },
-        { id: '4', img: 'https://placehold.co/150', title: 'Broccoli', description: 'A green cruciferous vegetable', category: 'gostosinho' }
+        { id: '3', img: 'https://placehold.co/150', title: 'Carrot', description: 'An orange root vegetable', category: 'A' },
+        { id: '4', img: 'https://placehold.co/150', title: 'Broccoli', description: 'A green cruciferous vegetable', category: 'C' }
       ]
     }
   ];

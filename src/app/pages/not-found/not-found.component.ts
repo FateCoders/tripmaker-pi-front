@@ -6,7 +6,6 @@ import { LottieComponent } from 'ngx-lottie';
 
 @Component({
   selector: 'app-not-found',
-  standalone: true,
   imports: [LottieComponent],
   templateUrl: './not-found.component.html',
   styleUrl: './not-found.component.scss'

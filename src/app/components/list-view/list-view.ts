@@ -4,11 +4,11 @@ import { MatListModule } from '@angular/material/list';
 import { ListCard } from '../list-card/list-card';
 import { TabsListItem } from '../../models/tabs-list-item';
 import { SearchBarComponent } from '../search-bar/search-bar.component';
+import { FilterBar } from '../filter-bar/filter-bar';
 
 @Component({
   selector: 'app-list-view',
-  standalone: true,
-  imports: [FormsModule, MatListModule, ListCard, SearchBarComponent],
+  imports: [FormsModule, MatListModule, ListCard, SearchBarComponent, FilterBar],
   templateUrl: './list-view.html',
   styleUrls: ['./list-view.scss']
 })
@@ -24,7 +24,7 @@ export class ListView {
   get filteredItems(): TabsListItem[] {
     let result = this.items;
 
-    // 🔍 search (arrumar alguma alternativa para tornar isso reutilizável)
+    // 🔍 busca
     if (this.enableSearch && this.searchTerm?.trim()) {
       const term = this.searchTerm.toLowerCase();
       result = result.filter(item =>
@@ -39,5 +39,10 @@ export class ListView {
     }
 
     return result;
+  }
+
+  // 🔽 Novo método que o FilterBar vai chamar
+  onCategoryChange(category: string) {
+    this.selectedCategory = category;
   }
 }

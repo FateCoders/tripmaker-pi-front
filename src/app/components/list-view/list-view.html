@@ -1,21 +1,27 @@
 <div class="list-controls">
-    @if (enableSearch) {
-    <app-search-bar [(value)]="searchTerm" placeholder="Pesquise aqui"></app-search-bar>
-    }
-
-    @if (enableFilter) {
-    <select [(ngModel)]="selectedCategory">
-        <option value="">Todas</option>
-        <option value="category">Categoria</option>
-    </select>
-    }
+  @if (enableSearch) {
+  <app-search-bar [(value)]="searchTerm" placeholder="Pesquise aqui"></app-search-bar>
+  } @if (enableFilter) {
+  <app-filter-bar
+    class="filter-full"
+    [title]="'Categoria'"
+    [options]="[
+      { value: '', label: 'Todas' },
+      { value: 'A', label: 'Categoria A' },
+      { value: 'B', label: 'Categoria B' },
+      { value: 'C', label: 'Categoria C' }
+    ]"
+    (optionSelected)="onCategoryChange($event)"
+  >
+  </app-filter-bar>
+  }
 </div>
 
 <mat-list class="card-list">
-    @for (item of filteredItems; track $index) {
-    <app-list-card [item]="item"></app-list-card>
-    <mat-divider></mat-divider>
-    }
+  @for (item of filteredItems; track $index) {
+  <app-list-card [item]="item"></app-list-card>
+  <mat-divider></mat-divider>
+  }
 </mat-list>
 
 @if (filteredItems.length === 0) {

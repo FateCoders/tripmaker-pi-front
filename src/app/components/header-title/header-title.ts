@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-header-title',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './header-title.html',
   styleUrls: ['./header-title.scss']
