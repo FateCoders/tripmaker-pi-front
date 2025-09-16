@@ -1,0 +1,81 @@
+.login_container {
+  display: flex;
+  justify-content: space-evenly;
+  align-content: center;
+  flex-direction: column;
+  background: var(--background-color);
+  height: 100dvh;
+  width: 100%;
+
+  &_header {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+
+    h2 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: var(--primary-color-dark);
+    }
+  }
+
+  &_formulario {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+
+    .form-title {
+      font-weight: normal;
+      color: var(--text-color-light);
+    }
+
+    .loginForm {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+
+      .form-field {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+
+        .mat-form-field-appearance-fill {
+          --mat-form-field-filled-label-text-color: var(--text-color-light);
+          --mat-form-field-filled-label-text-size: 16px;
+          --mat-form-field-filled-container-color: transparent;
+        }
+      }
+
+      button {
+        background: var(--primary-color-dark);
+        color: var(--white-color);
+        padding: 0 50px;
+      }
+    }
+
+    a {
+      color: var(--text-color-light);
+      font-size: 10px;
+    }
+  }
+
+  &_footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    span {
+      font-size: 12px;
+      color: var(--text-color-light);
+
+      a {
+        color: var(--text-color-light);
+      }
+    }
+  }
+}
