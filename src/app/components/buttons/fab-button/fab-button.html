@@ -1,8 +1,8 @@
 <div class="container">
-  <button matFab extended>
-    <mat-icon fontIcon="{{ icon.toLocaleLowerCase() }}"></mat-icon>
+  <button mat-fab extended (click)="onButtonClick($event)">
+    <mat-icon [fontIcon]="icon.toLowerCase()"></mat-icon>
     @if (label.length > 0) {
-    {{ label }}
+      <span>{{ label }}</span>
     }
   </button>
 </div>
