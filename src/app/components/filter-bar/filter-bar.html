@@ -1,0 +1,15 @@
+<button mat-button [matMenuTriggerFor]="menu" class="filter-btn">
+  <div class="l-side">
+    <mat-icon fontIcon="swap_vert"></mat-icon>
+    {{ title }}
+  </div>
+  <mat-icon fontIcon="list"></mat-icon>
+</button>
+
+<mat-menu #menu="matMenu">
+  @for (option of options; track $index) {
+  <button mat-menu-item (click)="onSelect(option)">
+    {{ option.label }}
+  </button>
+  }
+</mat-menu>

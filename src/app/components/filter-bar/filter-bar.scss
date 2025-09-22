@@ -1,0 +1,23 @@
+.filter-btn {
+  font-weight: 500;
+  color: var(--primary-color-dark);
+  text-transform: none;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row-reverse;
+
+  &:hover {
+    background: var(--primary-color-light);
+  }
+
+  .l-side {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.mat-menu-item {
+  font-size: 14px;
+}

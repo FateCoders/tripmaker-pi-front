@@ -7,10 +7,10 @@
     align-items: center;
     flex-direction: column;
 
-&__lottiefiles {
+    &__lottiefiles {
         width: 90%;
-        max-width: 500px;    
-        margin-bottom: 2rem; 
+        max-width: 500px;
+        margin-bottom: 2rem;
     }
 
     &__message {
@@ -19,7 +19,7 @@
         h3 {
             font-size: 2rem;
             margin-bottom: 1rem;
-            color: #CAC3CB;
+            color: var(text-color-light-light);
         }
 
         button {
@@ -28,14 +28,11 @@
             font-weight: 500;
             border: none;
             border-radius: 100px;
-            background-color: #035ED0;
-            color: white;
+            background-color: var(--primary-color-dark);
+            color: var(--white-color);
             cursor: pointer;
             padding: 10px 30px;
 
-            &:hover {
-                background-color: darken(#007bff, 10%);
-            }
         }
     }
 }

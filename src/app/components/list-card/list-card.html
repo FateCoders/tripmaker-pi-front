@@ -1,0 +1,15 @@
+<mat-card class="list-card">
+  <div class="card-container">
+    <img mat-card-image class="card-image" [src]="item.img" alt="Imagem da rota">
+
+    <div class="card-content">
+      <div class="card-header">
+        <mat-card-title class="card-title">{{ item.title }}</mat-card-title>
+        <button mat-icon-button class="card-menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+      </div>
+      <mat-card-subtitle class="card-subtitle">{{ item.description }}</mat-card-subtitle>
+    </div>
+  </div>
+</mat-card>
