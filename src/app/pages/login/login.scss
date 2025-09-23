@@ -4,7 +4,8 @@
   align-content: center;
   flex-direction: column;
   background: var(--background-color);
-  height: 100dvh;
+  min-height: 100dvh;
+  height: auto;
   width: 100%;
 
   &_header {
@@ -48,6 +49,17 @@
           --mat-form-field-filled-label-text-color: var(--text-color-light);
           --mat-form-field-filled-label-text-size: 16px;
           --mat-form-field-filled-container-color: transparent;
+        }
+
+        .error-message {
+          margin-top: -10px;
+          margin-bottom: 10px;
+          padding-left: 4px;
+        }
+
+        .error-message small {
+          color: #f44336;
+          font-size: 0.75rem;
         }
       }
 

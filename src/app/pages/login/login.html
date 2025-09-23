@@ -4,53 +4,13 @@
     <h2>TripMaker</h2>
   </section>
   <section class="login_container_formulario">
-    <h2 class="form-title">Bem-vindo de volta!</h2>
-    <form class="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <div class="form-field">
-        <mat-form-field appearance="fill">
-          <mat-label for="email">Email</mat-label>
-          <input
-            matInput
-            type="email"
-            id="email"
-            formControlName="email"
-            placeholder="Digite seu email"
-          />
-        </mat-form-field>
-        @if (email?.invalid && email?.touched){
-        <div class="error-message">
-          @if (email?.errors?.['required']){
-          <small>Email é obrigatório.</small>
-          } @if (email?.errors?.['email']) {
-          <small>Por favor, insira um email válido.</small>
-          }
-        </div>
-        }
-      </div>
-      <div class="form-field">
-        <mat-form-field appearance="fill">
-          <mat-label for="password">Senha</mat-label>
-          <input
-            matInput
-            type="password"
-            id="password"
-            formControlName="password"
-            placeholder="Digite sua senha"
-          /> </mat-form-field
-        >@if (password?.invalid && password?.touched){
-        <div class="error-message">
-          @if (password?.errors?.['required']){
-          <small>Senha é obrigatória.</small>
-          } @if (password?.errors?.['password']) {
-          <small>Por favor, insira uma password válida.</small>
-          } @if (password?.errors?.['minlength']) {
-          <small>A senha deve ter no mínimo 6 dígitos.</small>
-          }
-        </div>
-        }
-      </div>
-      <button matButton="filled" type="submit" [disabled]="loginForm.invalid">Entrar</button>
-    </form>
+    <app-dynamic-form
+      [fields]="loginFormFields"
+      formTitle="Bem-vindo de volta!"
+      submitButtonText="Entrar"
+      (formSubmit)="handleLogin($event)"
+    > 
+    </app-dynamic-form>
     <a href="#">Esqueci a minha senha</a>
   </section>
   <section class="login_container_footer">

@@ -1,1 +1,21 @@
-<p>cadastro works!</p>
+<main class="cadastro_container">
+  <section class="cadastro_container_header">
+    <img src="favicon.svg" alt="Logo" />
+    <h2>TripMaker</h2>
+  </section>
+  <section class="cadastro_container_formulario">
+    <app-dynamic-form
+      [fields]="currentFormFields"
+      formTitle="Seja bem vindo!"
+      submitButtonText="Registrar"
+      (formSubmit)="handleRegister($event)"
+    >
+    </app-dynamic-form>
+  </section>
+  <section class="cadastro_container_footer">
+    <span
+      >Novo por aqui?
+      <a routerLink="/cadastro">Cadastre-se</a>
+    </span>
+  </section>
+</main>
