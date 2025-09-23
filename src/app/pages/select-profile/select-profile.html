@@ -30,9 +30,7 @@
             "
           >
             <mat-card-content>
-              <div class="card-image-container">
-                <img [src]="profile.imageUrl" [alt]="profile.title" />
-              </div>
+              <app-profile-img [imagem]="{url: profile.imageUrl, alt: 'teste'}"></app-profile-img>
               <h3>{{ profile.title }}</h3>
               <p>{{ profile.description }}</p>
             </mat-card-content>
