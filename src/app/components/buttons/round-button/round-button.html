@@ -1,8 +1,13 @@
 <div class="container">
-  <button matButton="filled" [disabled]="isDisabled" onclick="onClick()">
+  <button 
+    mat-flat-button 
+    color="primary"
+    [disabled]="isDisabled"
+    (click)="onButtonClick($event)"
+    [ngStyle]="getButtonStyles()">
     @if(icon.length > 0) {
-    <mat-icon>{{ icon }}</mat-icon>
+      <mat-icon>{{ icon }}</mat-icon>
     }
-    {{ label }}
+    <span>{{ label }}</span>
   </button>
 </div>
