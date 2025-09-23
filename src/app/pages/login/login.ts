@@ -4,38 +4,43 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractContro
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { DynamicFormComponent, FormFieldConfig } from "../../components/dynamic-form/dynamic-form";
 
 @Component({
   selector: 'app-login',
-  imports: [RouterLink, CommonModule, ReactiveFormsModule, MatButtonModule, MatInputModule],
+  imports: [RouterLink, CommonModule, ReactiveFormsModule, MatButtonModule, MatInputModule, DynamicFormComponent],
   templateUrl: './login.html',
   styleUrl: './login.scss'
 })
 export class Login {
-  private fb = inject(FormBuilder)
-  loginForm: FormGroup;
+  loginFormFields: FormFieldConfig[] = [
+    {
+      name: 'email',
+      label: 'Email',
+      type: 'email',
+      placeholder: 'Digite seu email',
+      validators: [Validators.required, Validators.email],
+      validationMessages: [
+        { type: 'required', message: 'Email é obrigatório.' },
+        { type: 'email', message: 'Por favor, insira um email válido.' }
+      ]
+    },
+    {
+      name: 'password',
+      label: 'Senha',
+      type: 'password',
+      placeholder: 'Digite sua senha',
+      validators: [Validators.required, Validators.minLength(8)],
+      validationMessages: [
+        { type: 'required', message: 'Senha é obrigatória.' },
+        { type: 'minlength', message: 'A senha deve ter no mínimo 8 caracteres.' }
+      ]
+    }
+  ];
 
-  constructor(){
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-    })
-  }
-
-  get email(): AbstractControl | null {
-    return this.loginForm.get('email');
-  }
-
-  get password(): AbstractControl | null {
-    return this.loginForm.get('password');
-  }
-
-  onSubmit(): void {
-    if (this.loginForm.valid){
-      console.log('Formulário válido!', this.loginForm.value)
-      return;
-    } 
-
-    this.loginForm.markAllAsTouched
+  handleLogin(formData: any): void {
+    if (formData) {
+      console.log('Formulário de login válido!', formData);
+    }
   }
 }

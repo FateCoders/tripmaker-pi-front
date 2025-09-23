@@ -1,14 +1,35 @@
-import { Component, Input } from '@angular/core';
-import {MatInputModule} from '@angular/material/input';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { NgStyle } from '@angular/common';
 
 @Component({
   selector: 'app-form-input',
-  imports: [MatInputModule],
+  standalone: true,
+  imports: [
+    MatInputModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    NgStyle,
+  ],
   templateUrl: './form-input.html',
-  styleUrl: './form-input.scss'
+  styleUrl: './form-input.scss',
 })
 export class FormInput {
-  @Input() label:string = '';
-  @Input() placeholder:string = '';
-  @Input() value:string = '';
+  @Input() control: FormControl = new FormControl();
+
+  @Input() label: string = '';
+  @Input() placeholder: string = '';
+
+  @Input() width: string = '100%';
+  @Input() height: string = 'auto'; 
+  @Input() color: string = ''; 
+
+  getContainerStyles() {
+    return {
+      width: this.width,
+      height: this.height,
+    };
+  }
 }

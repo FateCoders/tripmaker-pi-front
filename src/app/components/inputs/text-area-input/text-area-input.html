@@ -1,6 +1,11 @@
-<div class="container">
-    <mat-form-field class="example-full-width">
+<div class="container" [ngStyle]="getContainerStyles()">
+  <mat-form-field class="example-full-width">
     <mat-label>{{ label }}</mat-label>
-    <textarea matInput placeholder="{{ placeholder }}" value="{{ value }}"></textarea>
+    <textarea
+      matInput
+      [placeholder]="placeholder"
+      [formControl]="control"
+      [style.color]="color">
+    </textarea>
   </mat-form-field>
 </div>
