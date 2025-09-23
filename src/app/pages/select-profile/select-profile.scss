@@ -5,6 +5,7 @@
   height: 100%;
   background: var(--background-color);
   box-sizing: border-box;
+  overflow: hidden;
 
   &_header {
     display: flex;
