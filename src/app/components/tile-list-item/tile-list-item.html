@@ -1,0 +1,19 @@
+<mat-list class="settings-list">
+
+  @for (item of items; track $index;) {
+
+    <mat-list-item class="settings-list-item">
+      <mat-icon matListItemIcon class="list-item-icon">{{item.icon}}</mat-icon>
+      
+      <div class="list-item-content">
+        <h3 matListItemTitle>{{item.title}}</h3>
+        <p matListItemLine>{{item.description}}</p>
+      </div>
+  
+  
+    </mat-list-item>
+    <mat-divider *ngIf="!isLast"></mat-divider>
+
+  }
+
+  </mat-list>
