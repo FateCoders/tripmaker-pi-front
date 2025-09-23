@@ -5,10 +5,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule, NgStyle } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { ProfileImg } from "../../components/profile-img/profile-img";
 
 @Component({
   selector: 'app-select-profile',
-  imports: [CommonModule, NgStyle, MatCardModule, MatButtonModule, MatIconModule],
+  imports: [CommonModule, NgStyle, MatCardModule, MatButtonModule, MatIconModule, ProfileImg],
   templateUrl: './select-profile.html',
   styleUrl: './select-profile.scss',
 })
