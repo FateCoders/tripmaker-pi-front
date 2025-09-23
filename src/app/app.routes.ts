@@ -5,6 +5,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { LandingComponent } from './pages/landing/landing.component';
 import { Login } from './pages/login/login';
 import { Cadastro } from './pages/cadastro/cadastro';
+import { SelectProfile } from './pages/select-profile/select-profile';
 
 export const routes: Routes = [
     {
@@ -16,6 +17,11 @@ export const routes: Routes = [
         path: 'landing-page', 
         component: LandingComponent,
         title: 'Landing Page' 
+    },
+    {
+        path: 'profile-page', 
+        component: SelectProfile,
+        title: 'Profile Page' 
     },
     {
         path: 'login-page', 
