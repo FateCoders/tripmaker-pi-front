@@ -18,8 +18,11 @@
 </div>
 
 <mat-list class="card-list">
-  @for (item of filteredItems; track $index) {
+  @for (item of filteredItems; track $index) { @if (cardType === 'favorite') {
+  <app-card-favorite [item]="item"></app-card-favorite>
+  } @else {
   <app-card-default [item]="item"></app-card-default>
+  }
   <mat-divider></mat-divider>
   }
 </mat-list>
