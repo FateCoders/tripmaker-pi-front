@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ListCard } from './list-card';
+import { ListCard } from './card-default';
 
 describe('ListCard', () => {
   let component: ListCard;
