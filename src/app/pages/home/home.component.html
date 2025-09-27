@@ -2,11 +2,19 @@
 <app-chip-button label="Aceito os Termos" formControlName="aceitaTermos"> </app-chip-button>
 <app-footer-usercomum></app-footer-usercomum>
 
+
+
+<app-card-favorite [item]="currentItems[0]"></app-card-favorite>
+
+<app-card-default [item]="currentItems[0]"></app-card-default>
+
+<app-card-recommended></app-card-recommended>
+
 <app-tabs-list [tabs]="tabs" (tabChanged)="onTabChanged($event)"></app-tabs-list>
 
 <app-list-view
   [items]="currentItems"
   [enableSearch]="true"
   [enableFilter]="true"
-  [cardType]="'favorite'"
+  [cardType]="'default'"
 ></app-list-view>

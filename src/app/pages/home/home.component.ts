@@ -5,10 +5,13 @@ import { TabsList } from "../../components/tabs-list/tabs-list";
 import { TabsSection } from '../../models/tabs-section';
 import { TabsListCard } from '../../models/tabs-list-card';
 import { ListView } from "../../components/list-view/list-view";
+import { CardFavorite } from "../../components/card-favorite/card-favorite";
+import { CardDefault } from "../../components/card-default/card-default";
+import { CardRecommended } from "../../components/card-recommended/card-recommended";
 
 @Component({
   selector: 'app-home',
-  imports: [FooterUsercomumComponent, ChipButtonComponent, TabsList, ListView],
+  imports: [FooterUsercomumComponent, ChipButtonComponent, TabsList, ListView, CardFavorite, CardDefault, CardRecommended],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
