@@ -6,11 +6,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { TabsListCard } from '../../models/tabs-list-card';
 
 @Component({
-  selector: 'app-list-card',
+  selector: 'app-card-default',
   imports: [MatCardModule, MatDividerModule, MatIconModule, MatButtonModule],
-  templateUrl: './list-card.html',
-  styleUrls: ['./list-card.scss']
+  templateUrl: './card-default.html',
+  styleUrls: ['./card-default.scss']
 })
-export class ListCard {
+export class CardDefault {
   @Input() item!: TabsListCard;
 }
