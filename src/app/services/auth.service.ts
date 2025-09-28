@@ -9,6 +9,6 @@ export class AuthService {
   }
 
   getUserRole(){
-    return 'administrador'
+    return 'empreendedor'
   }
 }
