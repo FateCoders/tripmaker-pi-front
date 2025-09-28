@@ -1,10 +1,8 @@
-// src/app/pages/home/home.component.ts
-
 import { Component } from '@angular/core';
-import { FooterUsercomumComponent } from '../../components/public/footer-usercomum/footer-usercomum.component';
-import { ListView } from '../../components/list-view/list-view';
-import { HeaderTitle } from '../../components/header-title/header-title';
-import { TabsList } from '../../components/tabs-list/tabs-list';
+import { FooterUsercomumComponent } from "../../../../components/public/bottom-menu/bottom-menu.component";
+import { HeaderTitle } from "../../../../components/header-title/header-title";
+import { ListView } from "../../../../components/list-view/list-view";
+import { TabsList } from "../../../../components/tabs-list/tabs-list";
 
 export interface ListItem {
   id: string;
@@ -23,13 +21,12 @@ export interface TabsSection {
 }
 
 @Component({
-  selector: 'app-home',
-  imports: [FooterUsercomumComponent, ListView, HeaderTitle, TabsList],
-  standalone: true,
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+  selector: 'app-traveler-home',
+  imports: [FooterUsercomumComponent, HeaderTitle, ListView, TabsList],
+  templateUrl: './traveler-home.html',
+  styleUrl: './traveler-home.scss'
 })
-export class HomeComponent {
+export class TravelerHome {
   tabs: TabsSection[] = [
     {
       label: 'Meus Roteiros',
