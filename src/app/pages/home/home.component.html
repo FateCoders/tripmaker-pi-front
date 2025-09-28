@@ -1,6 +1,18 @@
-<p>home works!</p>
-<app-chip-button 
-        label="Aceito os Termos" 
-        formControlName="aceitaTermos">
-    </app-chip-button>
-<app-footer-usercomum></app-footer-usercomum>
+<div class="home-container">
+  <app-header-title
+    [title]="'Minhas Atividades'"
+    [subtitle]="'Roteiros, rotas e eventos a serem realizados por você'"
+  ></app-header-title>
+
+  <main class="home-content">
+    <app-tabs-list [tabs]="tabs" (tabChanged)="onTabChanged($event)"> </app-tabs-list>
+
+    <app-list-view
+      [items]="currentItems"
+      [enableSearch]="false"
+      [enableFilter]="false"
+    ></app-list-view>
+  </main>
+
+  <app-footer-usercomum></app-footer-usercomum>
+</div>

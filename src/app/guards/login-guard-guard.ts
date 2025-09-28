@@ -7,7 +7,7 @@ export const loginGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
 
   if (authService.isLoggedIn()) {
-    router.navigate(['/']);
+    router.navigate(['/home-viajante']);
     return false;
   }
 
