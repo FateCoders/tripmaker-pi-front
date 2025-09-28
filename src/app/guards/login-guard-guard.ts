@@ -7,7 +7,9 @@ export const loginGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
 
   if (authService.isLoggedIn()) {
-    router.navigate(['/']);
+    const userRole = authService.getUserRole();
+
+    router.navigate([`/${userRole}/inicio`]);
     return false;
   }
 

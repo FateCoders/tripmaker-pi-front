@@ -1,14 +1,15 @@
-import { Component } from '@angular/core';
-import { FooterUsercomumComponent } from "../../components/public/footer-usercomum/footer-usercomum.component";
-import { ChipButtonComponent } from "../../components/buttons/chip-button/chip-button";
+import { Component } from "@angular/core";
+import { ChipButtonComponent } from "../../../../components/buttons/chip-button/chip-button";
+import { FooterUsercomumComponent } from "../../../../components/public/bottom-menu/bottom-menu.component";
+
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-administrator-home',
   imports: [FooterUsercomumComponent, ChipButtonComponent],
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  templateUrl: './administrator-home.component.html',
+  styleUrls: ['./administrator-home.component.scss']
 })
-export class HomeComponent {
+export class AdministratorHome {
   // tabs: TabsSection[] = [
   //   {
   //     label: 'Fruits',

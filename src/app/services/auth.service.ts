@@ -7,4 +7,8 @@ export class AuthService {
   isLoggedIn(){
     return true
   }
+
+  getUserRole(){
+    return 'administrador'
+  }
 }

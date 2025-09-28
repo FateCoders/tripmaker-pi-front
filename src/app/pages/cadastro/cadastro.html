@@ -19,16 +19,3 @@
     </span>
   </section>
 </main>
-
-@if (showConfirmationModal) {
-<div class="modal-overlay">
-  <div class="modal-content">
-    <h4>Descartar Alterações?</h4>
-    <p>Você tem alterações não salvas. Tem certeza de que deseja sair?</p>
-    <div class="modal-actions">
-      <button (click)="confirmNavigation(false)">Cancelar</button>
-      <button class="confirm" (click)="confirmNavigation(true)">Sair</button>
-    </div>
-  </div>
-</div>
-}
