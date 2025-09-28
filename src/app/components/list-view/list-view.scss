@@ -7,9 +7,13 @@
 
 .empty-state {
   text-align: center;
-  padding: 20px;
   color: var(--text-color-light-light);
   font-size: 14px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .card-list {
