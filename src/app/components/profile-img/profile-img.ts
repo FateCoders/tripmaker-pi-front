@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Imagem } from '../../interfaces/imagem';
+import { Imagem } from '../../interfaces/figure';
 
 @Component({
   selector: 'app-profile-img',

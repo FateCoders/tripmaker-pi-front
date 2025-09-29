@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
-import { TabsSection } from '../../models/tabs-section';
+import { TabsSection } from '../../interfaces/tabs-section'; 
 
 @Component({
   selector: 'app-tabs-list',

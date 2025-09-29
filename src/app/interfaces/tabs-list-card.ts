@@ -1,3 +1,5 @@
+import { Interface } from "readline";
+
 export interface TabsListCard {
     id: string;
     img: string;

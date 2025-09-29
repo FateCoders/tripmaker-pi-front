@@ -1,14 +1,14 @@
 import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatListModule } from '@angular/material/list';
-import { ListCard } from '../card-default/card-default';
-import { TabsListCard } from '../../models/tabs-list-card';
+import { CardDefault } from '../card-default/card-default';
+import { TabsListCard } from '../../interfaces/tabs-list-card';
 import { SearchBarComponent } from '../search-bar/search-bar.component';
 import { FilterBar } from '../filter-bar/filter-bar';
 
 @Component({
   selector: 'app-list-view',
-  imports: [FormsModule, MatListModule, ListCard, SearchBarComponent, FilterBar],
+  imports: [FormsModule, MatListModule, CardDefault, SearchBarComponent, FilterBar],
   templateUrl: './list-view.html',
   styleUrls: ['./list-view.scss']
 })

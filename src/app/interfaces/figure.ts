@@ -1,4 +1,4 @@
-export interface Imagem {
+export interface IFigure {
     url: string, 
     alt: string
 }
