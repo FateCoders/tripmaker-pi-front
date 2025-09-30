@@ -14,6 +14,7 @@ import { AdministratorHome } from './pages/users/administrator/administrator-hom
 import { EntrepreneurHome } from './pages/users/entrepreneur/entrepreneur-home/entrepreneur-home';
 import { TourismPromoterHome } from './pages/users/tourism-promoter/tourism-promoter-home/tourism-promoter-home';
 import { TravelerHome } from './pages/users/traveler/traveler-home/traveler-home';
+import { PreferencesComponent } from './pages/users/traveler/preferences/preferences';
 
 export const routes: Routes = [
   // ROTAS GERAIS
@@ -48,6 +49,12 @@ export const routes: Routes = [
     path: 'viajante/inicio',
     component: TravelerHome,
     title: 'Início do Viajante',
+    canActivate: [authGuard, roleGuard('viajante')],
+  },
+  {
+    path: 'viajante/preferences',
+    component: PreferencesComponent,
+    title: 'Página de Preferências',
     canActivate: [authGuard, roleGuard('viajante')],
   },
 

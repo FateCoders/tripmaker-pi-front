@@ -2,15 +2,18 @@ import { Component, inject } from '@angular/core';
 import { DynamicFormComponent, FormFieldConfig } from '../../components/dynamic-form/dynamic-form';
 import { Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { PreferencesComponent } from '../users/traveler/preferences/preferences';
 
 @Component({
   selector: 'app-cadastro',
-  imports: [DynamicFormComponent],
+  imports: [DynamicFormComponent, MatDialogModule],
   templateUrl: './cadastro.html',
   styleUrl: './cadastro.scss',
 })
 export class Cadastro {
   private route = inject(ActivatedRoute);
+  public dialog = inject(MatDialog);
 
   selectedUserType: 'traveler' | 'entrepreneur' | 'promoter' = 'traveler';
   profileTitle = 'Viajante';
@@ -55,6 +58,7 @@ export class Cadastro {
 
   handleRegister(formData: any): void {
     console.log(`Registrando como ${this.selectedUserType}:`, formData);
+    this.openPreferencesModal();
     // conectar com o backend abaixo
   }
 
@@ -126,4 +130,20 @@ export class Cadastro {
       validators: [Validators.required],
     },
   ];
+
+  openPreferencesModal(): void {
+    const dialogRef = this.dialog.open(PreferencesComponent, {
+      width: '100vw',
+      height: '100vh',
+      autoFocus: false,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('O modal de preferências foi fechado');
+      
+      if (result) {
+        console.log('Preferências recebidas:', result);
+      }
+    });
+  }
 }

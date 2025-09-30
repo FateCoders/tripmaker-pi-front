@@ -3,22 +3,8 @@ import { FooterUsercomumComponent } from "../../../../components/public/bottom-m
 import { HeaderTitle } from "../../../../components/header-title/header-title";
 import { ListView } from "../../../../components/list-view/list-view";
 import { TabsList } from "../../../../components/tabs-list/tabs-list";
-
-export interface ListItem {
-  id: string;
-  img: string; // Adicionei um campo para o ícone do coração
-  isFavorite: boolean;
-  title: string;
-  priceRange: string; // Ex: '$$', '$$$'
-  distance: string; // Ex: '• 2 km de distância'
-  description: string;
-  category: 'A' | 'B' | 'C'; // Você pode adaptar as categorias se quiser
-}
-
-export interface TabsSection {
-  label: string;
-  content: ListItem[];
-}
+import { ListItem } from '../../../../interfaces/list-item';
+import { TabsSection } from '../../../../interfaces/tabs-section';
 
 @Component({
   selector: 'app-traveler-home',
