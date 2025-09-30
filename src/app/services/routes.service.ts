@@ -29,7 +29,7 @@ export class RoutesService {
     ],
     viajante: [
       {path: '/viajante/inicio', label: 'Início', icon: 'home'},
-      {path: '/viajante/eventos', label: 'Eventos', icon: 'event'},
+      {path: '/viajante/mapa', label: 'Eventos', icon: 'event'},
       {path: '/viajante/roteiros', label: 'Roteiros', icon: 'map'},
       {path: '/viajante/perfil', label: 'Perfil', icon: 'person'},
     ]

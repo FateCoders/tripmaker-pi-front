@@ -14,6 +14,8 @@ import { AdministratorHome } from './pages/users/administrator/administrator-hom
 import { EntrepreneurHome } from './pages/users/entrepreneur/entrepreneur-home/entrepreneur-home';
 import { TourismPromoterHome } from './pages/users/tourism-promoter/tourism-promoter-home/tourism-promoter-home';
 import { TravelerHome } from './pages/users/traveler/traveler-home/traveler-home';
+import { MapViewComponent } from './pages/map-view/map-view';
+import { EventDetailsComponent } from './pages/event-details/event-details';
 
 export const routes: Routes = [
   // ROTAS GERAIS
@@ -50,6 +52,11 @@ export const routes: Routes = [
     title: 'Início do Viajante',
     canActivate: [authGuard, roleGuard('viajante')],
   },
+  {
+    path: 'viajante/mapa',
+    component: MapViewComponent,
+    title: 'Detalhes do Evento',
+  },
 
   // ROTAS DE EMPREENDEDOR
   {
@@ -65,6 +72,12 @@ export const routes: Routes = [
     component: TourismPromoterHome,
     title: 'Início do Promotor Turístico',
     canActivate: [authGuard, roleGuard('promotor-turistico')],
+  },
+
+  {
+    path: 'mapa',
+    component: MapViewComponent,
+    title: 'Mapa de Eventos',
   },
 
   // ROTAS DE ADMINISTRADOR

@@ -1,0 +1,46 @@
+<div class="map-container">
+  <div class="map-background">
+    <p>Área do Mapa</p>
+  </div>
+
+  <div class="bottom-sheet">
+    <div class="handle"></div>
+    
+    <div class="expand-button-wrapper">
+      <button mat-flat-button class="expand-button">
+        <mat-icon>fullscreen</mat-icon>
+        Expandir
+      </button>
+    </div>
+
+    <mat-tab-group animationDuration="0ms">
+      <mat-tab label="Rotas">
+        <div class="tab-content">
+          @if(routeItems.length > 0) {
+            @for(item of routeItems; track item.id) {
+              <app-map-item-card [item]="item" (cardClick)="onItemClick(item)"></app-map-item-card>
+            }
+          } @else {
+            <p class="empty-state">Nenhuma rota encontrada.</p>
+          }
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Eventos">
+        <div class="tab-content">
+          @if(eventItems.length > 0) {
+            @for(item of eventItems; track item.id) {
+              <app-map-item-card [item]="item" (cardClick)="onItemClick(item)"></app-map-item-card>
+            }
+          } @else {
+            <p class="empty-state">Nenhum evento encontrado.</p>
+          }
+           <button mat-stroked-button class="see-more-button">
+            Ver mais eventos na região <mat-icon>expand_more</mat-icon>
+          </button>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
+  <app-bottom-menu></app-bottom-menu>
