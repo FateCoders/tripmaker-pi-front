@@ -1,24 +1,11 @@
-import { Component } from '@angular/core';
-import { FooterUsercomumComponent } from "../../../../components/public/bottom-menu/bottom-menu.component";
+import { Component } from "@angular/core";
 import { HeaderTitle } from "../../../../components/header-title/header-title";
 import { ListView } from "../../../../components/list-view/list-view";
+import { FooterUsercomumComponent } from "../../../../components/public/bottom-menu/bottom-menu.component";
 import { TabsList } from "../../../../components/tabs-list/tabs-list";
+import { ListItem } from "../../../../interfaces/list-item";
+import { TabsSection } from "../../../../interfaces/tabs-section";
 
-export interface ListItem {
-  id: string;
-  img: string; // Adicionei um campo para o ícone do coração
-  isFavorite: boolean;
-  title: string;
-  priceRange: string; // Ex: '$$', '$$$'
-  distance: string; // Ex: '• 2 km de distância'
-  description: string;
-  category: 'A' | 'B' | 'C'; // Você pode adaptar as categorias se quiser
-}
-
-export interface TabsSection {
-  label: string;
-  content: ListItem[];
-}
 
 @Component({
   selector: 'app-traveler-home',
@@ -30,14 +17,14 @@ export class TravelerHome {
   tabs: TabsSection[] = [
     {
       label: 'Meus Roteiros',
-      content: [], // Vazio para corresponder ao "Nenhum roteiro encontrado"
-    },
-    {
-      label: 'Eventos',
       content: [
         {
+          type: 'default',
           id: '1',
-          img: 'assets/images/jpg/teatro.jpeg', // Sugestão: coloque as imagens em /assets
+          image: {
+            url: 'https://placehold.co/150',
+            alt: 'Image description',
+          },
           isFavorite: true,
           title: 'Festival de Teatro de Tatuí',
           priceRange: '$$',
@@ -46,9 +33,12 @@ export class TravelerHome {
           category: 'A',
         },
         {
+          type: 'default',
           id: '2',
-          img: 'assets/images/png/conservatorio.png',
-          isFavorite: false,
+          image: {
+            url: 'https://placehold.co/150',
+            alt: 'Image description',
+          },          isFavorite: false,
           title: 'Concerto no Conservatório',
           priceRange: '$',
           distance: '• 3 km de distância',
@@ -56,9 +46,12 @@ export class TravelerHome {
           category: 'B',
         },
         {
+          type: 'default',
           id: '3',
-          img: 'assets/images/webp/feira-gastronomica.webp',
-          isFavorite: true,
+          image: {
+            url: 'https://placehold.co/150',
+            alt: 'Image description',
+          },          isFavorite: true,
           title: 'Feira Gastronômica de Tatuí',
           priceRange: '$$$',
           distance: '• 4 km de distância',
@@ -66,9 +59,12 @@ export class TravelerHome {
           category: 'A',
         },
         {
+          type: 'default',
           id: '4',
-          img: 'assets/images/jpg/exposicao-arte.jpg',
-          isFavorite: false,
+          image: {
+            url: 'https://placehold.co/150',
+            alt: 'Image description'
+          },          isFavorite: false,
           title: 'Exposição de Arte Moderna',
           priceRange: 'Gratuito',
           distance: '• 1.5 km de distância',
@@ -78,8 +74,39 @@ export class TravelerHome {
       ],
     },
     {
+      label: 'Eventos',
+      content: [
+        {
+          type: 'event',
+          id: '1',
+          title: 'Festival de Teatro de Tatuí',
+          description: "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          categories: [
+            { label: 'Cultura', icon: 'theater_comedy' }
+          ],
+          image: {
+            url: 'https://placehold.co/150',
+            alt: 'Banner Festival de Teatro',
+          },
+          price: 50,
+          date: new Date('2025-10-01'),
+          location: {
+            id: 'loc-001',
+            google_maps_id: 'ChIJ1234abcd5678',
+            city: 'Tatuí',
+            uf: 'SP',
+            country: 'Brasil',
+            complement: 'Praça Central',
+            coordinates: { lat: -23.355, lng: -47.856 },
+          },
+          starts_at: new Date('2025-10-01T19:00:00'),
+          ends_at: new Date('2025-10-01T22:00:00'),
+        },
+      ],
+    },
+    {
       label: 'Rotas',
-      content: [], // Vazio para corresponder ao "Nenhuma rota encontrada"
+      content: [],
     },
   ];
 

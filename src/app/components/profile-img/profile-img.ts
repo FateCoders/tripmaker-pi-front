@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Imagem } from '../../interfaces/figure';
+import { IFigure } from '../../interfaces/figure';
 
 @Component({
   selector: 'app-profile-img',
@@ -8,5 +8,5 @@ import { Imagem } from '../../interfaces/figure';
   styleUrl: './profile-img.scss'
 })
 export class ProfileImg {
-@Input() imagem!: Imagem 
+@Input() imagem!: IFigure 
 }

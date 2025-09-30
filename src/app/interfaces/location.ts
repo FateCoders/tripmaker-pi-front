@@ -5,5 +5,8 @@ export interface ILocation {
     uf: string,
     country: string,
     complement: string,
-    coordinates: string,
+    coordinates: {
+        lat: number;
+        lng: number;
+      };
 }

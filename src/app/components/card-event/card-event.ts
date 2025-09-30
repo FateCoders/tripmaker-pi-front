@@ -4,13 +4,14 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { IDefaultCardItem } from '../../interfaces/default-card-item';
+import { IEvent } from '../../interfaces/event';
 
 @Component({
-  selector: 'app-card-default',
+  selector: 'app-card-event',
   imports: [MatCardModule, MatDividerModule, MatIconModule, MatButtonModule],
-  templateUrl: './card-default.html',
-  styleUrls: ['./card-default.scss']
+  templateUrl: './card-event.html',
+  styleUrl: './card-event.scss'
 })
-export class CardDefault {
-  @Input() item!: IDefaultCardItem;
+export class CardEvent {
+  @Input() item!: IEvent;
 }

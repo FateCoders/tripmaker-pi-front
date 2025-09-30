@@ -18,9 +18,12 @@
 </div>
 
 <mat-list class="card-list">
-  @for (item of filteredItems; track $index) {
-  <app-card-default [item]="item"></app-card-default>
-  <mat-divider></mat-divider>
+  @for (item of filteredItems; track items) {
+    <ng-container 
+      *ngComponentOutlet="getComponent(item); 
+                         inputs: { item: item }" 
+    ></ng-container>
+    <mat-divider></mat-divider>
   }
 </mat-list>
 
