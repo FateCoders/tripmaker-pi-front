@@ -57,7 +57,11 @@ export const routes: Routes = [
     component: MapViewComponent,
     title: 'Detalhes do Evento',
   },
-
+  {
+    path: 'viajante/eventos/:id',
+    component: EventDetailsComponent,
+    title: 'Detalhes do Evento',
+  },
   // ROTAS DE EMPREENDEDOR
   {
     path: 'empreendedor/inicio',

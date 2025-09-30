@@ -29,7 +29,7 @@ export class MapViewComponent {
       title: 'Evento X',
       category: '$$',
       rating: 5,
-      distance: '1.2 miles away',
+      distance: '1.2 km',
       details: 'Supporting line text lorem ipsum dolo...',
     },
     {
@@ -38,7 +38,7 @@ export class MapViewComponent {
       title: 'Evento X',
       category: '$$',
       rating: 5,
-      distance: '1.2 miles away',
+      distance: '1.2 km',
       details: 'Supporting line text lorem ipsum dolo...',
     },
     {
@@ -47,17 +47,16 @@ export class MapViewComponent {
       title: 'Evento Y',
       category: '$$',
       rating: 5,
-      distance: '1.8 miles away',
+      distance: '1.8 km',
       details: 'Supporting line text lorem ipsum dolo...',
     },
   ];
 
-  routeItems: MapItem[] = []; // Deixando vazio por enquanto
+  routeItems: MapItem[] = []; 
 
   constructor(private router: Router) {}
 
   onItemClick(item: MapItem) {
-    // Navega para a página de detalhes quando um item é clicado
-    this.router.navigate(['/eventos', item.id]);
+    this.router.navigate(['/viajante/eventos/', item.id]);
   }
 }
