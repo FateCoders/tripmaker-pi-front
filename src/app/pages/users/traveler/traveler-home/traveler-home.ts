@@ -45,32 +45,6 @@ export class TravelerHome {
           description: 'Apresentação da orquestra jovem do...',
           category: 'B',
         },
-        {
-          type: 'default',
-          id: '3',
-          image: {
-            url: 'https://placehold.co/150',
-            alt: 'Image description',
-          },          isFavorite: true,
-          title: 'Feira Gastronômica de Tatuí',
-          priceRange: '$$$',
-          distance: '• 4 km de distância',
-          description: 'Comidas típicas, food trucks,...',
-          category: 'A',
-        },
-        {
-          type: 'default',
-          id: '4',
-          image: {
-            url: 'https://placehold.co/150',
-            alt: 'Image description'
-          },          isFavorite: false,
-          title: 'Exposição de Arte Moderna',
-          priceRange: 'Gratuito',
-          distance: '• 1.5 km de distância',
-          description: 'Obras de artistas locais e regionais.',
-          category: 'C',
-        },
       ],
     },
     {

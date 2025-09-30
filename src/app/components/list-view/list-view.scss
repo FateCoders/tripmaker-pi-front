@@ -16,6 +16,40 @@
   padding: 10px;
 }
 
+.cards-grid {
+  display: grid;
+  gap: 20px;
+  padding: 10px;
+}
+
+.card-item {
+  width: 100%;
+  ::ng-deep app-card-default,
+  ::ng-deep app-card-event,
+  ::ng-deep app-card-route {
+    display: block;
+    width: 100%;
+  }
+}
+
+@media (max-width: 800px) {
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 801px) and (max-width: 1249px) {
+  .cards-grid {
+    grid-template-columns: 1fr 1fr; /* 2 colunas */
+  }
+}
+
+@media (min-width: 1250px) {
+  .cards-grid {
+    grid-template-columns: 1fr 1fr 1fr; /* 3 colunas */
+  }
+}
+
 mat-divider {
   opacity: 0.4;
   margin: 10px 0;

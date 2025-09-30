@@ -18,13 +18,20 @@
 </div>
 
 <mat-list class="card-list">
-  @for (item of filteredItems; track items) {
-    <ng-container 
-      *ngComponentOutlet="getComponent(item); 
-                         inputs: { item: item }" 
-    ></ng-container>
-    <mat-divider></mat-divider>
-  }
+  <div class="cards-grid">
+    @for (item of filteredItems; track items) {
+      <div class="card-item">
+        <ng-container 
+          *ngComponentOutlet="getComponent(item); 
+                            inputs: { item: item }" 
+        ></ng-container>
+      </div>
+      @if ($index < filteredItems.length - 1 && $index % 1 === 0 && filteredItems.length > 0 && 
+            (getComponent(item) === getComponent(filteredItems[$index + 1])) && filteredItems.length < 2) {
+            <mat-divider></mat-divider>
+      }
+    }
+  </div>
 </mat-list>
 
 @if (filteredItems.length === 0) {
