@@ -7,15 +7,12 @@
     <app-dynamic-form
       [fields]="currentFormFields"
       formTitle="Seja bem vindo!"
-      submitButtonText="Registrar"
+      [submitButtonText]="submitButtonText"
       (formSubmit)="handleRegister($event)"
     >
     </app-dynamic-form>
   </section>
   <section class="cadastro_container_footer">
-    <span
-      >Novo por aqui?
-      <a routerLink="/cadastro">Cadastre-se</a>
-    </span>
+    <span>Já tem uma conta? <a routerLink="/">Faça login</a> </span>
   </section>
 </main>

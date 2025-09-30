@@ -5,6 +5,7 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ChipButtonComponent } from '../../../../components/buttons/chip-button/chip-button';
+import { HeaderTitle } from "../../../../components/header-title/header-title";
 
 interface PreferenceOption {
   label: string;
@@ -27,7 +28,8 @@ interface PreferenceGroup {
     MatDialogModule,
     MatButtonModule,
     MatIconModule,
-  ],
+    HeaderTitle
+],
   templateUrl: './preferences.html',
   styleUrls: ['./preferences.scss'],
 })

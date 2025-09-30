@@ -89,3 +89,10 @@
   color: white;
   border-color: var(--primary-color-dark);
 }
+
+::ng-deep .fullscreen-dialog .mat-dialog-container {
+  padding: 0;
+  border-radius: 0 !important;
+  box-shadow: none;
+  overflow: hidden;
+}

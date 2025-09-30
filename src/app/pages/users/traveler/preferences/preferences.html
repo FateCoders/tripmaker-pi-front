@@ -1,6 +1,7 @@
 <h1 mat-dialog-title>Minhas Preferências</h1>
 <p mat-dialog-subtitle>Nos conte um pouco sobre você!</p>
 
+<app-header-title [title]="'Minhas Preferências'" [subtitle]="'Nos conte um pouco sobre você!'"></app-header-title>
 <mat-dialog-content>
   @for (group of preferenceGroups; track group.title) {
     <div class="preference-group">

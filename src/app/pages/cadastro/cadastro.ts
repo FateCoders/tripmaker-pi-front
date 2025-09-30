@@ -18,6 +18,8 @@ export class Cadastro {
   selectedUserType: 'traveler' | 'entrepreneur' | 'promoter' = 'traveler';
   profileTitle = 'Viajante';
   currentFormFields: FormFieldConfig[] = [];
+  submitButtonText = 'Finalizar Cadastro';
+  private travelerFormData: any = null;
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
@@ -43,23 +45,31 @@ export class Cadastro {
       case 'entrepreneur':
         this.profileTitle = 'Empreendedor Local';
         this.currentFormFields = this.entrepreneurAndPromoterFields;
+        this.submitButtonText = 'Finalizar Cadastro'; // Texto para outros perfis
         break;
       case 'promoter':
         this.profileTitle = 'Promotor Turístico';
         this.currentFormFields = this.entrepreneurAndPromoterFields;
+        this.submitButtonText = 'Finalizar Cadastro'; // Texto para outros perfis
         break;
       case 'traveler':
       default:
         this.profileTitle = 'Viajante';
         this.currentFormFields = this.travelerFields;
+        this.submitButtonText = 'Próxima Etapa'; // Texto específico para viajante
         break;
     }
   }
 
   handleRegister(formData: any): void {
-    console.log(`Registrando como ${this.selectedUserType}:`, formData);
-    this.openPreferencesModal();
-    // conectar com o backend abaixo
+    if (this.selectedUserType === 'traveler') {
+      // Se for viajante, apenas guarda os dados e abre o modal
+      this.travelerFormData = formData;
+      this.openPreferencesModal();
+    } else {
+      // Para outros perfis, finaliza o cadastro diretamente
+      this.finalizeRegistration(formData);
+    }
   }
 
   private travelerFields: FormFieldConfig[] = [
@@ -133,17 +143,24 @@ export class Cadastro {
 
   openPreferencesModal(): void {
     const dialogRef = this.dialog.open(PreferencesComponent, {
-      width: '100vw',
-      height: '100vh',
+      width: '98vw',
+      height: '98vh',
+      maxWidth: '98vw',
       autoFocus: false,
+      panelClass: 'fullscreen-dialog',
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       console.log('O modal de preferências foi fechado');
-      
+
       if (result) {
         console.log('Preferências recebidas:', result);
+        // A lógica de finalização do cadastro do viajante virá aqui (ver passo 3)
       }
     });
+  }
+
+  private finalizeRegistration(finalData: any): void {
+    console.log(`FINALIZANDO CADASTRO PARA ${this.selectedUserType}:`, finalData);
   }
 }
