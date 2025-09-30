@@ -1,0 +1,55 @@
+<div class="event-details-container" *ngIf="event">
+  <div class="header-image-wrapper">
+    <img [src]="event.headerImageURL" alt="{{ event.title }}" class="header-image" />
+    <div class="overlay"></div>
+    <div class="header-content">
+      <h1 class="event-title">{{ event.title }}</h1>
+      <p class="event-location">{{ event.location }}</p>
+      <p class="event-address">{{ event.address }}</p>
+
+      <div class="event-meta">
+        <div class="meta-item">
+          <mat-icon>calendar_today</mat-icon>
+          <span>{{ event.date }}</span>
+        </div>
+        <div class="meta-item">
+          <mat-icon>schedule</mat-icon>
+          <span>{{ event.time }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="content-area">
+    <section class="section">
+      <h2>Detalhes do Evento:</h2>
+      <p class="section-text">{{ event.description }}</p>
+      <p class="section-text">{{ event.programDetails }}</p>
+    </section>
+
+    <section class="section event-images">
+      <h2>Imagens do evento <mat-icon>arrow_forward</mat-icon></h2>
+      <div class="gallery">
+        @for (image of event.galleryImages; track $index) {
+          <img [src]="image" alt="Imagem do evento" class="gallery-image" />
+        }
+      </div>
+    </section>
+  </main>
+
+  <div class="footer-buttons" *ngIf="!event.showGenerateCodeButton">
+    <button mat-flat-button color="primary" class="full-width-button" (click)="markPresence()">
+      <mat-icon>check_circle_outline</mat-icon> MARCAR PRESENÇA
+    </button>
+    <button mat-icon-button class="favorite-button">
+      <mat-icon>favorite_border</mat-icon>
+    </button>
+  </div>
+
+  <div class="footer-buttons" *ngIf="event.showGenerateCodeButton">
+    <button mat-flat-button color="primary" class="full-width-button" (click)="generateEntryCode()">
+      <mat-icon>qr_code</mat-icon> GERAR CÓDIGO DE ENTRADA
+    </button>
+  </div>
+</div>
+<app-bottom-menu></app-bottom-menu>
