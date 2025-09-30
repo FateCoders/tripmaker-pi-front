@@ -1,0 +1,12 @@
+<footer class="footer_container">
+  @for (link of footerLinks; track link.path) {
+    <a
+      [routerLink]="link.path"
+      routerLinkActive="active"
+      class="footer_container__icons"
+    >
+      <mat-icon>{{ link.icon }}</mat-icon>
+      {{ link.label }}
+    </a>
+  }
+</footer>

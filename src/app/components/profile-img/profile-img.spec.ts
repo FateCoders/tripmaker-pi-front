@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FooterUsercomumComponent } from './footer-usercomum.component';
+import { ProfileImg } from './profile-img';
 
-describe('FooterUsercomumComponent', () => {
-  let component: FooterUsercomumComponent;
-  let fixture: ComponentFixture<FooterUsercomumComponent>;
+describe('ProfileImg', () => {
+  let component: ProfileImg;
+  let fixture: ComponentFixture<ProfileImg>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FooterUsercomumComponent]
+      imports: [ProfileImg]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(FooterUsercomumComponent);
+    fixture = TestBed.createComponent(ProfileImg);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

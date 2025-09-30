@@ -1,0 +1,21 @@
+<div class="home-container">
+  <app-header-title
+    [title]="'Minhas Atividades'"
+    [subtitle]="'Roteiros, rotas e eventos a serem realizados por você'"
+  ></app-header-title>
+
+  <main class="home-content">
+    <app-tabs-list [tabs]="tabs" (tabChanged)="onTabChanged($event)"> </app-tabs-list>
+
+    <app-list-view
+      [items]="currentItems"
+      [enableSearch]="false"
+      [enableFilter]="false"
+    ></app-list-view>
+  </main>
+
+  <app-bottom-menu></app-bottom-menu>
+</div>
+
+
+<app-bottom-menu></app-bottom-menu>
