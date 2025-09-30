@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { DynamicFormComponent, FormFieldConfig } from "../../components/dynamic-form/dynamic-form";
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +14,8 @@ import { DynamicFormComponent, FormFieldConfig } from "../../components/dynamic-
   styleUrl: './login.scss'
 })
 export class Login {
+  private authService = inject(AuthService);
+
   loginFormFields: FormFieldConfig[] = [
     {
       name: 'email',
@@ -40,7 +43,9 @@ export class Login {
 
   handleLogin(formData: any): void {
     if (formData) {
-      console.log('Formulário de login válido!', formData);
+      if (!this.authService.login(formData)) {
+        console.error('Login falhou: email ou senha inválidos.');
+      }
     }
   }
 }
