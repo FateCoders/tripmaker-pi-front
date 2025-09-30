@@ -1,3 +1,4 @@
+// fatecoders/tripmaker-pi-front/tripmaker-pi-front-49-feature-criar-interfaces-para-rotas-eventos-e-roteiros/src/app/pages/users/traveler/traveler-home/traveler-home.ts
 import { Component } from "@angular/core";
 import { HeaderTitle } from "../../../../components/header-title/header-title";
 import { ListView } from "../../../../components/list-view/list-view";
@@ -80,7 +81,67 @@ export class TravelerHome {
     },
     {
       label: 'Rotas',
-      content: [],
+      content: [
+        {
+          type: 'route',
+          id: '3', // Alterado ID para não colidir
+          title: 'Tour Cultural Histórico',
+          categories: [
+            { label: 'História', icon: 'museum' },
+            { label: 'Arte', icon: 'palette' }
+          ],
+          image: {
+            url: 'https://placehold.co/150',
+            alt: 'Imagem da Rota Cultural',
+          },
+          price: 0, // Gratuito
+          date: new Date('2025-12-05'),
+          location: {
+            id: 'loc-005',
+            google_maps_id: 'GMI-005',
+            city: 'Tatuí',
+            uf: 'SP',
+            country: 'Brasil',
+            complement: 'Início na Praça da Matriz',
+            coordinates: { lat: -23.355, lng: -47.856 },
+          },
+          starts_at: new Date('2025-12-05T09:00:00'),
+          ends_at: new Date('2025-12-05T16:00:00'),
+          itinerary: [
+            { passo: 1, descricao: 'Visita ao Museu' },
+            { passo: 2, descricao: 'Almoço no Centro' },
+          ],
+        },
+        {
+          type: 'route',
+          id: '4', // Alterado ID para não colidir
+          title: 'Rota Gastronômica de Tatuí',
+          categories: [
+            { label: 'Gastronomia', icon: 'restaurant' }
+          ],
+          image: {
+            url: 'https://placehold.co/150',
+            alt: 'Imagem da Rota Gastronômica',
+          },
+          price: 50, // Custo médio de alimentação
+          date: new Date('2025-11-20'),
+          location: {
+            id: 'loc-006',
+            google_maps_id: 'GMI-006',
+            city: 'Tatuí',
+            uf: 'SP',
+            country: 'Brasil',
+            complement: 'Início na Feira',
+            coordinates: { lat: -23.360, lng: -47.850 },
+          },
+          starts_at: new Date('2025-11-20T11:00:00'),
+          ends_at: new Date('2025-11-20T15:00:00'),
+          itinerary: [
+            { passo: 1, descricao: 'Degustação de doces' },
+            { passo: 2, descricao: 'Almoço típico' },
+          ],
+        },
+      ],
     },
   ];
 

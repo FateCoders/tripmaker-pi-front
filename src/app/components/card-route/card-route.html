@@ -1,7 +1,5 @@
-<mat-card class="list-card">
+<mat-card class="list-card" (click)="navigateToRouteDetail()">
   <div class="card-container">
-    <!-- <img mat-card-image class="card-image" [src]="item.img" alt="Imagem da rota"> -->
-
     <div class="card-content">
       <div class="card-header">
         <mat-card-title class="card-title">{{ item.title }}</mat-card-title>
@@ -9,7 +7,6 @@
           <mat-icon>more_vert</mat-icon>
         </button>
       </div>
-      <!-- <mat-card-subtitle class="card-subtitle">{{ item.description }}</mat-card-subtitle> -->
     </div>
   </div>
 </mat-card>

@@ -48,9 +48,9 @@ export class ListView implements OnInit {
   ngOnInit(): void {
     // Garante que todos os itens tenham um discriminador 'type' para segurança.
     this.items = this.items.map(item => {
-      if (!('type' in item)) {
+      if (!('type' in item) && typeof item === 'object' && item !== null) {
         // Assume 'default' se o tipo estiver faltando
-        return { ...item, type: 'default' } as unknown as IDefaultCardItem;
+        return { ...(item as object), type: 'default' } as unknown as IDefaultCardItem;
       }
       return item;
     }) as ListItem[];
