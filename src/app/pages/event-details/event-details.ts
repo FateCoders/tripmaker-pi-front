@@ -41,12 +41,10 @@ export class EventDetailsComponent implements OnInit {
   }
 
   loadEventDetails(id: string): void {
-
     setTimeout(() => {
       this.event = {
         id: id,
-        headerImageURL:
-          'https://images.unsplash.com/photo-1514525253164-ff4ade296a0d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        headerImageURL: 'https://images.pexels.com/photos/33870387/pexels-photo-33870387.jpeg',
         title: 'Encontro de Música Popular Brasileira',
         location: 'Tatuí - SP',
         address: 'Endereço do Conservatório, 123',
@@ -58,7 +56,7 @@ export class EventDetailsComponent implements OnInit {
           'A programação inclui apresentações especiais de Luiz Freitas e Banda Trem Caipira, além de roda de conversa sobre o impacto da música na cultura regional.',
         galleryImages: [
           'https://images.unsplash.com/photo-1506198656606-d760f331904a?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-          'https://images.unsplash.com/photo-1506198656606-d760f331904a?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', 
+          'https://images.unsplash.com/photo-1506198656606-d760f331904a?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
         ],
         userHasPresenceMarked: true,
         showGenerateCodeButton: false,
@@ -77,6 +75,5 @@ export class EventDetailsComponent implements OnInit {
 
   generateEntryCode(): void {
     console.log('Gerar código de entrada para o evento:', this.event?.id);
-    // Lógica para gerar e exibir o código
   }
 }
