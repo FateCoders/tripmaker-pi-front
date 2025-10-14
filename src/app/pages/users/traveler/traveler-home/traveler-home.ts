@@ -1,91 +1,86 @@
-import { Component } from '@angular/core';
-import { FooterUsercomumComponent } from "../../../../components/public/bottom-menu/bottom-menu.component";
-import { HeaderTitle } from "../../../../components/header-title/header-title";
-import { ListView } from "../../../../components/list-view/list-view";
-import { TabsList } from "../../../../components/tabs-list/tabs-list";
-
-export interface ListItem {
-  id: string;
-  img: string; // Adicionei um campo para o ícone do coração
-  isFavorite: boolean;
-  title: string;
-  priceRange: string; // Ex: '$$', '$$$'
-  distance: string; // Ex: '• 2 km de distância'
-  description: string;
-  category: 'A' | 'B' | 'C'; // Você pode adaptar as categorias se quiser
-}
-
-export interface TabsSection {
-  label: string;
-  content: ListItem[];
-}
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatListModule } from '@angular/material/list';
+import { MatButtonModule } from '@angular/material/button';
+import { RoutesService } from '../../../../services/routes.service';
+import { ListView } from '../../../../components/list-view/list-view';
+import { TabsList } from '../../../../components/tabs-list/tabs-list';
+import { HeaderTitle } from '../../../../components/header-title/header-title';
+import { FooterUsercomumComponent } from '../../../../components/public/bottom-menu/bottom-menu.component';
+import { TabsListCard } from '../../../../models/tabs-list-card';
+import { TabsSection } from '../../../../models/tabs-section';
 
 @Component({
   selector: 'app-traveler-home',
-  imports: [FooterUsercomumComponent, HeaderTitle, ListView, TabsList],
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatListModule,
+    MatButtonModule,
+    ListView,
+    TabsList,
+    HeaderTitle,
+    FooterUsercomumComponent,
+  ],
   templateUrl: './traveler-home.html',
-  styleUrl: './traveler-home.scss'
+  styleUrl: './traveler-home.scss',
 })
-export class TravelerHome {
+export class TravelerHome implements OnInit {
+  private routesService = inject(RoutesService);
+
+  activeTab: string = 'Meus Roteiros';
+  availableRoutes: any[] = [];
+  currentItems: TabsListCard[] = [];
+
   tabs: TabsSection[] = [
     {
       label: 'Meus Roteiros',
-      content: [], // Vazio para corresponder ao "Nenhum roteiro encontrado"
+      content: [],
     },
     {
       label: 'Eventos',
       content: [
         {
           id: '1',
-          img: 'assets/images/jpg/teatro.jpeg', // Sugestão: coloque as imagens em /assets
-          isFavorite: true,
+          img: 'assets/images/jpg/teatro.jpeg',
           title: 'Festival de Teatro de Tatuí',
-          priceRange: '$$',
-          distance: '• 2 km de distância',
           description: 'Espetáculos gratuitos e pagos com...',
           category: 'A',
         },
         {
           id: '2',
           img: 'assets/images/png/conservatorio.png',
-          isFavorite: false,
           title: 'Concerto no Conservatório',
-          priceRange: '$',
-          distance: '• 3 km de distância',
           description: 'Apresentação da orquestra jovem do...',
           category: 'B',
-        },
-        {
-          id: '3',
-          img: 'assets/images/webp/feira-gastronomica.webp',
-          isFavorite: true,
-          title: 'Feira Gastronômica de Tatuí',
-          priceRange: '$$$',
-          distance: '• 4 km de distância',
-          description: 'Comidas típicas, food trucks,...',
-          category: 'A',
-        },
-        {
-          id: '4',
-          img: 'assets/images/jpg/exposicao-arte.jpg',
-          isFavorite: false,
-          title: 'Exposição de Arte Moderna',
-          priceRange: 'Gratuito',
-          distance: '• 1.5 km de distância',
-          description: 'Obras de artistas locais e regionais.',
-          category: 'C',
         },
       ],
     },
     {
       label: 'Rotas',
-      content: [], // Vazio para corresponder ao "Nenhuma rota encontrada"
+      content: [],
     },
   ];
 
-  currentItems: ListItem[] = this.tabs[0].content;
+  ngOnInit(): void {
+    this.currentItems = this.tabs[0].content;
+    this.loadRoutes();
+  }
+
+  loadRoutes() {
+    this.availableRoutes = this.routesService.getVisibleRoutes();
+  }
 
   onTabChanged(index: number): void {
+    this.activeTab = this.tabs[index].label;
     this.currentItems = this.tabs[index].content;
+  }
+
+  subscribeToRoute(routeId: string) {
+    if (this.routesService.registerUserToRoute(routeId)) {
+      console.log('Inscrição realizada com sucesso na rota!');
+    } else {
+      console.log('Inscrição falhou: você já está inscrito nesta rota.');
+    }
   }
 }

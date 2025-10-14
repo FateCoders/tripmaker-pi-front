@@ -1,0 +1,24 @@
+<h1 mat-dialog-title>Minhas Preferências</h1>
+<p mat-dialog-subtitle>Nos conte um pouco sobre você!</p>
+
+<app-header-title [title]="'Minhas Preferências'" [subtitle]="'Nos conte um pouco sobre você!'"></app-header-title>
+<mat-dialog-content>
+  @for (group of preferenceGroups; track group.title) {
+    <div class="preference-group">
+      <h2 class="group-title">{{ group.emoji }} {{ group.title }}</h2>
+      <div class="chips-container">
+        @for (option of group.options; track option.label) {
+          <app-chip-button
+            [label]="option.label"
+            [(ngModel)]="option.selected">
+          </app-chip-button>
+        }
+      </div>
+    </div>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button (click)="onCancel()">Voltar</button>
+  <button mat-flat-button color="primary" (click)="onConfirm()">Concluir</button>
+</mat-dialog-actions>
