@@ -1,0 +1,20 @@
+<div class="map-item-card" (click)="onCardClick()">
+  <img [src]="item.image" alt="{{ item.title }}" class="item-image">
+  <div class="item-content">
+    <div class="item-header">
+      <h3 class="item-title">{{ item.title }}</h3>
+      <div class="item-rating">
+        @for(isFilled of stars; track $index) {
+          <mat-icon [class.filled]="isFilled">{{ isFilled ? 'star' : 'star_border' }}</mat-icon>
+        }
+      </div>
+    </div>
+    <p class="item-meta">
+      Category &bull; {{ item.category }} &bull; {{ item.distance }}
+    </p>
+    <p class="item-details">{{ item.details }}</p>
+  </div>
+  <button class="favorite-button">
+    <mat-icon>favorite_border</mat-icon>
+  </button>
+</div>
