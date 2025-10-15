@@ -1,3 +1,23 @@
-<p>entrepreneur-home works!</p>
+<app-header-title
+  [title]="'Gerenciar Rotas'"
+  [subtitle]="'Ative ou desative a visibilidade das rotas para os viajantes'"
+></app-header-title>
+
+<main class="home-content">
+  <mat-list>
+    @for (route of routes; track route.id) {
+      <mat-list-item>
+        <span matListItemTitle>{{ route.title }}</span>
+        <span matListItemLine>{{ route.description }}</span>
+        <mat-slide-toggle
+          [checked]="route.isActive"
+          (change)="toggleRoute(route.id)"
+        >
+          {{ route.isActive ? 'Ativa' : 'Inativa' }}
+        </mat-slide-toggle>
+      </mat-list-item>
+    }
+  </mat-list>
+</main>
 
 <app-bottom-menu></app-bottom-menu>

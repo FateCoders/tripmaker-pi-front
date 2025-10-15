@@ -125,6 +125,6 @@ export class SelectProfile {
 
   navigateToRegister() {
     const selectedProfile = this.profiles[this.currentIndex()];
-    this.router.navigate(['/cadastro-page'], { queryParams: { tipo: selectedProfile.type } });
+    this.router.navigate(['/cadastro'], { queryParams: { tipo: selectedProfile.type } });
   }
 }

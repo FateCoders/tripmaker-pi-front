@@ -14,7 +14,7 @@ export const roleGuard = (expectedRole: string): CanActivateFn => {
     }
 
     if (!authService.isLoggedIn()) {
-      router.navigate(['/login']);
+      router.navigate(['/']);
     } else {
       router.navigate(['/acesso-negado']);
     }
