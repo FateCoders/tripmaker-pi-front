@@ -59,18 +59,115 @@ export class Cadastro {
   }
 
   private travelerFields: FormFieldConfig[] = [
-    { name: 'name', label: 'Nome', type: 'text', placeholder: 'Digite seu nome', validators: [Validators.required] },
-    { name: 'email', label: 'Email', type: 'email', placeholder: 'Digite seu email', validators: [Validators.required, Validators.email]},
-    { name: 'phone', label: 'Telefone', type: 'tel', placeholder: 'Digite seu telefone', validators: [Validators.required] },
-    { name: 'password', label: 'Senha', type: 'password', placeholder: 'Digite sua senha', validators: [Validators.required, Validators.minLength(8)] },
-    { name: 'confirmPassword', label: 'Confirmar Senha', type: 'password', placeholder: 'Confirme sua senha', validators: [Validators.required] },
+    { 
+      name: 'name', 
+      label: 'Nome', 
+      type: 'text', 
+      placeholder: 'Digite seu nome', 
+      validators: [Validators.required],
+      validationMessages: [
+        { type: 'required', message: 'O nome é obrigatório.' }
+      ]
+    },
+    { 
+      name: 'email', 
+      label: 'Email', 
+      type: 'email', 
+      placeholder: 'Digite seu email', 
+      validators: [Validators.required, Validators.email],
+      validationMessages: [
+        { type: 'required', message: 'O email é obrigatório.' },
+        { type: 'email', message: 'Por favor, insira um email válido.' }
+      ]
+    },
+    { 
+      name: 'phone', 
+      label: 'Telefone', 
+      type: 'tel', 
+      placeholder: 'Digite seu telefone', 
+      validators: [Validators.required],
+      validationMessages: [
+        { type: 'required', message: 'O telefone é obrigatório.' }
+        // TODO: Adicionar validação para formato de telefone.
+      ]
+    },
+    { 
+      name: 'password', 
+      label: 'Senha', 
+      type: 'password', 
+      placeholder: 'Digite sua senha', 
+      validators: [Validators.required, Validators.minLength(8)],
+      validationMessages: [
+        { type: 'required', message: 'A senha é obrigatória.' },
+        { type: 'minlength', message: 'A senha deve ter no mínimo 8 caracteres.' }
+      ]
+    },
+    { 
+      name: 'confirmPassword', 
+      label: 'Confirmar Senha', 
+      type: 'password', 
+      placeholder: 'Confirme sua senha', 
+      validators: [Validators.required],
+      validationMessages: [
+        { type: 'required', message: 'A confirmação de senha é obrigatória.' }
+        // TODO: Adicionar validação para garantir que a senha e a confirmação sejam iguais.
+      ]
+    },
   ];
 
   private entrepreneurAndPromoterFields: FormFieldConfig[] = [
-    { name: 'businessName', label: 'Nome do seu negócio', type: 'text', placeholder: 'Digite o nome do negócio', validators: [Validators.required] },
-    { name: 'cnpj', label: 'CNPJ', type: 'text', placeholder: 'Digite o CNPJ da empresa', validators: [Validators.required] },
-    { name: 'email', label: 'Email', type: 'email', placeholder: 'Digite seu email', validators: [Validators.required, Validators.email] },
-    { name: 'password', label: 'Senha', type: 'password', placeholder: 'Digite sua senha', validators: [Validators.required, Validators.minLength(8)] },
-    { name: 'confirmPassword', label: 'Confirmar Senha', type: 'password', placeholder: 'Confirme sua senha', validators: [Validators.required] },
+    { 
+      name: 'businessName', 
+      label: 'Nome do seu negócio', 
+      type: 'text', 
+      placeholder: 'Digite o nome do negócio', 
+      validators: [Validators.required],
+      validationMessages: [
+        { type: 'required', message: 'O nome do negócio é obrigatório.' }
+      ]
+    },
+    { 
+      name: 'cnpj', 
+      label: 'CNPJ', 
+      type: 'text', 
+      placeholder: 'Digite o CNPJ da empresa', 
+      validators: [Validators.required],
+      validationMessages: [
+        { type: 'required', message: 'O CNPJ é obrigatório.' }
+        // TODO: Adicionar validação para formato de CNPJ.
+      ]
+    },
+    { 
+      name: 'email', 
+      label: 'Email', 
+      type: 'email', 
+      placeholder: 'Digite seu email', 
+      validators: [Validators.required, Validators.email],
+      validationMessages: [
+        { type: 'required', message: 'O email é obrigatório.' },
+        { type: 'email', message: 'Por favor, insira um email válido.' }
+      ]
+    },
+    { 
+      name: 'password', 
+      label: 'Senha', 
+      type: 'password', 
+      placeholder: 'Digite sua senha', 
+      validators: [Validators.required, Validators.minLength(8)],
+      validationMessages: [
+        { type: 'required', message: 'A senha é obrigatória.' },
+        { type: 'minlength', message: 'A senha deve ter no mínimo 8 caracteres.' }
+      ]
+    },
+    { 
+      name: 'confirmPassword', 
+      label: 'Confirmar Senha', 
+      type: 'password', 
+      placeholder: 'Confirme sua senha', 
+      validators: [Validators.required],
+      validationMessages: [
+        { type: 'required', message: 'A confirmação de senha é obrigatória.' }
+      ]
+    },
   ];
 }
