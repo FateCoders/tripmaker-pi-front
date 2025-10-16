@@ -39,6 +39,8 @@ export class DynamicFormComponent implements OnInit {
   @Input() fields: FormFieldConfig[] = [];
   @Input() formTitle: string = 'Formulário';
   @Input() submitButtonText: string = 'Enviar';
+  
+  @Input() formValidators: ValidatorFn[] = [];
 
   @Output() formSubmit = new EventEmitter<any>();
 
@@ -56,7 +58,8 @@ export class DynamicFormComponent implements OnInit {
         field.validators || []
       ];
     });
-    this.form = this.fb.group(controlsConfig);
+    
+    this.form = this.fb.group(controlsConfig, { validators: this.formValidators });
   }
 
   getControl(name: string): AbstractControl | null {

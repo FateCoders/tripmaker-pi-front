@@ -1,8 +1,13 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { DynamicFormComponent, FormFieldConfig } from '../../components/dynamic-form/dynamic-form';
-import { Validators } from '@angular/forms';
+import { Validators, ValidatorFn } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+
+// Importa os novos validadores da pasta dedicada
+import { cnpjValidator } from '../../validators/cnpj.validator';
+import { phoneValidator } from '../../validators/phone.validator';
+import { matchPasswordsValidator } from '../../validators/match-passwords.validator';
 
 @Component({
   selector: 'app-cadastro',
@@ -10,13 +15,14 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './cadastro.html',
   styleUrl: './cadastro.scss',
 })
-export class Cadastro {
+export class Cadastro implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private authService = inject(AuthService);
 
   selectedUserType: 'traveler' | 'entrepreneur' | 'promoter' = 'traveler';
   currentFormFields: FormFieldConfig[] = [];
+  currentFormGroupValidators: ValidatorFn[] = []; 
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
@@ -84,11 +90,11 @@ export class Cadastro {
       name: 'phone', 
       label: 'Telefone', 
       type: 'tel', 
-      placeholder: 'Digite seu telefone', 
-      validators: [Validators.required],
+      placeholder: 'Ex: (XX) XXXXX-XXXX', 
+      validators: [Validators.required, phoneValidator],
       validationMessages: [
-        { type: 'required', message: 'O telefone é obrigatório.' }
-        // TODO: Adicionar validação para formato de telefone.
+        { type: 'required', message: 'O telefone é obrigatório.' },
+        { type: 'invalidPhoneFormat', message: 'Por favor, insira um telefone válido.' }
       ]
     },
     { 
@@ -107,10 +113,10 @@ export class Cadastro {
       label: 'Confirmar Senha', 
       type: 'password', 
       placeholder: 'Confirme sua senha', 
-      validators: [Validators.required],
+      validators: [Validators.required, matchPasswordsValidator],
       validationMessages: [
-        { type: 'required', message: 'A confirmação de senha é obrigatória.' }
-        // TODO: Adicionar validação para garantir que a senha e a confirmação sejam iguais.
+        { type: 'required', message: 'A confirmação de senha é obrigatória.' },
+        { type: 'mustMatch', message: 'As senhas devem ser iguais.' } // Mensagem do validador de grupo
       ]
     },
   ];
@@ -131,10 +137,10 @@ export class Cadastro {
       label: 'CNPJ', 
       type: 'text', 
       placeholder: 'Digite o CNPJ da empresa', 
-      validators: [Validators.required],
+      validators: [Validators.required, cnpjValidator],
       validationMessages: [
-        { type: 'required', message: 'O CNPJ é obrigatório.' }
-        // TODO: Adicionar validação para formato de CNPJ.
+        { type: 'required', message: 'O CNPJ é obrigatório.' },
+        { type: 'invalidCnpj', message: 'Por favor, insira um CNPJ válido.' }
       ]
     },
     { 
@@ -164,9 +170,10 @@ export class Cadastro {
       label: 'Confirmar Senha', 
       type: 'password', 
       placeholder: 'Confirme sua senha', 
-      validators: [Validators.required],
+      validators: [Validators.required, matchPasswordsValidator],
       validationMessages: [
-        { type: 'required', message: 'A confirmação de senha é obrigatória.' }
+        { type: 'required', message: 'A confirmação de senha é obrigatória.' },
+        { type: 'mustMatch', message: 'As senhas devem ser iguais.' }
       ]
     },
   ];
