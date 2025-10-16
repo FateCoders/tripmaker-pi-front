@@ -43,6 +43,8 @@ export class Cadastro implements OnInit {
     } else {
       this.currentFormFields = this.entrepreneurAndPromoterFields;
     }
+    // Adiciona o validador de senhas ao grupo do formulário
+    this.currentFormGroupValidators = [matchPasswordsValidator];
   }
 
   handleRegister(formData: any): void {
@@ -113,10 +115,10 @@ export class Cadastro implements OnInit {
       label: 'Confirmar Senha', 
       type: 'password', 
       placeholder: 'Confirme sua senha', 
-      validators: [Validators.required, matchPasswordsValidator],
+      validators: [Validators.required], // Removido o matchPasswordsValidator daqui
       validationMessages: [
         { type: 'required', message: 'A confirmação de senha é obrigatória.' },
-        { type: 'mustMatch', message: 'As senhas devem ser iguais.' } // Mensagem do validador de grupo
+        { type: 'mustMatch', message: 'As senhas não coincidem.' } // Mensagem atualizada
       ]
     },
   ];
@@ -170,10 +172,10 @@ export class Cadastro implements OnInit {
       label: 'Confirmar Senha', 
       type: 'password', 
       placeholder: 'Confirme sua senha', 
-      validators: [Validators.required, matchPasswordsValidator],
+      validators: [Validators.required], // Removido o matchPasswordsValidator daqui
       validationMessages: [
         { type: 'required', message: 'A confirmação de senha é obrigatória.' },
-        { type: 'mustMatch', message: 'As senhas devem ser iguais.' }
+        { type: 'mustMatch', message: 'As senhas não coincidem.' } // Mensagem atualizada
       ]
     },
   ];
