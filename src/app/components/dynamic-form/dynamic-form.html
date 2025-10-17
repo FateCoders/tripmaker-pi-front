@@ -11,6 +11,7 @@
           [id]="field.name"
           [formControlName]="field.name"
           [placeholder]="field.placeholder"
+          [mask]="field.mask"
         />
       </mat-form-field>
       @if (getControl(field.name)?.invalid && getControl(field.name)?.touched) {
@@ -23,7 +24,8 @@
       }
     </div>
     }
-    <button matButton="filled" type="submit" [disabled]="form.invalid">
+
+    <button mat-button="filled" type="submit" [disabled]="form.invalid">
       {{ submitButtonText }}
     </button>
   </form>

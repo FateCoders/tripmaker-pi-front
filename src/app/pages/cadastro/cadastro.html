@@ -6,6 +6,7 @@
   <section class="cadastro_container_formulario">
     <app-dynamic-form
       [fields]="currentFormFields"
+      [formValidators]="currentFormGroupValidators"
       formTitle="Seja bem vindo!"
       submitButtonText="Registrar"
       (formSubmit)="handleRegister($event)"
