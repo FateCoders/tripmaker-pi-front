@@ -1,0 +1,41 @@
+<div class="page-container">
+  
+  <header class="permissions-header">
+    <button (click)="navigateBack()" class="back-button">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>Permissões</h1>
+  </header>
+
+  <main class="page-content">
+    
+    <section class="permissions-list">
+      <mat-list>
+        @for (item of permissionItems; track item.title) {
+          <mat-list-item class="permission-list-item"> 
+            
+            <div matListItemIcon class="permission-icon-container">
+              <mat-icon class="permission-icon">{{ item.icon }}</mat-icon>
+            </div>
+
+            <div class="permission-text">
+              <span class="title">{{ item.title }}</span>
+              <span class="description">{{ item.description }}</span>
+            </div>
+
+            <div matListItemMeta class="permission-toggle">
+              <mat-slide-toggle 
+                class="toggle-item"
+                [(ngModel)]="item.model"
+                (change)="onToggleChange(item)"
+                color="primary">
+              </mat-slide-toggle>
+            </div>
+            
+          </mat-list-item>
+        }
+      </mat-list>
+    </section>
+
+  </main>
+</div>

@@ -14,6 +14,10 @@ import { AdministratorHome } from './pages/users/administrator/administrator-hom
 import { EntrepreneurHome } from './pages/users/entrepreneur/entrepreneur-home/entrepreneur-home';
 import { TourismPromoterHome } from './pages/users/tourism-promoter/tourism-promoter-home/tourism-promoter-home';
 import { TravelerHome } from './pages/users/traveler/traveler-home/traveler-home';
+import { TravelerProfile } from './pages/users/traveler/profile/profile';
+import { TravelerPermissions } from './pages/users/traveler/permissions/permissions';
+import { TravelerRoutes } from './pages/users/traveler/routes/routes';
+import { TravelerEvents } from './pages/users/traveler/events/events';
 
 export const routes: Routes = [
   // ROTAS GERAIS
@@ -49,8 +53,33 @@ export const routes: Routes = [
     component: TravelerHome,
     title: 'Início do Viajante',
     canActivate: [authGuard, roleGuard('viajante')],
+    data: { animation: 'ViajanteHomePage' },
   },
-
+  {
+    path: 'viajante/perfil',
+    component: TravelerProfile,
+    title: 'Perfil do Viajante',
+    canActivate: [authGuard, roleGuard('viajante')],
+    data: { animation: 'ViajanteProfilePage' },
+  },
+  {
+    path: 'viajante/permissoes',
+    component: TravelerPermissions,
+    title: 'Permissões do Viajante',
+    canActivate: [authGuard, roleGuard('viajante')],
+  },
+  {
+    path: 'viajante/roteiros',
+    component: TravelerRoutes,
+    title: 'Routeiros do Viajante',
+    canActivate: [authGuard, roleGuard('viajante')],
+  },
+  {
+    path: 'viajante/eventos',
+    component: TravelerEvents,
+    title: 'Eventos do Viajante',
+    canActivate: [authGuard, roleGuard('viajante')],
+  },
   // ROTAS DE EMPREENDEDOR
   {
     path: 'empreendedor/inicio',

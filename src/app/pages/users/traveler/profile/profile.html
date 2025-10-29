@@ -1,0 +1,36 @@
+<div class="home-container">
+  <main class="home-content">
+    <section class="profile-header">
+      <app-profile-img [imagem]="profileImage"></app-profile-img>
+      <h2>Olá, {{ userName }}</h2>
+    </section>
+
+    <section class="search-container">
+      <app-search-bar [(value)]="searchTerm" placeholder="Buscar uma configuração">
+      </app-search-bar>
+    </section>
+
+    <section class="profile-menu">
+      <mat-list>
+        @for (item of menuItems; track item.title) {
+        <a [routerLink]="item.route" class="menu-link">
+          <mat-list-item class="menu-item">
+            <div matListItemIcon class="menu-icon-container">
+              <mat-icon class="menu-icon">{{ item.icon }}</mat-icon>
+            </div>
+            <div class="menu-text">
+              <span class="title">{{ item.title }}</span>
+              <span class="description">{{ item.description }}</span>
+            </div>
+            <div matListItemMeta>
+              <mat-icon class="menu-chevron">chevron_right</mat-icon>
+            </div>
+          </mat-list-item>
+        </a>
+        }
+      </mat-list>
+    </section>
+  </main>
+
+  <app-bottom-menu></app-bottom-menu>
+</div>
