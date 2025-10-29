@@ -1,0 +1,6 @@
+.route-container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh; /* Garante que o container ocupe a tela */
+  display: block; /* Garante que o div se comporte como um bloco */
+}
