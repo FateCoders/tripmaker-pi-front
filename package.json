@@ -37,6 +37,7 @@
     "express": "^5.1.0",
     "lottie-web": "^5.13.0",
     "ngx-lottie": "^20.0.0",
+    "ngx-mask": "^20.0.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"

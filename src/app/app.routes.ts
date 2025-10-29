@@ -18,6 +18,9 @@ import { TravelerProfile } from './pages/users/traveler/profile/profile';
 import { TravelerPermissions } from './pages/users/traveler/permissions/permissions';
 import { TravelerRoutes } from './pages/users/traveler/routes/routes';
 import { TravelerEvents } from './pages/users/traveler/events/events';
+import { PreferencesComponent } from './pages/users/traveler/preferences/preferences';
+import { MapViewComponent } from './pages/map-view/map-view';
+import { EventDetailsComponent } from './pages/event-details/event-details';
 
 export const routes: Routes = [
   // ROTAS GERAIS
@@ -87,6 +90,22 @@ export const routes: Routes = [
     canActivate: [authGuard, roleGuard('viajante')],
     data: { animation: 'ViajanteEventsPage' },
   },
+  {
+    path: 'viajante/preferences',
+    component: PreferencesComponent,
+    title: 'Página de Preferências',
+    canActivate: [authGuard, roleGuard('viajante')],
+  },
+  {
+    path: 'viajante/mapa',
+    component: MapViewComponent,
+    title: 'Detalhes do Evento',
+  },
+  {
+    path: 'viajante/eventos/:id',
+    component: EventDetailsComponent,
+    title: 'Detalhes do Evento',
+  },
   // ROTAS DE EMPREENDEDOR
   {
     path: 'empreendedor/inicio',
@@ -103,6 +122,12 @@ export const routes: Routes = [
     title: 'Início do Promotor Turístico',
     canActivate: [authGuard, roleGuard('promotor-turistico')],
     data: { animation: 'PromotorTuristicoHomePage' },
+  },
+
+  {
+    path: 'mapa',
+    component: MapViewComponent,
+    title: 'Mapa de Eventos',
   },
 
   // ROTAS DE ADMINISTRADOR

@@ -4,6 +4,11 @@ import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
+import { NgxMaskDirective } from "ngx-mask";
+
+export interface FormFieldConfig {
+  mask?: string;
+}
 
 export interface ValidationMessage {
   type: string;
@@ -29,7 +34,8 @@ export interface FormFieldConfig {
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-  ],
+    NgxMaskDirective
+],
   templateUrl: './dynamic-form.html',
   styleUrls: ['./dynamic-form.scss']
 })
@@ -39,6 +45,8 @@ export class DynamicFormComponent implements OnInit {
   @Input() fields: FormFieldConfig[] = [];
   @Input() formTitle: string = 'Formulário';
   @Input() submitButtonText: string = 'Enviar';
+  
+  @Input() formValidators: ValidatorFn[] = [];
 
   @Output() formSubmit = new EventEmitter<any>();
 
@@ -56,7 +64,8 @@ export class DynamicFormComponent implements OnInit {
         field.validators || []
       ];
     });
-    this.form = this.fb.group(controlsConfig);
+    
+    this.form = this.fb.group(controlsConfig, { validators: this.formValidators });
   }
 
   getControl(name: string): AbstractControl | null {

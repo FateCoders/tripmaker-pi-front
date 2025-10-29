@@ -6,6 +6,7 @@
   <section class="cadastro_container_formulario">
     <app-dynamic-form
       [fields]="currentFormFields"
+      [formValidators]="currentFormGroupValidators"
       formTitle="Seja bem vindo!"
       submitButtonText="Registrar"
       (formSubmit)="handleRegister($event)"
@@ -14,8 +15,8 @@
   </section>
   <section class="cadastro_container_footer">
     <span
-      >Novo por aqui?
-      <a routerLink="/cadastro">Cadastre-se</a>
+      >Já tem uma conta?
+      <a routerLink="/">Faça login</a>
     </span>
   </section>
 </main>
