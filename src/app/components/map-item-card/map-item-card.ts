@@ -9,7 +9,9 @@ export interface MapItem {
   category: string;
   rating: number;
   distance: string;
-  details: string;
+  details: string; 
+  duration?: string;
+  icons?: string[];
 }
 @Component({
   selector: 'app-map-item-card',

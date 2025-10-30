@@ -60,3 +60,10 @@
 .ai-bubble .message-time {
   color: var(--text-color-light);
 }
+
+.loading-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px; // Pequeno padding para o spinner
+}

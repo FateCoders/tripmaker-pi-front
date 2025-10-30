@@ -6,32 +6,48 @@
 
 <div class="chat-container">
   <div class="chat-content" #chatContent>
-    @for(msg of messages; track $index) {
+    @for(msg of messages; track $index) { @switch (msg.type) { @case ('text') {
     <app-chat-bubble [message]="msg"></app-chat-bubble>
-    } @if(isLoadingAiResponse) {
-    <div class="loading-indicator">
-      <mat-spinner diameter="24"></mat-spinner>
-      <span>Digitando...</span>
-    </div>
-    }
+    } @case ('loading') {
+    <app-chat-bubble [message]="msg"></app-chat-bubble>
+    } @case ('image-carousel') {
+    <app-image-carousel [images]="msg.images!"></app-image-carousel>
+    } @case ('card-carousel') {
+    <app-card-carousel [items]="msg.items!"></app-card-carousel>
+    } } }
   </div>
 
   <div class="chat-input-footer">
-    <mat-form-field appearance="outline" class="message-input">
-      <input
-        matInput
-        [(ngModel)]="currentMessage"
-        (keyup.enter)="sendMessage()"
-        placeholder="Digite sua mensagem..."
-      />
-    </mat-form-field>
-    <button
-      mat-icon-button
-      class="send-button"
-      (click)="sendMessage()"
-      [disabled]="currentMessage.trim() === '' || isLoadingAiResponse"
-    >
-      <mat-icon>send</mat-icon>
-    </button>
+    
+    <div class="suggestion-chips-container">
+      <mat-chip-listbox aria-label="Sugestões de Roteiro">
+        @for(tip of suggestions; track tip) {
+          <mat-chip-option (click)="sendSuggestion(tip)">{{ tip }}</mat-chip-option>
+        }
+      </mat-chip-listbox>
+    </div>
+
+    <div class="input-bar">
+      <mat-form-field appearance="outline" class="message-input">
+        <input
+          matInput
+          [(ngModel)]="currentMessage"
+          (keyup.enter)="sendMessage()"
+          placeholder="Digite sua mensagem..."
+        />
+      </mat-form-field>
+      
+      <button mat-icon-button class="action-button" (click)="saveRoute()">
+        <mat-icon>save_alt</mat-icon> </button>
+
+      <button
+        mat-icon-button
+        class="send-button"
+        (click)="sendMessage()"
+        [disabled]="currentMessage.trim() === '' || isLoadingAiResponse"
+      >
+        <mat-icon>send</mat-icon>
+      </button>
+    </div>
   </div>
 </div>

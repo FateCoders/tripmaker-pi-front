@@ -1,11 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ChatMessage } from '../../interfaces/chat-message';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-chat-bubble',
   standalone: true,
-  imports: [CommonModule, DatePipe],
+  imports: [CommonModule, DatePipe, MatProgressSpinnerModule],
   templateUrl: './chat-bubble.html',
   styleUrls: ['./chat-bubble.scss'],
 })

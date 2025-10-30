@@ -1,0 +1,23 @@
+.carousel-container {
+  overflow-x: auto;
+  padding: 16px 0 16px 12px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.carousel-track {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}
+
+.carousel-image {
+  width: 300px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 28px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
