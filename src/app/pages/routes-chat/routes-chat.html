@@ -1,0 +1,37 @@
+<app-header-title
+  title="Novo Roteiro"
+  [showBackButton]="true"
+  (backClick)="goBack()"
+></app-header-title>
+
+<div class="chat-container">
+  <div class="chat-content" #chatContent>
+    @for(msg of messages; track $index) {
+    <app-chat-bubble [message]="msg"></app-chat-bubble>
+    } @if(isLoadingAiResponse) {
+    <div class="loading-indicator">
+      <mat-spinner diameter="24"></mat-spinner>
+      <span>Digitando...</span>
+    </div>
+    }
+  </div>
+
+  <div class="chat-input-footer">
+    <mat-form-field appearance="outline" class="message-input">
+      <input
+        matInput
+        [(ngModel)]="currentMessage"
+        (keyup.enter)="sendMessage()"
+        placeholder="Digite sua mensagem..."
+      />
+    </mat-form-field>
+    <button
+      mat-icon-button
+      class="send-button"
+      (click)="sendMessage()"
+      [disabled]="currentMessage.trim() === '' || isLoadingAiResponse"
+    >
+      <mat-icon>send</mat-icon>
+    </button>
+  </div>
+</div>

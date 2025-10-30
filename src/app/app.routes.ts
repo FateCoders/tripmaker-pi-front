@@ -21,6 +21,7 @@ import { TravelerEvents } from './pages/users/traveler/events/events';
 import { PreferencesComponent } from './pages/users/traveler/preferences/preferences';
 import { MapViewComponent } from './pages/map-view/map-view';
 import { EventDetailsComponent } from './pages/event-details/event-details';
+import { RoutesChatComponent } from './pages/routes-chat/routes-chat';
 
 export const routes: Routes = [
   // ROTAS GERAIS
@@ -82,6 +83,13 @@ export const routes: Routes = [
     title: 'Roteiros do Viajante',
     canActivate: [authGuard, roleGuard('viajante')],
     data: { animation: 'ViajanteRoutesPage' },
+  },
+    {
+    path: 'viajante/roteiros/chat',
+    component: RoutesChatComponent,
+    title: 'Crie seu Roteiro',
+    canActivate: [authGuard, roleGuard('viajante')],
+    data: { animation: 'ViajanteRoutesChatPage' },
   },
   {
     path: 'viajante/eventos',

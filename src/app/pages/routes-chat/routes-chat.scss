@@ -1,0 +1,79 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: var(--white-color); // Chat background
+}
+
+app-header-title {
+  flex-shrink: 0; // Don't let header shrink
+}
+
+.chat-container {
+  flex-grow: 1; // Take remaining height
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; // Contain the children
+}
+
+.chat-content {
+  flex-grow: 1; // This is the scrollable area
+  overflow-y: auto;
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.loading-indicator {
+  display: flex;
+  align-items: center;
+  padding: 10px 14px;
+  color: var(--text-color-light);
+
+  span {
+    margin-left: 10px;
+    font-style: italic;
+    font-size: 0.9rem;
+  }
+}
+
+.chat-input-footer {
+  flex-shrink: 0; // Don't let footer shrink
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: var(--background-color-light); // Footer bg
+  border-top: 1px solid var(--divider-color-light);
+}
+
+.message-input {
+  flex-grow: 1;
+  margin-right: 8px;
+
+  // Override default outline appearance for chat
+  ::ng-deep .mat-mdc-form-field-flex {
+    background-color: var(--white-color) !important;
+    border-radius: 20px !important;
+  }
+  ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+    display: none; // Hide error/hint space
+  }
+  ::ng-deep .mat-mdc-text-field-wrapper {
+    padding-bottom: 0 !important;
+    height: 40px !important;
+  }
+  ::ng-deep .mat-mdc-form-field-infix {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+  }
+}
+
+.send-button {
+  background-color: var(--primary-color);
+  color: var(--white-color);
+
+  &:disabled {
+    background-color: var(--text-color-light-light);
+    color: var(--text-color-light);
+  }
+}

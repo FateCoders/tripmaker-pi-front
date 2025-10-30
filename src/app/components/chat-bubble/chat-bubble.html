@@ -1,0 +1,14 @@
+<div
+  class="bubble-wrapper"
+  [class.user-wrapper]="message.sender === 'user'"
+  [class.ai-wrapper]="message.sender === 'ai'"
+>
+  <div
+    class="bubble"
+    [class.user-bubble]="message.sender === 'user'"
+    [class.ai-bubble]="message.sender === 'ai'"
+  >
+    <p class="message-text">{{ message.text }}</p>
+    <span class="message-time">{{ message.timestamp | date : 'HH:mm' }}</span>
+  </div>
+</div>

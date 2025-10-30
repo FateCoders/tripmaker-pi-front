@@ -1,4 +1,24 @@
-<div class="page-container">
-  <main class="page-content"><p>Routes page works</p></main>
-  <app-bottom-menu></app-bottom-menu>
+<app-header-title title="Roteiros"></app-header-title>
+
+<div class="page-content">
+  @if (savedRoutes.length > 0) {
+  <div class="routes-list">
+    @for (route of savedRoutes; track route.id) {
+    <app-map-item-card
+      [item]="route"
+      (cardClick)="onRouteClick(route)"
+    ></app-map-item-card>
+    }
+  </div>
+  } @else {
+  <div class="empty-state">
+    <img src="assets/images/png/pattern-3.png" alt="Sem roteiros" />
+    <h3>Nenhum roteiro salvo</h3>
+    <p>Crie seu primeiro roteiro personalizado com nossa IA!</p>
+  </div>
+  }
+
+  <button mat-fab class="fab-add" (click)="createNewRoute()">
+    <mat-icon>add</mat-icon>
+  </button>
 </div>

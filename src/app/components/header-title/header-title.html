@@ -1,6 +1,14 @@
-<div class="header-title mat-elevation-z1">
-  <h1 class="title">{{ title }}</h1>
-  @if (subtitle) {
-  <p class="subtitle">{{ subtitle }}</p>
+<div class="header-title-container mat-elevation-z1">
+  @if (showBackButton) {
+  <button mat-icon-button (click)="onBackClick()" class="back-button">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
   }
+
+  <div class="header-title-content">
+    <h1 class="title">{{ title }}</h1>
+    @if (subtitle) {
+    <p class="subtitle">{{ subtitle }}</p>
+    }
+  </div>
 </div>
