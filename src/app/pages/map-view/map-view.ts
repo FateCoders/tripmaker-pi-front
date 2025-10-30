@@ -22,6 +22,8 @@ import { FooterUsercomumComponent } from '../../components/public/bottom-menu/bo
   styleUrls: ['./map-view.scss'],
 })
 export class MapViewComponent {
+  isExpanded = false;
+
   eventItems: MapItem[] = [
     {
       id: 'evento-x-1',
@@ -52,11 +54,15 @@ export class MapViewComponent {
     },
   ];
 
-  routeItems: MapItem[] = []; 
+  routeItems: MapItem[] = [];
 
   constructor(private router: Router) {}
 
   onItemClick(item: MapItem) {
     this.router.navigate(['/viajante/eventos/', item.id]);
+  }
+
+  toggleExpansion(): void {
+    this.isExpanded = !this.isExpanded;
   }
 }

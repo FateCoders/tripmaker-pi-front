@@ -5,36 +5,41 @@
 }
 
 .map-container {
-  position: relative; // Necessário para o posicionamento absoluto do bottom-sheet
+  position: relative;
   width: 100%;
   height: 100%;
 }
 
-// Estilo para o iframe
 .map-iframe {
-  position: absolute; // Ocupa todo o container
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  border: none; // Remove a borda padrão do iframe
+  border: none;
 }
 
-// Estilos do Bottom Sheet (sem alterações significativas, apenas garantindo que funcione sobre o iframe)
 .bottom-sheet {
   position: absolute;
-  bottom: 0;
+  bottom: 80px;
   left: 0;
   right: 0;
-  background-color: var(--white-color); //
+  background-color: var(--white-color);
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
   box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
-  padding-bottom: 70px; /* Espaço para o footer */
-  max-height: 80%; // Altura máxima que o sheet pode ocupar
+  max-height: 80vh;
   display: flex;
   flex-direction: column;
-  z-index: 10; // Garante que fique acima do mapa
+  z-index: 10;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+
+  &.expanded .list {
+    max-height: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
 }
 
 .handle {
@@ -43,64 +48,63 @@
   background-color: #ccc;
   border-radius: 2px;
   margin: 8px auto;
-  cursor: grab; // (Opcional: adicionar funcionalidade de arrastar depois)
+  cursor: grab;
 }
 
 .expand-button-wrapper {
   display: flex;
   justify-content: center;
-  margin-bottom: 16px;
-  padding-top: 8px; // Pequeno espaço acima do botão
+  padding-top: 8px;
 }
 
 .expand-button {
-  background-color: var(--primary-color); //
+  background-color: var(--primary-color);
   color: white;
   border-radius: 20px;
   padding: 0 16px;
+  height: 40px;
+  line-height: 40px;
 
   mat-icon {
     margin-right: 8px;
+    vertical-align: middle;
   }
 }
 
 .tab-content {
   overflow-y: auto;
-  // Ajuste a altura máxima conforme o espaço disponível após as abas e header
-  max-height: calc(80vh - 200px); // Exemplo: 80% da altura da tela menos ~200px para header/tabs/etc.
-  padding: 0 16px; // Padding lateral para o conteúdo das abas
+  padding: 0 16px;
 }
 
 .empty-state {
   text-align: center;
   padding: 2rem;
-  color: var(--text-color-light-light); //
+  color: var(--text-color-light-light);
 }
 
 .see-more-button {
   display: block;
   margin: 16px auto;
   border-radius: 20px;
-  color: var(--text-color-dark); //
-  border-color: var(--text-color-light-light); //
+  color: var(--text-color-dark);
+  border-color: var(--text-color-light-light);
 }
 
-// Estilos para o Angular Material Tabs
 :host ::ng-deep {
   .mat-mdc-tab-body-wrapper {
-    height: 100%; // Garante que o corpo da aba ocupe o espaço
+    height: 100%;
   }
   .mat-mdc-tab-group {
-    flex-grow: 1; // Permite que o grupo de abas cresça
+    flex-grow: 1;
     display: flex;
-    flex-direction: column; // Empilha header e content verticalmente
+    flex-direction: column;
   }
   .mat-mdc-tab-header {
-     // Garante que o header não encolha
+    flex-shrink: 0;
     margin: 0 16px;
   }
   .mat-mdc-tab-body-content {
-    flex-grow: 1; // Permite que o conteúdo da aba ocupe o espaço
+    flex-grow: 1;
     overflow: hidden;
   }
 }
