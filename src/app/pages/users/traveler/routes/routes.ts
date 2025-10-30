@@ -10,6 +10,7 @@ import {
   MapItemCardComponent,
 } from '../../../../components/map-item-card/map-item-card';
 import { HeaderTitle } from "../../../../components/header-title/header-title";
+import { FooterUsercomumComponent } from "../../../../components/public/bottom-menu/bottom-menu.component";
 
 @Component({
   selector: 'app-routes',
@@ -20,7 +21,8 @@ import { HeaderTitle } from "../../../../components/header-title/header-title";
     MatButtonModule,
     MatIconModule,
     MapItemCardComponent,
-    HeaderTitle
+    HeaderTitle,
+    FooterUsercomumComponent
 ],
   templateUrl: './routes.html',
   styleUrls: ['./routes.scss'],

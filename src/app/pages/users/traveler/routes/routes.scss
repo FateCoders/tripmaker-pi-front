@@ -4,6 +4,14 @@
   width: 100%;
 }
 
+.routes-container {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--background-color-light);
+}
+
 .page-content {
   padding: 16px;
   padding-bottom: 80px;
