@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { FooterUsercomumComponent } from "../../../../components/public/bottom-menu/bottom-menu.component";
+import { MapViewComponent } from "../../../map-view/map-view";
 
 @Component({
   selector: 'app-events',
-  imports: [FooterUsercomumComponent],
+  imports: [MapViewComponent],
   templateUrl: './events.html',
   styleUrl: './events.scss'
 })
