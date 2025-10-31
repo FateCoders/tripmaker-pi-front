@@ -1,10 +1,10 @@
 // Importando o layout base de outras páginas "home"
 .home-container {
   display: grid;
-  grid-template-rows: 1fr auto; // Conteúdo rolável + menu fixo
+  grid-template-rows: 1fr auto;
   min-height: 100vh;
   min-height: 100dvh;
-  background: var(--background-color-light); // Fundo claro
+  background: var(--background-color-light);
 }
 
 .home-content {
@@ -52,6 +52,7 @@
 
   .menu-link {
     text-decoration: none;
+    cursor: pointer; // Adicionado para links de ação
   }
 
   .menu-item {

@@ -14,13 +14,14 @@ import { AdministratorHome } from './pages/users/administrator/administrator-hom
 import { EntrepreneurHome } from './pages/users/entrepreneur/entrepreneur-home/entrepreneur-home';
 import { TourismPromoterHome } from './pages/users/tourism-promoter/tourism-promoter-home/tourism-promoter-home';
 import { TravelerHome } from './pages/users/traveler/traveler-home/traveler-home';
-import { TravelerProfile } from './pages/users/traveler/profile/profile';
-import { TravelerPermissions } from './pages/users/traveler/permissions/permissions';
+import { TravelerPermissions } from './pages/permissions/permissions';
 import { TravelerRoutes } from './pages/users/traveler/routes/routes';
 import { TravelerEvents } from './pages/users/traveler/events/events';
 import { PreferencesComponent } from './pages/users/traveler/preferences/preferences';
 import { MapViewComponent } from './pages/map-view/map-view';
 import { EventDetailsComponent } from './pages/event-details/event-details';
+
+import { Profile } from './pages/profile/profile.component';
 
 export const routes: Routes = [
   // ROTAS GERAIS
@@ -64,10 +65,10 @@ export const routes: Routes = [
   },
   {
     path: 'viajante/perfil',
-    component: TravelerProfile,
+    component: Profile,
     title: 'Perfil do Viajante',
     canActivate: [authGuard, roleGuard('viajante')],
-    data: { animation: 'ViajanteProfilePage' },
+    data: { animation: 'ProfilePage' },
   },
   {
     path: 'viajante/permissoes',
@@ -106,6 +107,7 @@ export const routes: Routes = [
     component: EventDetailsComponent,
     title: 'Detalhes do Evento',
   },
+
   // ROTAS DE EMPREENDEDOR
   {
     path: 'empreendedor/inicio',
@@ -113,6 +115,14 @@ export const routes: Routes = [
     title: 'Início do Empreendedor',
     canActivate: [authGuard, roleGuard('empreendedor')],
     data: { animation: 'EmpreendedorHomePage' },
+  },
+  // Nova rota de perfil para Empreendedor
+  {
+    path: 'empreendedor/perfil',
+    component: Profile,
+    title: 'Perfil do Empreendedor',
+    canActivate: [authGuard, roleGuard('empreendedor')],
+    data: { animation: 'ProfilePage' },
   },
 
   // ROTAS DE PROMOTOR TURÍSTICO
@@ -122,6 +132,14 @@ export const routes: Routes = [
     title: 'Início do Promotor Turístico',
     canActivate: [authGuard, roleGuard('promotor-turistico')],
     data: { animation: 'PromotorTuristicoHomePage' },
+  },
+  // Nova rota de perfil para Promotor
+  {
+    path: 'promotor-turistico/perfil',
+    component: Profile,
+    title: 'Perfil do Promotor Turístico',
+    canActivate: [authGuard, roleGuard('promotor-turistico')],
+    data: { animation: 'ProfilePage' },
   },
 
   {
@@ -137,6 +155,14 @@ export const routes: Routes = [
     title: 'Início do Administrador',
     canActivate: [authGuard, roleGuard('administrador')],
     data: { animation: 'AdministradorHomePage' },
+  },
+  // Nova rota de perfil para Administrador
+  {
+    path: 'administrador/perfil',
+    component: Profile,
+    title: 'Perfil do Administrador',
+    canActivate: [authGuard, roleGuard('administrador')],
+    data: { animation: 'ProfilePage' },
   },
 
   // PÁGINA NÃO ENCONTRADA
