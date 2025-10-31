@@ -42,6 +42,12 @@
       margin-right: 6px;
     }
   }
+
+  @media (max-width: 600px) {
+    .view-more-btn {
+      left: 17%;
+    }
+  }
 }
 
 .card-content {

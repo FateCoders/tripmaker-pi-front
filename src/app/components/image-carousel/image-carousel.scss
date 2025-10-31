@@ -1,11 +1,15 @@
 .carousel-container {
   overflow-x: auto;
-  padding: 16px 0 16px 12px;
+  padding: 16px 12px;
   -webkit-overflow-scrolling: touch;
+
   scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none;
   }
+
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
 }
 
 .carousel-track {
@@ -15,9 +19,21 @@
 }
 
 .carousel-image {
-  width: 300px;
+  width: 80vw;
   height: 220px;
   object-fit: cover;
   border-radius: 28px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+  scroll-snap-align: start;
+}
+
+@media (min-width: 768px) {
+  .carousel-container {
+    scroll-snap-type: none;
+  }
+
+  .carousel-image {
+    width: 150px;
+  }
 }

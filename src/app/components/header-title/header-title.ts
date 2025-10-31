@@ -14,10 +14,16 @@ export class HeaderTitle {
   @Input() title: string = '';
   @Input() subtitle: string = '';
   @Input() showBackButton: boolean = false;
+  @Input() showResetButton: boolean = false;
 
   @Output() backClick = new EventEmitter<void>();
+  @Output() resetClick = new EventEmitter<void>();
 
   onBackClick(): void {
     this.backClick.emit();
+  }
+
+  onResetClick(): void {
+    this.resetClick.emit();
   }
 }

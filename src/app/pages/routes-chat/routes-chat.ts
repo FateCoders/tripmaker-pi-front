@@ -11,12 +11,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ChatService } from '../../services/chat.service';
 import { ChatMessage } from '../../interfaces/chat-message';
-import { HeaderTitle } from "../../components/header-title/header-title";
-import { ChatBubbleComponent } from "../../components/chat-bubble/chat-bubble";
-import { c } from "../../../../node_modules/@angular/cdk/a11y-module.d--J1yhM7R";
+import { HeaderTitle } from '../../components/header-title/header-title';
+import { ChatBubbleComponent } from '../../components/chat-bubble/chat-bubble';
+import { c } from '../../../../node_modules/@angular/cdk/a11y-module.d--J1yhM7R';
 import { ImageCarouselComponent } from '../../components/image-carousel/image-carousel';
 import { CardCarouselComponent } from '../../components/card-carousel/card-carousel';
-import { MatChipListbox, MatChipOption } from "@angular/material/chips";
+import { MatChipListbox, MatChipOption } from '@angular/material/chips';
 
 @Component({
   selector: 'app-routes-chat',
@@ -34,8 +34,8 @@ import { MatChipListbox, MatChipOption } from "@angular/material/chips";
     ImageCarouselComponent,
     CardCarouselComponent,
     MatChipListbox,
-    MatChipOption
-],
+    MatChipOption,
+  ],
   templateUrl: './routes-chat.html',
   styleUrls: ['./routes-chat.scss'],
 })
@@ -115,9 +115,7 @@ export class RoutesChatComponent implements OnInit, AfterViewChecked {
   }
 
   saveRoute(): void {
-    console.log(
-      'Botão "Salvar Roteiro" clicado. Navegar para a próxima etapa.'
-    );
+    console.log('Botão "Salvar Roteiro" clicado. Navegar para a próxima etapa.');
   }
 
   private addLoadingMessage(): void {
@@ -148,5 +146,9 @@ export class RoutesChatComponent implements OnInit, AfterViewChecked {
     } catch (err) {
       console.error('Scroll to bottom failed', err);
     }
+  }
+
+  reset(): void {
+    this.ngOnInit();
   }
 }

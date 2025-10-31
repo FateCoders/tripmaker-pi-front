@@ -2,6 +2,7 @@
   title="Novo Roteiro"
   [showBackButton]="true"
   (backClick)="goBack()"
+  (resetClick)="reset()"
 ></app-header-title>
 
 <div class="chat-container">
@@ -18,11 +19,10 @@
   </div>
 
   <div class="chat-input-footer">
-    
     <div class="suggestion-chips-container">
       <mat-chip-listbox aria-label="Sugestões de Roteiro">
         @for(tip of suggestions; track tip) {
-          <mat-chip-option (click)="sendSuggestion(tip)">{{ tip }}</mat-chip-option>
+        <mat-chip-option (click)="sendSuggestion(tip)">{{ tip }}</mat-chip-option>
         }
       </mat-chip-listbox>
     </div>
@@ -36,9 +36,10 @@
           placeholder="Digite sua mensagem..."
         />
       </mat-form-field>
-      
+
       <button mat-icon-button class="action-button" (click)="saveRoute()">
-        <mat-icon>save_alt</mat-icon> </button>
+        <mat-icon>save</mat-icon>
+      </button>
 
       <button
         mat-icon-button
@@ -48,6 +49,7 @@
       >
         <mat-icon>send</mat-icon>
       </button>
+      
     </div>
   </div>
 </div>

@@ -18,3 +18,9 @@
   width: 280px;
   flex-shrink: 0;
 }
+
+@media (max-width: 600px) {
+  .carousel-card {
+    width: 190px;
+  }
+}

@@ -11,4 +11,10 @@
     <p class="subtitle">{{ subtitle }}</p>
     }
   </div>
+
+  @if (showBackButton) {
+  <button mat-icon-button (click)="onResetClick()" class="back-button">
+    <mat-icon>history</mat-icon>
+  </button>
+  }
 </div>
