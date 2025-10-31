@@ -34,6 +34,7 @@
     "@angular/platform-server": "^20.1.0",
     "@angular/router": "^20.1.0",
     "@angular/ssr": "^20.1.6",
+    "chart.js": "^4.5.1",
     "express": "^5.1.0",
     "lottie-web": "^5.13.0",
     "ngx-lottie": "^20.0.0",
