@@ -1,3 +1,34 @@
-<p>tourism-promoter-home works!</p>
+<div class="home-container">
+  <app-header-title
+    [title]="'Minhas Atividades'"
+    [subtitle]="'Roteiros, rotas e eventos a serem realizados por você'"
+  ></app-header-title>
 
-<app-bottom-menu></app-bottom-menu>
+  <main class="home-content">
+    <app-tabs-list [tabs]="tabs" (tabChanged)="onTabChanged($event)"></app-tabs-list>
+
+    @if (activeTab === 'Rotas') {
+      <mat-list>
+        @for(route of availableRoutes; track route.id) {
+          <mat-list-item>
+            <span matListItemTitle>{{ route.title }}</span>
+            <span matListItemLine>{{ route.description }}</span>
+            <button mat-flat-button color="primary" (click)="subscribeToRoute(route.id)">
+              Inscrever-se
+            </button>
+          </mat-list-item>
+        } @empty {
+          <div class="empty-state" style="text-align: center; padding: 20px;">Nenhuma rota encontrada.</div>
+        }
+      </mat-list>
+    } @else {
+      <app-list-view
+        [items]="currentItems"
+        [enableSearch]="false"
+        [enableFilter]="false"
+      ></app-list-view>
+    }
+  </main>
+
+  <app-bottom-menu></app-bottom-menu>
+</div>

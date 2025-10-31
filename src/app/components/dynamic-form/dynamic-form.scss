@@ -1,58 +1,59 @@
 :host {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-    }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
 
-    .form_container {
-      width: 100%;
-      max-width: 400px;
-      padding: 2rem;
-      border-radius: 8px;
-    }
+.form_container {
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+  border-radius: 8px;
+}
 
-    .form-title {
-      font-weight: normal;
-      color: var(--text-color-light);
-      text-align: center;
-    }
+.form-title {
+  font-weight: normal;
+  color: var(--text-color-light);
+  text-align: center;
+}
 
-    .dynamicForm {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
+.dynamicForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
 
-    .form-field {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
+.form-field {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 
-      .mat-form-field-appearance-fill {
-          --mat-form-field-filled-label-text-color: var(--text-color-light);
-          --mat-form-field-filled-label-text-size: 16px;
-          --mat-form-field-filled-container-color: transparent;
-        }
-    }
+  .mat-form-field-appearance-fill {
+    --mat-form-field-filled-label-text-color: var(--text-color-light);
+    --mat-form-field-filled-label-text-size: 16px;
+    --mat-form-field-filled-container-color: transparent;
+  }
+}
 
-    mat-form-field {
-      width: 100%;
-    }
+mat-form-field {
+  width: 100%;
+}
 
-    .error-message {
-      margin-top: -10px;
-      margin-bottom: 10px;
-      padding-left: 4px;
-    }
+.error-message {
+  margin-top: -10px;
+  margin-bottom: 10px;
+  padding-left: 4px;
+}
 
-    .error-message small {
-      color: #f44336;
-      font-size: 0.75rem;
-    }
+.error-message small {
+  color: #f44336;
+  font-size: 0.75rem;
+}
 
-    button {
-        background: var(--primary-color-dark);
-        color: var(--white-color);
-        padding: 0 50px;
-    }
+button {
+  background: var(--primary-color-dark);
+  color: var(--white-color);
+  padding: 0 50px;
+  text-decoration: none;
+}
