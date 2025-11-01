@@ -66,14 +66,18 @@ export class EntrepreneurHome implements OnInit, OnDestroy {
   }
 
   /**
-   * Carrega os dados do comércio a partir do CommerceService.
+   * Carrega os dados do comércio ATIVO a partir do CommerceService.
    */
   loadBusinessData(): void {
     this.isLoading = true;
-    this.businessSub = this.commerceService.getCommerceForUser().subscribe(
+    this.chartInstance?.destroy(); // Destroi gráfico antigo
+    this.chartInstance = undefined;
+
+    // MODIFICADO: Assina o getActiveCommerce()
+    this.businessSub = this.commerceService.getActiveCommerce().subscribe(
       (data) => {
-        if (data && data.length > 0) {
-          this.businessData = data[0];
+        if (data) {
+          this.businessData = data;
           this.hasBusiness = true;
         } else {
           this.businessData = null;
@@ -82,6 +86,8 @@ export class EntrepreneurHome implements OnInit, OnDestroy {
 
         this.isLoading = false;
 
+        // Força detecção de mudanças, pois os dados podem chegar
+        // antes do canvas estar pronto (ou vice-versa)
         this.cdr.detectChanges();
 
         this.createChartIfReady();
@@ -106,10 +112,11 @@ export class EntrepreneurHome implements OnInit, OnDestroy {
   }
 
   /**
-   * Navega para a página de cadastro de comércio.
+   * Navega para a página de cadastro de comércio (agora, a lista).
    */
   navigateToRegisterCommerce(): void {
-    console.log('Navegando para o cadastro de comércio...');
+    // MODIFICADO: Navega para a lista de comercios
+    this.router.navigate(['/empreendedor/comercios']);
   }
 
   /**
@@ -149,10 +156,12 @@ export class EntrepreneurHome implements OnInit, OnDestroy {
     this.chartInstance = new Chart(ctx, {
       type: 'line',
       data: {
+        // Exemplo de dados de gráfico - idealmente viria do businessData
+        labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom'],
         datasets: [
           {
             label: 'Visitantes',
-            data: Array.isArray(data.monthlyVisitors) ? data.monthlyVisitors : [],
+            data: [12, 19, 3, 5, 2, 3, 7], // Dados de exemplo
             fill: true,
             backgroundColor: gradient,
             borderColor: 'var(--primary-color-dark)',

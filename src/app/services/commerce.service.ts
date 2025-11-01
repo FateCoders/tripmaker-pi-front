@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { delay, map, switchMap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { Commerce } from '../interfaces/commerce';
 
@@ -11,7 +11,7 @@ export class CommerceService {
   private allBusinesses: Commerce[] = [
     {
       id: 'b-1',
-      name: 'Nome do comercio',
+      name: 'Conservatório de Tatuí',
       address: 'Praça da Matriz, Tatuí - SP',
       logoUrl: 'assets/images/png/local-entrepreneur.png',
       visitors: '2.5K',
@@ -25,10 +25,60 @@ export class CommerceService {
         query: 'Conservatório de Tatuí, Tatuí - SP',
       },
     },
+    {
+      id: 'b-2',
+      name: 'Floricultura Ternura',
+      address: 'Rua das Flores, 123 - Tatuí - SP',
+      logoUrl: 'assets/images/png/commom-user.png', // Imagem de placeholder
+      visitors: '1.2K',
+      rating: 4,
+      priceRange: '$$',
+      hours: '09h00 - 18h00',
+      category: 'Loja',
+      routesCount: 5,
+      monthlyVisitors: 120,
+      location: {
+        query: 'Rua das Flores, 123, Tatuí - SP',
+      },
+    },
   ];
 
+  private activeCommerceId = new BehaviorSubject<string | null>(null);
 
-  getCommerceForUser(): Observable<Commerce[]> {
+  getAllCommercesForUser(): Observable<Commerce[]> {
     return of(this.allBusinesses).pipe(delay(500));
+  }
+
+  selectCommerce(id: string): void {
+    this.activeCommerceId.next(id);
+  }
+
+  getActiveCommerce(): Observable<Commerce | null> {
+    return this.activeCommerceId.pipe(
+      switchMap(activeId => {
+        return this.getAllCommercesForUser().pipe(
+          map(commerces => {
+            if (commerces.length === 0) {
+              return null;
+            }
+
+            if (activeId) {
+              const found = commerces.find(c => c.id === activeId);
+              if (found) {
+                return found;
+              }
+            }
+
+            this.activeCommerceId.next(commerces[0].id);
+            return commerces[0];
+          })
+        );
+      })
+    );
+  }
+
+  registerCommerce(commerceData: Commerce): Observable<boolean> {
+    this.allBusinesses.push(commerceData);
+    return of(true).pipe(delay(500));
   }
 }

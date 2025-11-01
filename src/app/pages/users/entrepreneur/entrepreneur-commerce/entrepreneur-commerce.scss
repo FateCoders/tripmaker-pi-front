@@ -1,0 +1,85 @@
+// Importa estilos de layout e cards que já existem
+@import '../entrepreneur-home/entrepreneur-home.scss';
+
+.list-container {
+  display: grid;
+  grid-template-rows: auto 1fr auto; // Cabeçalho, Conteúdo, Rodapé
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--background-color-light);
+}
+
+.list-content {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 1rem; // Espaçamento entre os cards
+}
+
+// Estilo para cada item da lista
+.commerce-list-item {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  // Pega o estilo de business-info do home
+  .business-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem; // Adiciona espaço para os stats
+
+    .business-logo {
+      width: 48px;
+      height: 48px;
+    }
+
+    .business-name {
+      flex-grow: 1;
+    }
+
+    .chevron-icon {
+      color: var(--text-color-light-light);
+    }
+  }
+
+  // Pega o estilo de business-stats-card do home
+  .business-stats-card {
+    padding: 0; // Remove padding do wrapper
+    box-shadow: none; // Remove sombra do wrapper
+    background: none; // Remove fundo do wrapper
+  }
+}
+
+// Container para o botão flutuante
+.fab-container {
+  position: fixed;
+  right: 16px;
+  bottom: 80px; // Posição acima do bottom-menu
+  z-index: 100;
+
+  button {
+    background-color: var(--primary-color-dark);
+    color: var(--white-color);
+  }
+}
+
+// Estilos para o estado vazio, reutilizando do home
+.empty-state-container {
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-color-dark);
+    margin: 0;
+  }
+  p {
+    font-size: 0.9rem;
+    color: var(--text-color-light);
+    max-width: 280px;
+  }
+}

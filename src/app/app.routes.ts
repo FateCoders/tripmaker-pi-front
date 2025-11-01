@@ -22,6 +22,8 @@ import { MapViewComponent } from './pages/map-view/map-view';
 import { EventDetailsComponent } from './pages/event-details/event-details';
 
 import { Profile } from './pages/profile/profile.component';
+import { EntrepreneurCommerce } from './pages/users/entrepreneur/entrepreneur-commerce/entrepreneur-commerce';
+import { EntrepreneurNewCommerce } from './pages/users/entrepreneur/entrepreneur-new-commerce/entrepreneur-new-commerce';
 
 export const routes: Routes = [
   // ROTAS GERAIS
@@ -155,6 +157,20 @@ export const routes: Routes = [
     title: 'Início do Administrador',
     canActivate: [authGuard, roleGuard('administrador')],
     data: { animation: 'AdministradorHomePage' },
+  },
+  {
+    path: 'empreendedor/comercios',
+    component: EntrepreneurCommerce,
+    title: 'Meus Comércios',
+    canActivate: [authGuard, roleGuard('empreendedor')],
+    data: { animation: 'EmpreendedorComerciosPage' },
+  },
+  {
+    path: 'empreendedor/comercios/cadastro',
+    component: EntrepreneurNewCommerce,
+    title: 'Cadastrar Comércio',
+    canActivate: [authGuard, roleGuard('empreendedor')],
+    data: { animation: 'EmpreendedorNewCommercePage' },
   },
   // Nova rota de perfil para Administrador
   {
