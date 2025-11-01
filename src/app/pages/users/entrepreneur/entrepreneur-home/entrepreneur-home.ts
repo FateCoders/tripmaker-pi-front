@@ -4,42 +4,21 @@ import {
   inject,
   ViewChild,
   ElementRef,
-  OnDestroy, // 1. Importar OnDestroy
+  OnDestroy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { AuthService } from '../../../../services/auth.service';
+import { Router } from '@angular/router';
+import { Chart, TooltipItem } from 'chart.js/auto';
+import { Subscription } from 'rxjs';
+
 import { FooterUsercomumComponent } from '../../../../components/public/bottom-menu/bottom-menu.component';
 import { HeaderTitle } from '../../../../components/header-title/header-title';
-import { Router } from '@angular/router';
-import {
-  Chart,
-  TooltipItem,
-} from 'chart.js/auto'; // Importação do Chart.js
-
-// Interface para os dados do comércio (baseado no protótipo)
-interface BusinessData {
-  name: string;
-  address: string;
-  logoUrl: string;
-  visitors: string;
-  rating: number;
-  priceRange: string;
-  hours: string;
-  category: string;
-  routesCount: number;
-  monthlyVisitors: number;
-  chartData: {
-    labels: string[];
-    values: number[];
-  };
-  mapLocation: {
-    query: string;
-  };
-}
+import { CommerceService } from '../../../../services/commerce.service';
+import { Commerce } from '../../../../interfaces/commerce';
 
 @Component({
   selector: 'app-entrepreneur-home',
@@ -47,7 +26,6 @@ interface BusinessData {
   imports: [
     CommonModule,
     MatListModule,
-    MatSlideToggleModule,
     FooterUsercomumComponent,
     HeaderTitle,
     MatButtonModule,
@@ -56,132 +34,134 @@ interface BusinessData {
   templateUrl: './entrepreneur-home.html',
   styleUrl: './entrepreneur-home.scss',
 })
-// 2. Implementar OnDestroy
 export class EntrepreneurHome implements OnInit, OnDestroy {
-  private authService = inject(AuthService);
+  private commerceService = inject(CommerceService);
   private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef)
 
+  private businessSub: Subscription | undefined;
   private chartInstance: Chart | undefined;
 
-  // 3. Alterar o ViewChild para usar um 'set' accessor
-  // Isso garante que o gráfico seja criado assim que o <canvas> entrar no DOM
   private chartRef: ElementRef<HTMLCanvasElement> | undefined;
   @ViewChild('visitorsChart') set visitorsChart(
     elRef: ElementRef<HTMLCanvasElement> | undefined
   ) {
     if (elRef) {
-      // O canvas agora existe no DOM
       this.chartRef = elRef;
-      this.createChartIfReady(); // Tenta criar o gráfico
+      this.createChartIfReady()
     }
   }
 
   isLoading = true;
   hasBusiness = false;
-  businessData: BusinessData | null = null;
-  mapEmbedUrl: string | null = null;
+  businessData: Commerce | null = null;
 
   ngOnInit(): void {
-    this.checkBusinessStatus();
+    this.loadBusinessData();
   }
 
-  // 4. Implementar ngOnDestroy para limpar o gráfico ao sair da tela
   ngOnDestroy(): void {
-    if (this.chartInstance) {
-      this.chartInstance.destroy();
-    }
+    this.businessSub?.unsubscribe();
+    this.chartInstance?.destroy();
   }
 
-  checkBusinessStatus(): void {
+  /**
+   * Carrega os dados do comércio a partir do CommerceService.
+   */
+  loadBusinessData(): void {
     this.isLoading = true;
-    const user = this.authService.getCurrentUser();
+    this.businessSub = this.commerceService.getCommerceForUser().subscribe(
+      (data) => {
+        if (data && data.length > 0) {
+          this.businessData = data[0];
+          this.hasBusiness = true;
+        } else {
+          this.businessData = null;
+          this.hasBusiness = false;
+        }
 
-    // Simulação de API
-    setTimeout(() => {
-      if (user && user.email === 'empreendedor@email.com') {
-        this.hasBusiness = true;
-        this.businessData = {
-          name: 'Nome do comercio',
-          address: 'Praça da Matriz, Tatuí - SP',
-          logoUrl: 'assets/images/png/local-entrepreneur.png',
-          visitors: '2.5K',
-          rating: 5,
-          priceRange: '$$ - $$$',
-          hours: '00h00 - 00h00',
-          category: 'Comércio',
-          routesCount: 13,
-          monthlyVisitors: 235,
-          chartData: {
-            labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
-            values: [65, 59, 80, 81, 56, 120],
-          },
-          mapLocation: {
-            query: 'Conservatório de Tatuí, Tatuí - SP',
-          },
-        };
-        this.mapEmbedUrl = this.getGoogleMapsEmbedUrl(
-          this.businessData.mapLocation.query
-        );
-      } else {
+        this.isLoading = false;
+
+        this.cdr.detectChanges();
+
+        this.createChartIfReady();
+      },
+      (error) => {
+        console.error('Erro ao buscar dados do comércio:', error);
+        this.isLoading = false;
         this.hasBusiness = false;
       }
-      this.isLoading = false;
-
-      // 5. Tenta criar o gráfico *depois* que os dados chegarem
-      this.createChartIfReady();
-    }, 500);
+    );
   }
 
-  // 6. Novo helper para centralizar a lógica de criação
+
+  /**
+   * Getter para calcular as estrelas de avaliação.
+   */
+  get ratingStars(): boolean[] {
+    if (!this.businessData) return [];
+    return Array(5)
+      .fill(false)
+      .map((_, i) => i < this.businessData!.rating);
+  }
+
+  /**
+   * Navega para a página de cadastro de comércio.
+   */
+  navigateToRegisterCommerce(): void {
+    console.log('Navegando para o cadastro de comércio...');
+  }
+
+  /**
+   * Atualiza os dados do comércio.
+   */
+  refreshData(): void {
+    console.log('Atualizando dados do comércio...');
+    this.loadBusinessData();
+  }
+
+
+  /**
+   * Verifica se os dados e o canvas estão prontos para criar o gráfico.
+   */
   private createChartIfReady(): void {
-    // Só cria o gráfico se:
-    // 1. Não estiver no servidor (SSR)
-    // 2. Tiver um negócio (dados carregados)
-    // 3. O elemento <canvas> (#visitorsChart) já estiver renderizado e no chartRef
-    if (typeof window !== 'undefined' && this.hasBusiness && this.chartRef) {
-      this.createVisitorsChart();
+    if (typeof window !== 'undefined' && this.hasBusiness && this.chartRef && this.businessData) {
+      this.createVisitorsChart(this.chartRef.nativeElement, this.businessData);
     }
   }
 
-  private createVisitorsChart(): void {
-    if (!this.chartRef || !this.businessData) return; // Checagem dupla
-
-    const canvas = this.chartRef.nativeElement;
+  /**
+   * Cria a instância do Chart.js.
+   */
+  private createVisitorsChart(canvas: HTMLCanvasElement, data: Commerce): void {
     const ctx = canvas.getContext('2d');
     if (!ctx) {
       console.error('Falha ao obter o contexto 2D do canvas.');
-      return; // Parar se o contexto não estiver disponível
+      return;
     }
 
-    // Destrói gráfico anterior se existir (para o caso de refresh)
-    if (this.chartInstance) {
-      this.chartInstance.destroy();
-    }
+    this.chartInstance?.destroy();
 
-    // Criação do Gradiente
     const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height * 1.5);
-    gradient.addColorStop(0, 'rgba(3, 94, 208, 0.4)'); // Cor primária com opacidade
-    gradient.addColorStop(1, 'rgba(3, 94, 208, 0)'); // Transparente
+    gradient.addColorStop(0, 'rgba(3, 94, 208, 0.4)');
+    gradient.addColorStop(1, 'rgba(3, 94, 208, 0)');
 
-    // Configuração do Gráfico
     this.chartInstance = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: this.businessData.chartData.labels,
         datasets: [
           {
             label: 'Visitantes',
-            data: this.businessData.chartData.values,
-            fill: true, // Preencher área
-            backgroundColor: gradient, // Aplicar gradiente
+            data: Array.isArray(data.monthlyVisitors) ? data.monthlyVisitors : [],
+            fill: true,
+            backgroundColor: gradient,
             borderColor: 'var(--primary-color-dark)',
             borderWidth: 2.5,
-            tension: 0.4, // Linha curvada
-            // Estilo dos Pontos
+            tension: 0.4,
             pointBackgroundColor: 'var(--primary-color-dark)',
-            pointRadius: 0, // Pontos invisíveis por padrão
+            pointRadius: 0,
             pointBorderWidth: 0,
-            pointHoverRadius: 6, // Ponto aparece no hover
+            pointHoverRadius: 6,
             pointHoverBackgroundColor: 'var(--primary-color-dark)',
             pointHoverBorderColor: 'var(--white-color)',
             pointHoverBorderWidth: 2,
@@ -191,14 +171,13 @@ export class EntrepreneurHome implements OnInit, OnDestroy {
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        // Configuração de Interatividade (Tooltips)
         interaction: {
-          mode: 'index', // Mostrar tooltip para o índice X mais próximo
-          intersect: false, // Ativar tooltip mesmo sem tocar o ponto exato
+          mode: 'index',
+          intersect: false,
         },
         plugins: {
           legend: {
-            display: false, // Esconder a legenda
+            display: false,
           },
           tooltip: {
             enabled: true,
@@ -208,20 +187,18 @@ export class EntrepreneurHome implements OnInit, OnDestroy {
             padding: 10,
             caretPadding: 10,
             cornerRadius: 8,
-            displayColors: false, // Esconder o quadradinho de cor
+            displayColors: false,
             callbacks: {
-              // Formatar o texto do tooltip
               label: (context: TooltipItem<'line'>) => {
                 return `${context.parsed.y} visitantes`;
               },
             },
           },
         },
-        // Configuração dos Eixos (Scales)
         scales: {
           x: {
             grid: {
-              display: false, // Remover linhas de grade verticais
+              display: false,
             },
             ticks: {
               color: 'var(--text-color-light)',
@@ -230,7 +207,7 @@ export class EntrepreneurHome implements OnInit, OnDestroy {
           y: {
             beginAtZero: true,
             grid: {
-              color: 'rgba(0, 0, 0, 0.05)', // Linhas de grade horizontais bem claras
+              color: 'rgba(0, 0, 0, 0.05)',
             },
             ticks: {
               color: 'var(--text-color-light)',
@@ -240,35 +217,5 @@ export class EntrepreneurHome implements OnInit, OnDestroy {
         },
       },
     });
-  }
-
-  private getGoogleMapsEmbedUrl(query: string): string {
-    const apiKey = 'SUA_API_KEY_AQUI';
-    if (apiKey === 'SUA_API_KEY_AQUI') {
-      console.warn(
-        'Substitua "SUA_API_KEY_AQUI" pela sua chave da API do Google Maps para o mapa funcionar.'
-      );
-      // Retorna uma query genérica caso a chave não esteja definida
-      return 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d58673.07921890356!2d-47.88725831102927!3d-23.3512140669299!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94c5d8e7b165296d%3A0x6a0a09e0a80e1c31!2sTatu%C3%AD%2C%20SP!5e0!3m2!1spt-BR!2sbr!4v1730219812345!5m2!1spt-BR!2sbr?q=Tatuí, SP';
-    }
-    const encodedQuery = encodeURIComponent(query);
-    return `https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${encodedQuery}`;
-  }
-
-  get ratingStars(): boolean[] {
-    if (!this.businessData) return [];
-    return Array(5)
-      .fill(false)
-      .map((_, i) => i < this.businessData!.rating);
-  }
-
-  navigateToRegisterCommerce(): void {
-    console.log('Navegando para o cadastro de comércio...');
-    // Exemplo: this.router.navigate(['/empreendedor/cadastrar-comercio']);
-  }
-
-  refreshData(): void {
-    console.log('Atualizando dados do comércio...');
-    this.checkBusinessStatus();
   }
 }
