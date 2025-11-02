@@ -22,6 +22,8 @@ import { PreferencesComponent } from './pages/users/traveler/preferences/prefere
 import { MapViewComponent } from './pages/map-view/map-view';
 import { EventDetailsComponent } from './pages/event-details/event-details';
 import { RoutesChatComponent } from './pages/routes-chat/routes-chat';
+import { RouteSummaryComponent } from './pages/route-summary/route-summary';
+import { RouteSaveComponent } from './pages/route-save/route-save';
 
 export const routes: Routes = [
   // ROTAS GERAIS
@@ -30,21 +32,21 @@ export const routes: Routes = [
     component: Login,
     title: 'Página de login',
     canActivate: [loginGuard],
-    data: { animation: 'LoginPage' }
+    data: { animation: 'LoginPage' },
   },
   {
     path: 'landing',
     component: LandingComponent,
     title: 'Página de recepção',
     canActivate: [authGuard],
-    data: { animation: 'LandingPage' }
+    data: { animation: 'LandingPage' },
   },
   {
     path: 'profile',
     component: SelectProfile,
     title: 'Escolha um perfil',
     canActivate: [loginGuard],
-    data: { animation: 'SelectProfilePage' }
+    data: { animation: 'SelectProfilePage' },
   },
   {
     path: 'cadastro',
@@ -52,7 +54,7 @@ export const routes: Routes = [
     title: 'Página de cadastro',
     canActivate: [loginGuard],
     canDeactivate: [canDeactivateGuard],
-    data: { animation: 'CadastroPage' }
+    data: { animation: 'CadastroPage' },
   },
 
   // ROTAS DE VIAJANTE
@@ -84,12 +86,26 @@ export const routes: Routes = [
     canActivate: [authGuard, roleGuard('viajante')],
     data: { animation: 'ViajanteRoutesPage' },
   },
-    {
+  {
     path: 'viajante/roteiros/chat',
     component: RoutesChatComponent,
     title: 'Crie seu Roteiro',
     canActivate: [authGuard, roleGuard('viajante')],
     data: { animation: 'ViajanteRoutesChatPage' },
+  },
+  {
+    path: 'viajante/roteiros/resumo',
+    component: RouteSummaryComponent,
+    title: 'Resumo do Roteiro',
+    canActivate: [authGuard, roleGuard('viajante')],
+    data: { animation: 'ViajanteResumoPage' },
+  },
+  {
+    path: 'viajante/roteiros/salvar',
+    component: RouteSaveComponent,
+    title: 'Salvar Roteiro',
+    canActivate: [authGuard, roleGuard('viajante')],
+    data: { animation: 'ViajanteSalvarPage' },
   },
   {
     path: 'viajante/eventos',

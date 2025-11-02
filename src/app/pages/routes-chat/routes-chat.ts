@@ -116,6 +116,7 @@ export class RoutesChatComponent implements OnInit, AfterViewChecked {
 
   saveRoute(): void {
     console.log('Botão "Salvar Roteiro" clicado. Navegar para a próxima etapa.');
+    this.router.navigate(['/viajante/roteiros/resumo']);
   }
 
   private addLoadingMessage(): void {
