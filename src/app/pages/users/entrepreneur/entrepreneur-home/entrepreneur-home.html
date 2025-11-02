@@ -42,16 +42,27 @@
         </div>
       </section>
 
-      <section class="dashboard-card business-tags-card">
-        <span class="tag-item">
-          <mat-icon>attach_money</mat-icon> {{ businessData.priceRange }}
-        </span>
-        <span class="tag-item">
-          <mat-icon>schedule</mat-icon> {{ businessData.hours }}
-        </span>
-        <span class="tag-item">
-          <mat-icon>storefront</mat-icon> {{ businessData.category }}
-        </span>
+      <section class="business-tags-card">
+
+        @if (businessData.priceRange) {
+        <app-chip-button [label]="businessData.priceRange" icon="attach_money" [isDisabled]="true">
+        </app-chip-button>
+        }
+
+        <app-chip-button [label]="businessData.hours" icon="schedule" [isDisabled]="true">
+        </app-chip-button>
+
+        @if (businessData.category) {
+        <app-chip-button [label]="businessData.category" icon="storefront" [isDisabled]="true">
+        </app-chip-button>
+        }
+
+        @if (businessData.caracteristicas) {
+        @for (item of businessData.caracteristicas; track $index) {
+        <app-chip-button [label]="item" [isDisabled]="true">
+        </app-chip-button>
+        }
+        }
       </section>
 
       <section class="dashboard-card routes-map-card">
@@ -61,10 +72,11 @@
           <span class="routes-label">Rotas</span>
         </div>
         <div class="map-placeholder">
+          @if(mapUrl()) {
           <iframe class="map-iframe" width="100%" height="100%" style="border: 0" loading="lazy" allowfullscreen
-            referrerpolicy="no-referrer-when-downgrade"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d58673.07921890356!2d-47.88725831102927!3d-23.3512140669299!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94c5d8e7b165296d%3A0x6a0a09e0a80e1c31!2sTatu%C3%AD%2C%20SP!5e0!3m2!1spt-BR!2sbr!4v1730219812345!5m2!1spt-BR!2sbr">
+            referrerpolicy="no-referrer-when-downgrade" [src]="mapUrl()">
           </iframe>
+          }
         </div>
       </section>
 

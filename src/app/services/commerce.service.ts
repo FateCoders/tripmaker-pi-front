@@ -24,12 +24,14 @@ export class CommerceService {
       location: {
         query: 'Conservatório de Tatuí, Tatuí - SP',
       },
+      description: '',
+      caracteristicas: ['Wi-Fi', 'Estacionamento', 'Acessível'],
     },
     {
       id: 'b-2',
       name: 'Floricultura Ternura',
       address: 'Rua das Flores, 123 - Tatuí - SP',
-      logoUrl: 'assets/images/png/commom-user.png', // Imagem de placeholder
+      logoUrl: 'assets/images/png/commom-user.png',
       visitors: '1.2K',
       rating: 4,
       priceRange: '$$',
@@ -40,6 +42,8 @@ export class CommerceService {
       location: {
         query: 'Rua das Flores, 123, Tatuí - SP',
       },
+      description: '',
+      caracteristicas: []
     },
   ];
 

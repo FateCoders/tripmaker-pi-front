@@ -1,4 +1,3 @@
-
 export interface Commerce {
   id: string;
   name: string;
@@ -6,12 +5,15 @@ export interface Commerce {
   logoUrl: string;
   visitors: string;
   rating: number;
-  priceRange: string;
+  priceRange?: string;
   hours: string;
-  category: string;
+  category?: string;
   routesCount: number;
   monthlyVisitors: number;
   location: {
     query: string;
   };
+  description: string;
+  caracteristicas: string[];
+  imagesUrl?: string[];
 }

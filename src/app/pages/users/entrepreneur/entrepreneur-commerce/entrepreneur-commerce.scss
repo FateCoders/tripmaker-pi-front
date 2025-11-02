@@ -83,3 +83,52 @@
     max-width: 280px;
   }
 }
+
+.dashboard-card {
+  margin-bottom: 20px;
+}
+
+// [MODIFICADO] src/app/pages/users/entrepreneur/entrepreneur-home/entrepreneur-home.scss
+
+// ... (outros estilos)
+
+// Card: Tags
+.business-tags-card {
+  display: flex;
+  flex-wrap: nowrap; // <-- AQUI: Impede que os itens quebrem a linha
+  overflow-x: auto; // <-- AQUI: Permite o scroll horizontal
+  justify-content: flex-start; // Alinha os itens ao início
+  gap: 0.75rem;
+  
+  // Ajustes de layout para ficar idêntico à imagem
+  padding: 1rem 0 1rem 1rem; // Adiciona padding só no início
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  
+  // Remove a barra de rolagem visualmente
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none; /* IE e Edge */
+  scrollbar-width: none; /* Firefox */
+
+  .tag-item {
+    flex-shrink: 0; // <-- AQUI: Impede que o item se encolha
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+    color: var(--text-color-light);
+    background: var(--white-color);
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--background-color-dark);
+
+    mat-icon {
+      font-size: 1rem;
+    }
+  }
+}
+
+// ... (outros estilos: .routes-map-card, .visitors-card, etc.)

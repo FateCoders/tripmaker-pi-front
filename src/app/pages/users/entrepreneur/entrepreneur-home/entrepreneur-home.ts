@@ -6,6 +6,7 @@ import {
   ElementRef,
   OnDestroy,
   ChangeDetectorRef,
+  signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,11 +15,15 @@ import { MatListModule } from '@angular/material/list';
 import { Router } from '@angular/router';
 import { Chart, TooltipItem } from 'chart.js/auto';
 import { Subscription } from 'rxjs';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 import { FooterUsercomumComponent } from '../../../../components/public/bottom-menu/bottom-menu.component';
 import { HeaderTitle } from '../../../../components/header-title/header-title';
 import { CommerceService } from '../../../../services/commerce.service';
 import { Commerce } from '../../../../interfaces/commerce';
+import { ChipButtonComponent } from '../../../../components/buttons/chip-button/chip-button';
+
+
 
 @Component({
   selector: 'app-entrepreneur-home',
@@ -30,6 +35,7 @@ import { Commerce } from '../../../../interfaces/commerce';
     HeaderTitle,
     MatButtonModule,
     MatIconModule,
+    ChipButtonComponent
   ],
   templateUrl: './entrepreneur-home.html',
   styleUrl: './entrepreneur-home.scss',
@@ -37,7 +43,8 @@ import { Commerce } from '../../../../interfaces/commerce';
 export class EntrepreneurHome implements OnInit, OnDestroy {
   private commerceService = inject(CommerceService);
   private router = inject(Router);
-  private cdr = inject(ChangeDetectorRef)
+  private cdr = inject(ChangeDetectorRef);
+  private sanitizer = inject(DomSanitizer);
 
   private businessSub: Subscription | undefined;
   private chartInstance: Chart | undefined;
@@ -55,6 +62,7 @@ export class EntrepreneurHome implements OnInit, OnDestroy {
   isLoading = true;
   hasBusiness = false;
   businessData: Commerce | null = null;
+  mapUrl = signal<SafeResourceUrl | null>(null);
 
   ngOnInit(): void {
     this.loadBusinessData();
@@ -65,31 +73,25 @@ export class EntrepreneurHome implements OnInit, OnDestroy {
     this.chartInstance?.destroy();
   }
 
-  /**
-   * Carrega os dados do comércio ATIVO a partir do CommerceService.
-   */
   loadBusinessData(): void {
     this.isLoading = true;
-    this.chartInstance?.destroy(); // Destroi gráfico antigo
+    this.chartInstance?.destroy();
     this.chartInstance = undefined;
+    this.mapUrl.set(null);
 
-    // MODIFICADO: Assina o getActiveCommerce()
     this.businessSub = this.commerceService.getActiveCommerce().subscribe(
       (data) => {
         if (data) {
           this.businessData = data;
           this.hasBusiness = true;
+          this.mapUrl.set(this.getSanitizedMapUrl(data.location.query));
         } else {
           this.businessData = null;
           this.hasBusiness = false;
         }
 
         this.isLoading = false;
-
-        // Força detecção de mudanças, pois os dados podem chegar
-        // antes do canvas estar pronto (ou vice-versa)
         this.cdr.detectChanges();
-
         this.createChartIfReady();
       },
       (error) => {
@@ -100,10 +102,12 @@ export class EntrepreneurHome implements OnInit, OnDestroy {
     );
   }
 
+  private getSanitizedMapUrl(query: string): SafeResourceUrl {
+    const encodedQuery = encodeURIComponent(query);
+    const url = `https://maps.google.com/maps?q=${encodedQuery}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
 
-  /**
-   * Getter para calcular as estrelas de avaliação.
-   */
   get ratingStars(): boolean[] {
     if (!this.businessData) return [];
     return Array(5)
@@ -111,35 +115,21 @@ export class EntrepreneurHome implements OnInit, OnDestroy {
       .map((_, i) => i < this.businessData!.rating);
   }
 
-  /**
-   * Navega para a página de cadastro de comércio (agora, a lista).
-   */
   navigateToRegisterCommerce(): void {
-    // MODIFICADO: Navega para a lista de comercios
     this.router.navigate(['/empreendedor/comercios']);
   }
 
-  /**
-   * Atualiza os dados do comércio.
-   */
   refreshData(): void {
     console.log('Atualizando dados do comércio...');
     this.loadBusinessData();
   }
 
-
-  /**
-   * Verifica se os dados e o canvas estão prontos para criar o gráfico.
-   */
   private createChartIfReady(): void {
     if (typeof window !== 'undefined' && this.hasBusiness && this.chartRef && this.businessData) {
       this.createVisitorsChart(this.chartRef.nativeElement, this.businessData);
     }
   }
 
-  /**
-   * Cria a instância do Chart.js.
-   */
   private createVisitorsChart(canvas: HTMLCanvasElement, data: Commerce): void {
     const ctx = canvas.getContext('2d');
     if (!ctx) {
@@ -156,7 +146,6 @@ export class EntrepreneurHome implements OnInit, OnDestroy {
     this.chartInstance = new Chart(ctx, {
       type: 'line',
       data: {
-        // Exemplo de dados de gráfico - idealmente viria do businessData
         labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom'],
         datasets: [
           {

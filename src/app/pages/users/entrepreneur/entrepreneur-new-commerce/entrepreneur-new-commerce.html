@@ -1,1 +1,133 @@
-<p>entrepreneur-new-commerce works!</p>
+<div class="form-container">
+  <header class="form-header">
+    <button mat-icon-button (click)="goBack()" class="back-button">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="header-text">
+      <h1>Estabelecimento</h1>
+      <p>Cadastrando um Estabelecimento ou Filial</p>
+    </div>
+  </header>
+
+  @if (currentUser) {
+  <section class="user-card">
+    <img src="assets/images/png/local-entrepreneur.png" alt="Empreendedor" class="user-avatar">
+    <div class="user-info">
+      <span class="user-name">{{ currentUser.businessName || currentUser.name }}</span>
+      <span class="user-doc">CNPJ: {{ currentUser.cnpj }}</span>
+    </div>
+    <mat-icon class="user-check">check_circle</mat-icon>
+  </section>
+  }
+
+  <mat-stepper [linear]="true" #stepper class="form-stepper">
+    <mat-step [formGroup]="step1Details">
+      <ng-template matStepLabel>Detalhes</ng-template>
+      <div class="form-step-content">
+
+        <mat-form-field appearance="fill">
+          <mat-label>Nome do estabelecimento</mat-label>
+          <input matInput formControlName="name" required />
+          @if (step1Details.get('name')?.hasError('required')) {
+          <mat-error>O nome é obrigatório.</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="form-textarea">
+          <mat-label>Descrição do estabelecimento</mat-label>
+          <textarea matInput formControlName="description" rows="4"></textarea>
+        </mat-form-field>
+
+        <div class="form-row">
+          <mat-form-field appearance="fill">
+            <mat-label>Horário de Abertura</mat-label>
+            <input matInput formControlName="horarioAbertura" mask="Hh:m0" placeholder="HH:mm" required />
+            @if (step1Details.get('horarioAbertura')?.hasError('required')) {
+            <mat-error>Obrigatório</mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Horário de Fechamento</mat-label>
+            <input matInput formControlName="horarioFechamento" mask="Hh:m0" placeholder="HH:mm" required />
+            @if (step1Details.get('horarioFechamento')?.hasError('required')) {
+            <mat-error>Obrigatório</mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+      </div>
+    </mat-step>
+
+    <mat-step [formGroup]="step2Location">
+      <ng-template matStepLabel>Localização</ng-template>
+      <div class="form-step-content">
+        <mat-form-field appearance="fill">
+          <mat-label>Endereço do estabelecimento</mat-label>
+          <input matInput formControlName="address" placeholder="Ex: Rua das Flores, 123, Tatuí" required />
+          @if (step2Location.get('address')?.hasError('required')) {
+          <mat-error>O endereço é obrigatório.</mat-error>
+          }
+        </mat-form-field>
+
+        <div class="map-container">
+          <iframe [src]="mapUrl()" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+
+        <h3>Características</h3>
+        <div class="caracteristicas-chips" [formGroup]="caracteristicasFormGroup">
+          @for (control of caracteristicasControls; track control.key) {
+          <app-chip-button [label]="control.label" [formControlName]="control.key"></app-chip-button>
+          }
+        </div>
+      </div>
+    </mat-step>
+
+    <mat-step [formGroup]="step3Media">
+      <ng-template matStepLabel>Mídia</ng-template>
+      <div class="form-step-content">
+
+        <label class="upload-label">Logotipo</label>
+        <div class="upload-box-single">
+          <div class="upload-box-content">
+            <mat-icon class="upload-icon-placeholder">person_outline</mat-icon>
+            <span>{{ step3Media.get('logotipo')?.value || 'Sem foto...' }}</span>
+          </div>
+          <mat-icon class="upload-icon-action">cloud_upload</mat-icon>
+          <input type="file" (change)="onFileSelect($event, 'logotipo')" accept="image/*" />
+        </div>
+
+        <label class="upload-label">Imagens do estabelecimento <mat-icon>arrow_forward</mat-icon></label>
+        <div class="upload-box-multi">
+          <div class="multi-placeholder">
+            <mat-icon>image_not_supported</mat-icon>
+          </div>
+          <div class="upload-box-dropzone">
+            <span>Procurar &</span>
+            <span class="drop-text">arraste e solte</span>
+          </div>
+          <input type="file" (change)="onFileSelect($event, 'imagens')" accept="image/*" multiple />
+        </div>
+      </div>
+    </mat-step>
+  </mat-stepper>
+
+  <footer class="stepper-footer">
+    @if (stepper.selectedIndex === 0) {
+    <button mat-flat-button color="primary" class="full-width-btn" (click)="stepper.next()">Avançar</button>
+    }
+    @if (stepper.selectedIndex === 1) {
+    <div class="form-row">
+      <button mat-button (click)="stepper.previous()">Voltar</button>
+      <button mat-flat-button color="primary" class="full-width-btn" (click)="stepper.next()">Avançar</button>
+    </div>
+    }
+    @if (stepper.selectedIndex === 2) {
+    <div class="form-row">
+      <button mat-button (click)="stepper.previous()">Voltar</button>
+      <button mat-flat-button color="primary" class="full-width-btn" (click)="onSubmit()">Cadastrar</button>
+    </div>
+    }
+  </footer>
+</div>
