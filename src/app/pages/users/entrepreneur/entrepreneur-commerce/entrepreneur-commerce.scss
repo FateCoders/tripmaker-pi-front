@@ -1,0 +1,134 @@
+// Importa estilos de layout e cards que já existem
+@import '../entrepreneur-home/entrepreneur-home.scss';
+
+.list-container {
+  display: grid;
+  grid-template-rows: auto 1fr auto; // Cabeçalho, Conteúdo, Rodapé
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--background-color-light);
+}
+
+.list-content {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 1rem; // Espaçamento entre os cards
+}
+
+// Estilo para cada item da lista
+.commerce-list-item {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  // Pega o estilo de business-info do home
+  .business-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem; // Adiciona espaço para os stats
+
+    .business-logo {
+      width: 48px;
+      height: 48px;
+    }
+
+    .business-name {
+      flex-grow: 1;
+    }
+
+    .chevron-icon {
+      color: var(--text-color-light-light);
+    }
+  }
+
+  // Pega o estilo de business-stats-card do home
+  .business-stats-card {
+    padding: 0; // Remove padding do wrapper
+    box-shadow: none; // Remove sombra do wrapper
+    background: none; // Remove fundo do wrapper
+  }
+}
+
+// Container para o botão flutuante
+.fab-container {
+  position: fixed;
+  right: 16px;
+  bottom: 80px; // Posição acima do bottom-menu
+  z-index: 100;
+
+  button {
+    background-color: var(--primary-color-dark);
+    color: var(--white-color);
+  }
+}
+
+// Estilos para o estado vazio, reutilizando do home
+.empty-state-container {
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-color-dark);
+    margin: 0;
+  }
+  p {
+    font-size: 0.9rem;
+    color: var(--text-color-light);
+    max-width: 280px;
+  }
+}
+
+.dashboard-card {
+  margin-bottom: 20px;
+}
+
+// [MODIFICADO] src/app/pages/users/entrepreneur/entrepreneur-home/entrepreneur-home.scss
+
+// ... (outros estilos)
+
+// Card: Tags
+.business-tags-card {
+  display: flex;
+  flex-wrap: nowrap; // <-- AQUI: Impede que os itens quebrem a linha
+  overflow-x: auto; // <-- AQUI: Permite o scroll horizontal
+  justify-content: flex-start; // Alinha os itens ao início
+  gap: 0.75rem;
+  
+  // Ajustes de layout para ficar idêntico à imagem
+  padding: 1rem 0 1rem 1rem; // Adiciona padding só no início
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  
+  // Remove a barra de rolagem visualmente
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none; /* IE e Edge */
+  scrollbar-width: none; /* Firefox */
+
+  .tag-item {
+    flex-shrink: 0; // <-- AQUI: Impede que o item se encolha
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+    color: var(--text-color-light);
+    background: var(--white-color);
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--background-color-dark);
+
+    mat-icon {
+      font-size: 1rem;
+    }
+  }
+}
+
+// ... (outros estilos: .routes-map-card, .visitors-card, etc.)
