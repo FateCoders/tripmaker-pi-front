@@ -52,11 +52,12 @@
   }
 }
 
-.fab-add {
+.container-add {
   position: fixed;
   bottom: 80px;
-  right: 16px;
-  background-color: var(--primary-color);
-  color: var(--white-color);
-  z-index: 99;
+  width: 100%;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

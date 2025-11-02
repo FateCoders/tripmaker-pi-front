@@ -1,6 +1,9 @@
 <div class="routes-container">
   <div class="page-content">
-    <app-header-title title="Roteiros" [subtitle]="'Crie e veja os seus roteiros'"></app-header-title>
+    <app-header-title
+      title="Roteiros"
+      [subtitle]="'Crie e veja os seus roteiros'"
+    ></app-header-title>
 
     @if (savedRoutes.length > 0) {
     <div class="routes-list">
@@ -16,9 +19,13 @@
     </div>
     }
 
-    <button mat-fab class="fab-add" (click)="createNewRoute()">
-      <mat-icon>add</mat-icon>
-    </button>
+    <div class="container-add">
+      <app-round-button
+        class="button-add"
+        [label]="'Crie um novo Roteiro'"
+        (click)="createNewRoute()"
+      ></app-round-button>
+    </div>
   </div>
 
   <app-bottom-menu></app-bottom-menu>

@@ -5,12 +5,10 @@ import { Router, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-import {
-  MapItem,
-  MapItemCardComponent,
-} from '../../../../components/map-item-card/map-item-card';
-import { HeaderTitle } from "../../../../components/header-title/header-title";
-import { FooterUsercomumComponent } from "../../../../components/public/bottom-menu/bottom-menu.component";
+import { MapItem, MapItemCardComponent } from '../../../../components/map-item-card/map-item-card';
+import { HeaderTitle } from '../../../../components/header-title/header-title';
+import { FooterUsercomumComponent } from '../../../../components/public/bottom-menu/bottom-menu.component';
+import { RoundButton } from '../../../../components/buttons/round-button/round-button';
 
 @Component({
   selector: 'app-routes',
@@ -22,8 +20,9 @@ import { FooterUsercomumComponent } from "../../../../components/public/bottom-m
     MatIconModule,
     MapItemCardComponent,
     HeaderTitle,
-    FooterUsercomumComponent
-],
+    FooterUsercomumComponent,
+    RoundButton,
+  ],
   templateUrl: './routes.html',
   styleUrls: ['./routes.scss'],
 })
