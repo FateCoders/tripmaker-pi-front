@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core'; // inject adicionado
+import { CommonModule, Location } from '@angular/common'; // Location importado
 import { Router } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
@@ -28,6 +28,10 @@ interface PermissionItem {
   styleUrl: './permissions.scss'
 })
 export class TravelerPermissions {
+  
+  // Injeção de dependência moderna
+  private router = inject(Router);
+  private location = inject(Location); // Location injetado
 
   // Dados dos itens de permissão baseados no Figma
   permissionItems: PermissionItem[] = [
@@ -57,15 +61,12 @@ export class TravelerPermissions {
     }
   ];
 
-  constructor(private router: Router) {}
 
-  // Função para voltar para a tela anterior (perfil)
   navigateBack(): void {
-    this.router.navigate(['/viajante/perfil']); //
+    this.location.back();
   }
 
   onToggleChange(item: PermissionItem): void {
     console.log(`Permissão '${item.title}' alterada para: ${item.model}`);
-    // Aqui você pode adicionar a lógica para salvar a permissão
   }
 }

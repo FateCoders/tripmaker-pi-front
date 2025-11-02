@@ -13,7 +13,7 @@
     <section class="profile-menu">
       <mat-list>
         @for (item of menuItems; track item.title) {
-        <a [routerLink]="item.route" class="menu-link">
+        <a [routerLink]="item.route ? item.route : null" (click)="item.action ? item.action() : null" class="menu-link">
           <mat-list-item class="menu-item">
             <div matListItemIcon class="menu-icon-container">
               <mat-icon class="menu-icon">{{ item.icon }}</mat-icon>

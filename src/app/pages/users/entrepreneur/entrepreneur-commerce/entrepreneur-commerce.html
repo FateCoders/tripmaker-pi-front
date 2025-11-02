@@ -1,0 +1,62 @@
+<div class="list-container">
+  <app-header-title [title]="'Meus Comércios'" [subtitle]="'Selecione um comércio para gerenciar'"></app-header-title>
+
+  @if (isLoading) {
+  <main class="list-content loading-state">
+    <p>Carregando comércios...</p>
+  </main>
+  } @else {
+  <main class="list-content">
+    @if (commerces$ | async; as commerces) {
+    @if (commerces.length > 0) {
+    <div class="commerce-list">
+      @for (commerce of commerces; track commerce.id) {
+      <section class="dashboard-card commerce-list-item" (click)="onCommerceClick(commerce)">
+
+        <div class="business-info">
+          <img [src]="commerce.logoUrl" alt="Logo do Comércio" class="business-logo" />
+          <div class="business-name">
+            <h3>{{ commerce.name }}</h3>
+            <p>{{ commerce.address }}</p>
+          </div>
+          <mat-icon class="chevron-icon">chevron_right</mat-icon>
+        </div>
+
+        <div class="business-stats-card">
+          <div class="stat-item">
+            <span>Visitantes</span>
+            <strong>{{ commerce.visitors }}</strong>
+          </div>
+          <div class="stat-item">
+            <span>Avaliações</span>
+            <div class="star-rating">
+              @for (isFilled of getRatingStars(commerce.rating); track $index) {
+              <mat-icon>{{ isFilled ? 'star' : 'star_border' }}</mat-icon>
+              }
+            </div>
+          </div>
+        </div>
+
+      </section>
+      }
+    </div>
+    } @else {
+    <div class="empty-state-container">
+      <mat-icon class="empty-state-icon">storefront</mat-icon>
+      <h3>Nenhum comércio cadastrado</h3>
+      <p>Cadastre seu primeiro comércio para começar a gerenciar.</p>
+    </div>
+    }
+    }
+  </main>
+  }
+
+  <div class="fab-container">
+    <button mat-fab extended (click)="registerNewCommerce()">
+      <mat-icon>add</mat-icon>
+      Novo Comércio
+    </button>
+  </div>
+
+  <app-bottom-menu></app-bottom-menu>
+</div>

@@ -1,8 +1,8 @@
 <div class="container">
-  <mat-chip-option>
+  <mat-chip-option [disabled]="isDisabled">
     <span class="chip-content">
-      @if (icon.length > 0) {
-        <mat-icon fontIcon="{{ icon }}"></mat-icon>
+      @if (icon?.length > 0) {
+      <mat-icon fontIcon="{{ icon }}"></mat-icon>
       }
       {{ label }}
     </span>

@@ -1,23 +1,121 @@
-<app-header-title
-  [title]="'Gerenciar Rotas'"
-  [subtitle]="'Ative ou desative a visibilidade das rotas para os viajantes'"
-></app-header-title>
+<div class="home-container">
 
-<main class="home-content">
-  <mat-list>
-    @for (route of routes; track route.id) {
-      <mat-list-item>
-        <span matListItemTitle>{{ route.title }}</span>
-        <span matListItemLine>{{ route.description }}</span>
-        <mat-slide-toggle
-          [checked]="route.isActive"
-          (change)="toggleRoute(route.id)"
-        >
-          {{ route.isActive ? 'Ativa' : 'Inativa' }}
-        </mat-slide-toggle>
-      </mat-list-item>
+  <app-header-title [title]="'Comércio'" [subtitle]="'Visualização de informações importantes'"></app-header-title>
+
+  @if (isLoading) {
+  <main class="home-content loading-state">
+    <p>Carregando dados...</p>
+  </main>
+  }
+
+  @else {
+  <main class="home-content">
+
+    @if (hasBusiness && businessData) {
+    <div class="dashboard-container">
+
+      <section class="dashboard-card business-header-card">
+        <div class="business-info">
+          <img [src]="businessData.logoUrl" alt="Logo do Comércio" class="business-logo" />
+          <div class="business-name">
+            <h3>{{ businessData.name }}</h3>
+            <p>{{ businessData.address }}</p>
+          </div>
+          <button mat-icon-button (click)="refreshData()" class="refresh-button">
+            <mat-icon>refresh</mat-icon>
+          </button>
+        </div>
+      </section>
+
+      <section class="dashboard-card business-stats-card">
+        <div class="stat-item">
+          <span>Visitantes</span>
+          <strong>{{ businessData.visitors }}</strong>
+        </div>
+        <div class="stat-item">
+          <span>Avaliações</span>
+          <div class="star-rating">
+            @for (isFilled of ratingStars; track $index) {
+            <mat-icon>{{ isFilled ? 'star' : 'star_border' }}</mat-icon>
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="business-tags-card">
+
+        @if (businessData.priceRange) {
+        <app-chip-button [label]="businessData.priceRange" icon="attach_money" [isDisabled]="true">
+        </app-chip-button>
+        }
+
+        <app-chip-button [label]="businessData.hours" icon="schedule" [isDisabled]="true">
+        </app-chip-button>
+
+        @if (businessData.category) {
+        <app-chip-button [label]="businessData.category" icon="storefront" [isDisabled]="true">
+        </app-chip-button>
+        }
+
+        @if (businessData.caracteristicas) {
+        @for (item of businessData.caracteristicas; track $index) {
+        <app-chip-button [label]="item" [isDisabled]="true">
+        </app-chip-button>
+        }
+        }
+      </section>
+
+      <section class="dashboard-card routes-map-card">
+        <div class="routes-info">
+          <span class="routes-label">Seu comércio está em</span>
+          <strong class="routes-count">{{ businessData.routesCount }}</strong>
+          <span class="routes-label">Rotas</span>
+        </div>
+        <div class="map-placeholder">
+          @if(mapUrl()) {
+          <iframe class="map-iframe" width="100%" height="100%" style="border: 0" loading="lazy" allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade" [src]="mapUrl()">
+          </iframe>
+          }
+        </div>
+      </section>
+
+      <section class="dashboard-card visitors-card">
+        <div class="card-header">
+          <h4>Visitantes</h4>
+          <button mat-flat-button class="filter-button">Hoje</button>
+        </div>
+        <div class="graph-placeholder">
+          <canvas #visitorsChart></canvas>
+        </div>
+        <p class="visitors-footer">{{ businessData.monthlyVisitors }} visitantes no mês</p>
+      </section>
+
+      <section class="dashboard-card reviews-card">
+        <div class="reviews-icon">
+          <mat-icon>reviews</mat-icon>
+        </div>
+        <div class="reviews-text">
+          <strong>Avaliações</strong>
+          <p>Confira como os viajantes avaliam o seu comércio.</p>
+        </div>
+        <mat-icon class="reviews-arrow">chevron_right</mat-icon>
+      </section>
+
+    </div>
     }
-  </mat-list>
-</main>
 
-<app-bottom-menu></app-bottom-menu>
+    @else {
+    <div class="empty-state-container">
+      <mat-icon class="empty-state-icon">storefront</mat-icon>
+      <button mat-flat-button color="primary" class="empty-state-button" (click)="navigateToRegisterCommerce()">
+        Cadastrar comércio
+      </button>
+    </div>
+    }
+  </main>
+  }
+
+  <app-bottom-menu></app-bottom-menu>
+
+</div>

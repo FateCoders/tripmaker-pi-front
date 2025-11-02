@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, forwardRef, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  forwardRef,
+  signal,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,14 +17,14 @@ import { MatIconModule } from '@angular/material/icon';
   template: `
     <mat-chip-option
       [selected]="value()"
-      [disabled]="isDisabled()"
+      [disabled]="isDisabled"
       (click)="toggleSelection()"
       color="primary"
       class="transition-all duration-200 ease-in-out"
     >
       <span class="flex items-center gap-2">
         @if (icon) {
-        <mat-icon [fontIcon]="icon"></mat-icon>
+          <mat-icon [fontIcon]="icon"></mat-icon>
         }
         {{ label }}
       </span>
@@ -27,12 +33,12 @@ import { MatIconModule } from '@angular/material/icon';
   styles: [
     `
       mat-chip-option {
-        --mdc-chip-elevated-container-color: #eef2ff; 
-        --mdc-chip-label-text-color: #4338ca; 
+        --mdc-chip-elevated-container-color: #eef2ff;
+        --mdc-chip-label-text-color: #4338ca;
       }
       mat-chip-option.mat-mdc-chip-selected {
         --mdc-chip-elevated-container-color: #4f46e5;
-        --mdc-chip-label-text-color: #ffffff; 
+        --mdc-chip-label-text-color: #ffffff;
       }
       mat-chip-option[disabled] {
         --mdc-chip-elevated-container-color: #f3f4f6;
@@ -53,15 +59,15 @@ import { MatIconModule } from '@angular/material/icon';
 export class ChipButtonComponent implements ControlValueAccessor {
   @Input() label: string = '';
   @Input() icon: string = '';
+  @Input() isDisabled: boolean = false; // ✅ agora é Input
 
   value = signal<boolean>(false);
-  isDisabled = signal<boolean>(false);
 
-  private onChange: (value: boolean) => void = () => {};
-  private onTouched: () => void = () => {};
+  private onChange: (value: boolean) => void = () => { };
+  private onTouched: () => void = () => { };
 
   toggleSelection(): void {
-    if (this.isDisabled()) return;
+    if (this.isDisabled) return; // ✅ respeita o estado desabilitado
     const newValue = !this.value();
     this.value.set(newValue);
     this.onChange(newValue);
@@ -81,6 +87,6 @@ export class ChipButtonComponent implements ControlValueAccessor {
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.isDisabled.set(isDisabled);
+    this.isDisabled = isDisabled; // ✅ sincroniza com o Angular Forms
   }
 }
