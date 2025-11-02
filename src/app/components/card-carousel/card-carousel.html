@@ -1,0 +1,13 @@
+<div class="carousel-container">
+  <div class="carousel-track">
+    @for(item of items; track item.id) {
+    <div class="carousel-card">
+      <app-route-card
+        [item]="item"
+        (addClick)="onAddClick(item)"
+        (viewClick)="onViewClick(item)"
+      ></app-route-card>
+    </div>
+    }
+  </div>
+</div>

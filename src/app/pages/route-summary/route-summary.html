@@ -1,0 +1,33 @@
+<app-header-title title="Resumo" [showBackButton]="true" (backClick)="goBack()"></app-header-title>
+
+<div class="page-container">
+  <div class="map-preview-container">
+    <app-google-map-iframe [mapSrcUrl]="mapUrl"></app-google-map-iframe>
+
+    <button mat-flat-button class="expand-button" (click)="onExpandMap()">
+      <mat-icon>fullscreen</mat-icon>
+      Expandir
+    </button>
+  </div>
+
+  <div class="summary-list-container">
+    <mat-list>
+      @for (item of routeItems; track item.id) {
+      <app-route-summary-item
+        [item]="item"
+        (removeItem)="onRemoveItem($event)"
+      ></app-route-summary-item>
+      @if (!$last) {
+      <mat-divider></mat-divider>
+      } } @empty {
+      <p class="empty-state">Nenhum item adicionado ao roteiro.</p>
+      }
+    </mat-list>
+  </div>
+
+  <div class="footer-button-container">
+    <button mat-flat-button class="advance-button" (click)="onAdvance()">
+      Avançar <mat-icon>arrow_forward</mat-icon>
+    </button>
+  </div>
+</div>
