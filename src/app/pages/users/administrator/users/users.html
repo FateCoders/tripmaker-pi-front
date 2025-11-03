@@ -1,1 +1,26 @@
-<p>users works!</p>
+<div class="list-container">
+  <app-header-title [title]="'Usuários'" [subtitle]="'Visualização e Cadastro de Usuários'"></app-header-title>
+
+  <main class="list-content">
+    <app-tabs-list [tabs]="tabs" (tabChanged)="onTabChanged($event)">
+    </app-tabs-list>
+
+    @if (!isLoading()) {
+    <app-list-view [items]="currentItems()" [enableSearch]="true" [enableFilter]="false"
+      [cardType]="'default'"></app-list-view>
+    } @else {
+    <div class="loading-state">
+      <p>Carregando usuários...</p>
+    </div>
+    }
+
+  </main>
+
+  <div class="fab-container">
+    <button mat-fab (click)="createNewUser()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+
+  <app-bottom-menu></app-bottom-menu>
+</div>
