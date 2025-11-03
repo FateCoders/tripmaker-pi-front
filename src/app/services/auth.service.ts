@@ -9,7 +9,8 @@ export class AuthService {
 
   private users: any[] = [
     { email: 'viajante@email.com', password: 'password', role: 'viajante', name: 'Viajante Teste' },
-    { email: 'empreendedor@email.com', password: 'password', role: 'empreendedor', name: 'Empreendedor Teste' }
+    { email: 'empreendedor@email.com', password: 'password', role: 'empreendedor', name: 'Empreendedor Teste' },
+    { email: 'administrador@email.com', password: 'password', role: 'administrador', name: 'adiministrador Teste' }
   ];
 
   private loggedInUser: any = null;

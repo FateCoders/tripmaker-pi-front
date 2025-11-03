@@ -27,6 +27,9 @@ import { RouteSaveComponent } from './pages/route-save/route-save';
 import { Profile } from './pages/profile/profile.component';
 import { EntrepreneurCommerce } from './pages/users/entrepreneur/entrepreneur-commerce/entrepreneur-commerce';
 import { EntrepreneurNewCommerce } from './pages/users/entrepreneur/entrepreneur-new-commerce/entrepreneur-new-commerce';
+import { AdministratorCommerce } from './pages/users/administrator/commerce/commerce';
+import { AdministratorEvents } from './pages/users/administrator/events/events';
+import { AdministratorUsers } from './pages/users/administrator/users/users';
 
 export const routes: Routes = [
   // ROTAS GERAIS
@@ -142,7 +145,20 @@ export const routes: Routes = [
     canActivate: [authGuard, roleGuard('empreendedor')],
     data: { animation: 'EmpreendedorHomePage' },
   },
-  // Nova rota de perfil para Empreendedor
+  {
+    path: 'empreendedor/comercios',
+    component: EntrepreneurCommerce,
+    title: 'Meus Comércios',
+    canActivate: [authGuard, roleGuard('empreendedor')],
+    data: { animation: 'EmpreendedorComerciosPage' },
+  },
+  {
+    path: 'empreendedor/comercios/cadastro',
+    component: EntrepreneurNewCommerce,
+    title: 'Cadastrar Comércio',
+    canActivate: [authGuard, roleGuard('empreendedor')],
+    data: { animation: 'EmpreendedorNewCommercePage' },
+  },
   {
     path: 'empreendedor/perfil',
     component: Profile,
@@ -159,7 +175,6 @@ export const routes: Routes = [
     canActivate: [authGuard, roleGuard('promotor-turistico')],
     data: { animation: 'PromotorTuristicoHomePage' },
   },
-  // Nova rota de perfil para Promotor
   {
     path: 'promotor-turistico/perfil',
     component: Profile,
@@ -183,20 +198,26 @@ export const routes: Routes = [
     data: { animation: 'AdministradorHomePage' },
   },
   {
-    path: 'empreendedor/comercios',
-    component: EntrepreneurCommerce,
-    title: 'Meus Comércios',
-    canActivate: [authGuard, roleGuard('empreendedor')],
-    data: { animation: 'EmpreendedorComerciosPage' },
+    path: 'administrador/comercios',
+    component: AdministratorCommerce,
+    title: 'Comércios do Administrador',
+    canActivate: [authGuard, roleGuard('administrador')],
+    data: { animation: 'AdministradorHomePage' },
   },
   {
-    path: 'empreendedor/comercios/cadastro',
-    component: EntrepreneurNewCommerce,
-    title: 'Cadastrar Comércio',
-    canActivate: [authGuard, roleGuard('empreendedor')],
-    data: { animation: 'EmpreendedorNewCommercePage' },
+    path: 'administrador/eventos',
+    component: AdministratorEvents,
+    title: 'Eventos do Administrador',
+    canActivate: [authGuard, roleGuard('administrador')],
+    data: { animation: 'AdministradorEventsPage' },
   },
-  // Nova rota de perfil para Administrador
+  {
+    path: 'administrador/usuarios',
+    component: AdministratorUsers,
+    title: 'Usuários do Administrador',
+    canActivate: [authGuard, roleGuard('administrador')],
+    data: { animation: 'AdministradorUsersPage' },
+  },
   {
     path: 'administrador/perfil',
     component: Profile,
