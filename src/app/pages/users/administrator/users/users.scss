@@ -4,7 +4,6 @@
 .list-container {
   display: grid;
   grid-template-rows: auto 1fr auto;
-  min-height: 100vh;
   min-height: 100dvh;
   background: var(--background-color-light);
 }
@@ -13,6 +12,7 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  max-height: calc(100dvh - 102.4px - 104px);
 }
 
 .fab-container {
