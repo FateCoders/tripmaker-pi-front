@@ -25,7 +25,7 @@ import { MatListModule } from '@angular/material/list';
 export class AdministratorEvents {
   private routesService = inject(RoutesService);
 
-  activeTab: string = 'Meus Roteiros';
+  activeTab: string = 'Rotas';
   availableRoutes: any[] = [];
   currentItems: TabsListCard[] = [];
 
