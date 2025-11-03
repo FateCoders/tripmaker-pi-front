@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { HeaderTitle } from '../../../../components/header-title/header-title';
 import { FooterUsercomumComponent } from '../../../../components/public/bottom-menu/bottom-menu.component';
 import { RoutesService } from '../../../../services/routes.service';
@@ -8,10 +8,13 @@ import { TabsList } from '../../../../components/tabs-list/tabs-list';
 import { ListView } from '../../../../components/list-view/list-view';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-administrator-events',
+  standalone: true,
   imports: [
+    CommonModule,
     HeaderTitle,
     FooterUsercomumComponent,
     MatListModule,
@@ -22,11 +25,11 @@ import { MatListModule } from '@angular/material/list';
   templateUrl: './events.html',
   styleUrl: './events.scss',
 })
-export class AdministratorEvents {
+export class AdministratorEvents implements OnInit {
   private routesService = inject(RoutesService);
 
   activeTab: string = 'Rotas';
-  availableRoutes: any[] = [];
+
   currentItems: TabsListCard[] = [];
 
   tabs: TabsSection[] = [
@@ -56,12 +59,30 @@ export class AdministratorEvents {
   ];
 
   ngOnInit(): void {
-    this.currentItems = this.tabs[0].content;
     this.loadRoutes();
+
+    this.activeTab = this.tabs[0].label;
+    this.currentItems = this.tabs[0].content;
   }
 
   loadRoutes() {
-    this.availableRoutes = this.routesService.getVisibleRoutes();
+    const routesFromService = this.routesService.getVisibleRoutes();
+
+    const mappedRoutes: TabsListCard[] = routesFromService.map((route) => {
+      return {
+        id: route.id,
+        title: route.title,
+        description: route.description,
+        img: route.img || 'assets/images/png/placeholder.png',
+        category: 'Rota',
+      };
+    });
+
+    this.tabs[0].content = mappedRoutes;
+
+    if (this.activeTab === 'Rotas') {
+      this.currentItems = this.tabs[0].content;
+    }
   }
 
   onTabChanged(index: number): void {

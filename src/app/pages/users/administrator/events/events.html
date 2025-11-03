@@ -3,31 +3,16 @@
     [title]="'Rotas e eventos'"
     [subtitle]="'Visualização e criação de rotas e eventos'"
   ></app-header-title>
+
   <main class="main-content">
     <app-tabs-list [tabs]="tabs" (tabChanged)="onTabChanged($event)"></app-tabs-list>
-    @if (activeTab === 'Rotas') {
-    <mat-list>
-      @for(route of availableRoutes; track route.id) {
-      <mat-list-item>
-        <span matListItemTitle>{{ route.title }}</span>
-        <span matListItemLine>{{ route.description }}</span>
-        <button mat-flat-button color="primary">
-          Inscrever-se
-        </button>
-      </mat-list-item>
-      } @empty {
-      <div class="empty-state" style="text-align: center; padding: 20px">
-        Nenhuma rota encontrada.
-      </div>
-      }
-    </mat-list>
-    } @else {
+
     <app-list-view
       [items]="currentItems"
       [enableSearch]="false"
-      [enableFilter]="false"
+      [enableFilter]="true"
     ></app-list-view>
-    }
   </main>
+
   <app-bottom-menu></app-bottom-menu>
 </div>
