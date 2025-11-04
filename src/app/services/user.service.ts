@@ -97,7 +97,6 @@ export class UserService {
 
   constructor() { }
 
-  // NOVO: Método para retornar todos os usuários (usado pelo DashboardService)
   getAllUsersMock(): User[] {
     return this.allUsers;
   }
@@ -122,7 +121,7 @@ export class UserService {
 
   addUser(userData: Omit<User, 'id'>): Observable<User> {
     console.log('UserService: Recebido para adicionar:', userData);
-    
+
     const newUser: User = {
       ...userData,
       id: `new-user-${Math.floor(Math.random() * 1000)}`,
@@ -132,5 +131,20 @@ export class UserService {
     console.log('UserService: Lista atualizada', this.allUsers);
 
     return of(newUser).pipe(delay(500));
+  }
+
+  deleteUser(id: string): Observable<boolean> {
+    const initialLength = this.allUsers.length;
+    this.allUsers = this.allUsers.filter(user => user.id !== id);
+    const success = this.allUsers.length < initialLength;
+
+    if (success) {
+      console.log('UserService: Usuário deletado', id);
+      console.log('UserService: Lista atualizada', this.allUsers);
+      return of(true).pipe(delay(300));
+    } else {
+      console.warn('UserService: Usuário não encontrado para deletar', id);
+      return of(false).pipe(delay(300));
+    }
   }
 }

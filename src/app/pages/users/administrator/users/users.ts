@@ -31,9 +31,9 @@ export class AdministratorUsers implements OnInit {
 
   currentItems: WritableSignal<TabsListCard[]> = signal([]);
   isLoading = signal(true);
-  
+
   // Rastreia o role da aba ativa
-  private currentRole: UserRole = 'administrador'; 
+  private currentRole: UserRole = 'administrador';
 
   tabs: TabsSection[] = [
     { label: 'Administrador', content: [] },
@@ -48,10 +48,20 @@ export class AdministratorUsers implements OnInit {
     this.onTabChanged(0);
   }
 
+  refreshData(): void {
+    console.log('AdministratorUsers: Atualizando lista para o role:', this.currentRole);
+    this.isLoading.set(true);
+
+    this.userService.getUsersByRole(this.currentRole, '').subscribe(users => {
+      this.currentItems.set(this.transformUsersToCards(users));
+      this.isLoading.set(false);
+    });
+  }
+
   onTabChanged(index: number): void {
     this.isLoading.set(true);
     const tabType = this.tabTypes[index];
-    this.currentRole = tabType; // Atualiza o role ativo
+    this.currentRole = tabType;
 
     this.userService.getUsersByRole(tabType, '').subscribe(users => {
       this.currentItems.set(this.transformUsersToCards(users));
@@ -83,7 +93,6 @@ export class AdministratorUsers implements OnInit {
   }
 
   createNewUser(): void {
-    // Navega para o formulário passando o role da aba ativa
     this.router.navigate(['/administrador/usuarios/novo', this.currentRole]);
   }
 
