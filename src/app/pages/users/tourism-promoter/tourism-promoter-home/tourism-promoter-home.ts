@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { FabButton } from '../../../../components/buttons/fab-button/fab-button';
 import { MatButtonModule } from '@angular/material/button';
+import { Chip } from "../../../../components/chip/chip";
 
 @Component({
   selector: 'app-tourism-promoter-home',
@@ -24,7 +25,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatCardModule,
     FabButton,
     MatButtonModule,
-  ],
+    Chip
+],
   templateUrl: './tourism-promoter-home.html',
   styleUrl: './tourism-promoter-home.scss',
 })
