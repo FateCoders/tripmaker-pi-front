@@ -29,7 +29,7 @@ export class RoutesService {
     ],
     promotor_turistico: [
       {path: '/promotor_turistico/inicio', label: 'Início', icon: 'home'},
-      {path: '/promotor_turistico/eventos', label: 'Eventos', icon: 'event'},
+      // {path: '/promotor_turistico/eventos', label: 'Eventos', icon: 'event'},
       {path: '/promotor_turistico/mapa', label: 'Mapa', icon: 'map'},
       {path: '/promotor_turistico/perfil', label: 'Perfil', icon: 'person'},
     ],
