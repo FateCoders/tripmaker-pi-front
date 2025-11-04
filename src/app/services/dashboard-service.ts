@@ -107,13 +107,13 @@ export class DashboardService {
       },
       {
         title: 'Eventos Criados (Mês)',
-        value: 20, // Mock fixo
+        value: 20,
         icon: 'event',
         unit: 'Eventos',
         color: this.colors.primary,
       },
       {
-        title: 'Engajamento Médio da Rota',
+        title: 'Engajamento Médio das Rotas',
         value: avgRouteEngagement.toFixed(1),
         icon: 'bar_chart',
         unit: 'Usuários/Rota',

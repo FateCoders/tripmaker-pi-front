@@ -1,7 +1,6 @@
 .home-container {
   display: grid;
   grid-template-rows: auto 1fr auto;
-  min-height: 100vh;
   min-height: 100dvh;
   background: var(--background-color-light);
 }
@@ -13,6 +12,7 @@
   flex-direction: column;
   gap: 1.5rem;
   max-height: calc(100dvh - 120.4px - 104px);
+  width: 100%;
   scrollbar-color: #666 #f0f0f0;
   scrollbar-width: thin;
 }
