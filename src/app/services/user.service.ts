@@ -47,6 +47,18 @@ export class UserService {
       email: 'hospedia@email.com',
       role: 'viajante',
     },
+    {
+      id: 'via-4',
+      name: 'Teste Viajante',
+      email: 'teste@email.com',
+      role: 'viajante',
+    },
+    {
+      id: 'via-5',
+      name: 'Mais um Viajante',
+      email: 'maisum@email.com',
+      role: 'viajante',
+    },
 
     // Empreendedores
     {
@@ -75,9 +87,20 @@ export class UserService {
       email: 'promotor@eventos.com',
       role: 'promotor',
     },
+    {
+      id: 'promo-2',
+      name: 'Promotor 2',
+      email: 'promotor2@eventos.com',
+      role: 'promotor',
+    },
   ];
 
   constructor() { }
+
+  // NOVO: Método para retornar todos os usuários (usado pelo DashboardService)
+  getAllUsersMock(): User[] {
+    return this.allUsers;
+  }
 
   getUsersByRole(
     type: UserRole,

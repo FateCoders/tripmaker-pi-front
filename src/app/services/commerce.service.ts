@@ -49,6 +49,11 @@ export class CommerceService {
 
   private activeCommerceId = new BehaviorSubject<string | null>(null);
 
+  // NOVO MÉTODO SÍNCRONO PARA DASHBOARD
+  getAllCommercesForUserMock(): Commerce[] {
+    return this.allBusinesses;
+  }
+  
   getAllCommercesForUser(): Observable<Commerce[]> {
     return of(this.allBusinesses).pipe(delay(500));
   }

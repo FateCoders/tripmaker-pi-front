@@ -14,7 +14,7 @@ export class RoutesService {
       title: 'Rota Histórica',
       description: 'Descubra o centro histórico.',
       isActive: true,
-      registeredUsers: [],
+      registeredUsers: ['user1@test.com', 'user2@test.com', 'user3@test.com'],
     },
     {
       id: '2',
@@ -22,7 +22,7 @@ export class RoutesService {
       description: 'Sabores da cidade.',
       isActive: true,
       img: 'assets/images/png/conservatorio.png',
-      registeredUsers: [],
+      registeredUsers: ['user1@test.com', 'user2@test.com'],
     },
     {
       id: '3',
@@ -30,7 +30,21 @@ export class RoutesService {
       description: 'Trilhas e paisagens.',
       isActive: false,
       img: 'assets/images/png/conservatorio.png',
-      registeredUsers: [],
+      registeredUsers: ['user4@test.com', 'user5@test.com', 'user6@test.com', 'user7@test.com'],
+    },
+    {
+      id: '4',
+      title: 'Rota de Aventura',
+      description: 'Passeios radicais.',
+      isActive: true,
+      img: 'assets/images/png/conservatorio.png',
+      registeredUsers: [
+        'user8@test.com',
+        'user9@test.com',
+        'user10@test.com',
+        'user11@test.com',
+        'user12@test.com',
+      ],
     },
   ];
 

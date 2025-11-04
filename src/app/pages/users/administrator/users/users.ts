@@ -5,7 +5,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { HeaderTitle } from '../../../../components/header-title/header-title';
 import { FooterUsercomumComponent } from '../../../../components/public/bottom-menu/bottom-menu.component';
 import { TabsList } from '../../../../components/tabs-list/tabs-list';
-import { SearchBarComponent } from '../../../../components/search-bar/search-bar.component';
 import { ListView } from '../../../../components/list-view/list-view';
 import { User, UserRole } from '../../../../interfaces/user';
 import { TabsListCard } from '../../../../models/tabs-list-card';
@@ -24,7 +23,7 @@ interface UserTab {
     CommonModule,
     HeaderTitle,
     FooterUsercomumComponent,
-    TabsList, ListView, SearchBarComponent, MatIconModule,
+    TabsList, ListView, MatIconModule,
     MatButtonModule,
   ],
   templateUrl: './users.html',
