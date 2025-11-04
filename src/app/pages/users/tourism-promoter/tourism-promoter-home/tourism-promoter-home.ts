@@ -1,7 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
-import { MatButtonModule } from '@angular/material/button';
 import { RoutesService } from '../../../../services/routes.service';
 import { ListView } from '../../../../components/list-view/list-view';
 import { TabsList } from '../../../../components/tabs-list/tabs-list';
@@ -9,10 +7,23 @@ import { HeaderTitle } from '../../../../components/header-title/header-title';
 import { FooterUsercomumComponent } from '../../../../components/public/bottom-menu/bottom-menu.component';
 import { TabsListCard } from '../../../../models/tabs-list-card';
 import { TabsSection } from '../../../../models/tabs-section';
+import { Chip } from '../../../../components/chip/chip';
+import { MatIconModule } from '@angular/material/icon';
+import { ListCard } from "../../../../components/card-default/card-default";
+import { MatCardModule } from "@angular/material/card";
 
 @Component({
   selector: 'app-tourism-promoter-home',
-  imports: [FooterUsercomumComponent, ListView, HeaderTitle, TabsList, MatListModule],
+  imports: [
+    FooterUsercomumComponent,
+    ListView,
+    HeaderTitle,
+    TabsList,
+    MatListModule,
+    Chip,
+    MatIconModule,
+    MatCardModule
+],
   templateUrl: './tourism-promoter-home.html',
   styleUrl: './tourism-promoter-home.scss',
 })
@@ -45,7 +56,22 @@ export class TourismPromoterHome {
     },
     {
       label: 'Rotas',
-      content: [],
+      content: [
+        {
+          id: '1',
+          img: 'assets/images/jpg/teatro.jpeg',
+          title: 'Festival de Teatro de Tatuí',
+          description: 'Espetáculos gratuitos e pagos com...',
+          category: 'A',
+        },
+        {
+          id: '2',
+          img: 'assets/images/png/conservatorio.png',
+          title: 'Concerto no Conservatório',
+          description: 'Apresentação da orquestra jovem do...',
+          category: 'B',
+        },
+      ],
     },
   ];
 

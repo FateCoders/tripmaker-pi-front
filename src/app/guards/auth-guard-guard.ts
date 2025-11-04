@@ -10,7 +10,7 @@ export const authGuard: CanActivateFn = (route, state) => {
     return true;
   }
 
-  // console.log('Acesso bloqueado pelo AuthGuard. Redirecionando para /login');
-  // router.navigate(['/']);
+  console.log('Acesso bloqueado pelo AuthGuard. Redirecionando para /login');
+  router.navigate(['/']);
   return false;
 };

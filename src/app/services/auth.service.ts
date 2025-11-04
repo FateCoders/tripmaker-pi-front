@@ -2,14 +2,25 @@ import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private router = inject(Router);
 
   private users: any[] = [
-    { email: 'viajante@email.com', password: 'password', role: 'viajante', name: 'Viajante Teste' },
-    { email: 'empreendedor@email.com', password: 'password', role: 'empreendedor', name: 'Empreendedor Teste' }
+    { email: 'viajante@email.com', password: 'password', role: 'viajante', name: 'Viajante Teste'},
+    {
+      email: 'empreendedor@email.com',
+      password: 'password',
+      role: 'empreendedor',
+      name: 'Empreendedor Teste',
+    },
+    {
+      email: 'e@e.com',
+      password: 'password',
+      role: 'promotor-turistico',
+      name: 'Promotor Turístico Teste',
+    },
   ];
 
   private loggedInUser: any = null;
@@ -17,7 +28,9 @@ export class AuthService {
   constructor() {}
 
   login(credentials: any): boolean {
-    const user = this.users.find(u => u.email === credentials.email && u.password === credentials.password);
+    const user = this.users.find(
+      (u) => u.email === credentials.email && u.password === credentials.password
+    );
 
     if (user) {
       this.loggedInUser = user;

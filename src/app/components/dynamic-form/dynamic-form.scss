@@ -51,9 +51,11 @@ mat-form-field {
   font-size: 0.75rem;
 }
 
-button {
-  background: var(--primary-color-dark);
-  color: var(--white-color);
-  padding: 0 50px;
-  text-decoration: none;
+form {
+  button {
+    background: var(--primary-color-dark);
+    color: var(--white-color);
+    padding: 0 50px;
+    text-decoration: none;
+  }
 }
