@@ -7,7 +7,6 @@ import { HeaderTitle } from '../../../../components/header-title/header-title';
 import { FooterUsercomumComponent } from '../../../../components/public/bottom-menu/bottom-menu.component';
 import { TabsListCard } from '../../../../models/tabs-list-card';
 import { TabsSection } from '../../../../models/tabs-section';
-import { Chip } from '../../../../components/chip/chip';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { FabButton } from '../../../../components/buttons/fab-button/fab-button';
@@ -21,7 +20,6 @@ import { MatButtonModule } from '@angular/material/button';
     HeaderTitle,
     TabsList,
     MatListModule,
-    Chip,
     MatIconModule,
     MatCardModule,
     FabButton,

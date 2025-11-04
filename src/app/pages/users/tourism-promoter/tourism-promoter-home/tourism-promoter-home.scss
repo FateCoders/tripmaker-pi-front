@@ -1,67 +1,63 @@
-/* Seus estilos existentes */
+/* Estilos originais do mat-card (sem alterações) */
 mat-card {
-  mat-card-title {
-    margin: 0.3%;
-  }
-  mat-card-subtitle {
-    margin: 0.3%;
-  }
-  mat-card-content {
-    margin: 0.3%;
-  }
+  mat-card-title { margin: 0.3%; }
+  mat-card-subtitle { margin: 0.3%; }
+  mat-card-content { margin: 0.3%; }
 }
 
-.home-content {
-  overflow-y: auto;
+/* REGRA MODIFICADA: 
+   Removemos o 'height: 100vh' e 'position: relative'
+*/
+.home-container {
   display: flex;
   flex-direction: column;
+  min-height: 100vh; /* Garante que a página preencha a tela, mas possa crescer */
+}
 
-  // NOVOS ESTILOS PARA O CARD DE ROTA
+/* REGRA MODIFICADA:
+   Removemos 'flex: 1' e 'overflow-y: auto' (o body vai rolar)
+   Adicionamos 'padding-bottom' para o conteúdo não ficar atrás dos menus fixos.
+*/
+.home-content {
+  display: flex;
+  flex-direction: column;
+  /* Adiciona espaço no fim da lista para não ser coberto pelo menu/botão */
+  padding-bottom: 120px; 
+
+  /* Estilos do .route-card (seus estilos existentes, sem alterações) */
   .route-card {
-    margin: 12px 8px; // Margem entre os cards
-    padding: 16px; // Espaçamento interno
-    border-radius: 16px; // Cantos arredondados
-    border: 1px solid #e0e0e0; // Borda sutil como na imagem
-    box-shadow: none; // Remover sombra padrão do mat-card
+    margin: 12px 8px;
+    padding: 16px;
+    border-radius: 16px;
+    border: 1px solid #e0e0e0;
+    box-shadow: none;
 
-    // Ajustar o header do card
     mat-card-header {
       display: flex;
-      justify-content: space-between; // Alinha título à esquerda e botão à direita
+      justify-content: space-between;
       align-items: center;
-      padding: 0; // Remover padding padrão
+      padding: 0;
       width: 100%;
-      margin-bottom: 12px; // Espaço entre título e chips
-
+      margin-bottom: 12px;
       mat-card-title {
-        margin: 0; // Sobrescreve seu estilo padrão
+        margin: 0;
         font-size: 1.1rem;
         font-weight: 500;
         line-height: 1.4;
       }
     }
-
-    // Ajustar o conteúdo do card
-    mat-card-content {
-      margin: 0; // Sobrescreve seu estilo padrão
-      padding: 0; // Remover padding padrão
-    }
-
-    // Container para os chips
+    mat-card-content { margin: 0; padding: 0; }
     .chips-container {
       display: flex;
-      flex-wrap: wrap; // Permite quebra de linha se não couber
-      gap: 8px; // Espaço entre os chips
-      margin-bottom: 16px; // Espaço entre os chips e os ícones
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
     }
-
-    // Container para os ícones de transporte
     .icons-container {
       display: flex;
-      justify-content: flex-end; // Alinha ícones à direita
-      gap: 12px; // Espaço entre os ícones
-      color: rgba(0, 0, 0, 0.6); // Cor cinza para ícones
-
+      justify-content: flex-end;
+      gap: 12px;
+      color: rgba(0, 0, 0, 0.6);
       mat-icon {
         font-size: 20px;
         height: 20px;
@@ -71,8 +67,21 @@ mat-card {
   }
 }
 
+/* NOVO: Estilo para o FAB (botão "Criar")
+   Agora que ele está fora do <main>, podemos fixá-lo na tela.
+*/
+app-fab-button {
+  position: fixed; /* Fixa o botão na janela de visualização */
+  bottom: 30px;
+  right: 30px;
+  z-index: 101; /* Garante que ele fique acima de outros elementos */
+}
+
+
 app-bottom-menu {
-  position: absolute;
+  position: fixed; /* Fixa o menu na janela de visualização */
+  bottom: 0;
+  left: 0;
   width: 100%;
-  z-index: 100;
+  z-index: 100; /* Garante que ele fique acima do conteúdo */
 }
