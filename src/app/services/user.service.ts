@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { delay, map } from 'rxjs/operators';
 import { User, UserRole } from '../interfaces/user';
 
 @Injectable({
@@ -118,5 +118,19 @@ export class UserService {
         )
       )
     );
+  }
+
+  addUser(userData: Omit<User, 'id'>): Observable<User> {
+    console.log('UserService: Recebido para adicionar:', userData);
+    
+    const newUser: User = {
+      ...userData,
+      id: `new-user-${Math.floor(Math.random() * 1000)}`,
+    };
+
+    this.allUsers.push(newUser);
+    console.log('UserService: Lista atualizada', this.allUsers);
+
+    return of(newUser).pipe(delay(500));
   }
 }
