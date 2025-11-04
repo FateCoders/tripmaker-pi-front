@@ -9,8 +9,9 @@ import { TabsListCard } from '../../../../models/tabs-list-card';
 import { TabsSection } from '../../../../models/tabs-section';
 import { Chip } from '../../../../components/chip/chip';
 import { MatIconModule } from '@angular/material/icon';
-import { ListCard } from "../../../../components/card-default/card-default";
-import { MatCardModule } from "@angular/material/card";
+import { MatCardModule } from '@angular/material/card';
+import { FabButton } from '../../../../components/buttons/fab-button/fab-button';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-tourism-promoter-home',
@@ -22,8 +23,10 @@ import { MatCardModule } from "@angular/material/card";
     MatListModule,
     Chip,
     MatIconModule,
-    MatCardModule
-],
+    MatCardModule,
+    FabButton,
+    MatButtonModule,
+  ],
   templateUrl: './tourism-promoter-home.html',
   styleUrl: './tourism-promoter-home.scss',
 })
@@ -81,12 +84,29 @@ export class TourismPromoterHome {
   }
 
   loadRoutes() {
-    this.availableRoutes = this.routesService.getVisibleRoutes();
+    this.availableRoutes = [
+      {
+        id: '1',
+        title: 'Passeio pela Capital da Música',
+        priceRange: '$ - $$',
+        duration: '4h ~ 4h40m',
+        transportIcons: ['accessible', 'rocket', 'directions_bus', 'hotel'],
+      },
+      {
+        id: '2',
+        title: 'Adrenalina em Boituva-SP',
+        priceRange: '$$ - $$$',
+        duration: '4h ~ 4h40m',
+        transportIcons: ['accessible', 'rocket', 'directions_bus', 'hotel'],
+      },
+    ];
   }
 
   onTabChanged(index: number): void {
     this.activeTab = this.tabs[index].label;
-    this.currentItems = this.tabs[index].content;
+    if (this.tabs[index].label !== 'Rotas') {
+      this.currentItems = this.tabs[index].content;
+    }
   }
 
   subscribeToRoute(routeId: string) {
