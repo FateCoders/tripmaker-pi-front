@@ -79,7 +79,6 @@ export class AdministratorHome implements OnInit, OnDestroy {
   ngOnInit(): void {
     const user = this.authService.getCurrentUser();
 
-    // Inicia o carregamento dos dados base
     this.dataSubscription = combineLatest([
       this.regionControl.valueChanges,
       this.periodControl.valueChanges,
@@ -87,7 +86,6 @@ export class AdministratorHome implements OnInit, OnDestroy {
     ])
       .pipe(
         switchMap(([region, period, kpis]) => {
-          // Mock: Apenas aplica o filtro de período nos KPIs de Novos Usuários
           this.kpis = kpis.map((kpi) => {
             if (kpi.title.includes('(30 dias)') && period === '7days') {
               return { ...kpi, title: 'Novos Usuários (7 dias)', value: '+5' };
@@ -95,8 +93,6 @@ export class AdministratorHome implements OnInit, OnDestroy {
             return kpi;
           });
 
-          // O serviço de dashboard real usaria 'region' e 'period' para buscar dados reais
-          // Por enquanto, usamos os dados mockados do service
           return combineLatest([
             this.dashboardService.getUsersGrowthData(),
             this.dashboardService.getProfileDistributionData(),
