@@ -10,7 +10,8 @@
     <mat-list>
       @for(route of availableRoutes; track route.id) {
       <mat-card class="route-card">
-        </mat-card>
+        
+      </mat-card>
       } @empty {
       <div class="empty-state" style="text-align: center; padding: 20px">
         Nenhuma rota encontrada.
@@ -20,9 +21,9 @@
     } @else {
     <app-list-view [items]="currentItems" [enableSearch]="false" [enableFilter]="false" />
     }
-    
-    </main>
+  </main>
+
+  <app-bottom-menu></app-bottom-menu>
 
   <app-fab-button icon="add" label="Criar" />
-  <app-bottom-menu />
 </div>

@@ -59,6 +59,7 @@ export class TourismPromoterHome {
       label: 'Rotas',
       content: [
         {
+          
           id: '1',
           img: 'assets/images/jpg/teatro.jpeg',
           title: 'Festival de Teatro de Tatuí',

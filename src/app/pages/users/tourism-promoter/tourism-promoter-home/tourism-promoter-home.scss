@@ -11,7 +11,7 @@ mat-card {
 .home-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Garante que a página preencha a tela, mas possa crescer */
+  min-height: 100dvh; /* Garante que a página preencha a tela, mas possa crescer */
 }
 
 /* REGRA MODIFICADA:
@@ -75,13 +75,4 @@ app-fab-button {
   bottom: 30px;
   right: 30px;
   z-index: 101; /* Garante que ele fique acima de outros elementos */
-}
-
-
-app-bottom-menu {
-  position: fixed; /* Fixa o menu na janela de visualização */
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  z-index: 100; /* Garante que ele fique acima do conteúdo */
 }

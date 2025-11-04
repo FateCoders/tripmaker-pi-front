@@ -18,7 +18,7 @@ export class AuthService {
     {
       email: 'e@e.com',
       password: 'password',
-      role: 'promotor-turistico',
+      role: 'promotor_turistico',
       name: 'Promotor Turístico Teste',
     },
   ];

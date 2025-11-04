@@ -153,18 +153,18 @@ export const routes: Routes = [
 
   // ROTAS DE PROMOTOR TURÍSTICO
   {
-    path: 'promotor-turistico/inicio',
+    path: 'promotor_turistico/inicio',
     component: TourismPromoterHome,
     title: 'Início do Promotor Turístico',
-    canActivate: [authGuard, roleGuard('promotor-turistico')],
+    canActivate: [authGuard, roleGuard('promotor_turistico')],
     data: { animation: 'PromotorTuristicoHomePage' },
   },
   // Nova rota de perfil para Promotor
   {
-    path: 'promotor-turistico/perfil',
+    path: 'promotor_turistico/perfil',
     component: Profile,
     title: 'Perfil do Promotor Turístico',
-    canActivate: [authGuard, roleGuard('promotor-turistico')],
+    canActivate: [authGuard, roleGuard('promotor_turistico')],
     data: { animation: 'ProfilePage' },
   },
 
