@@ -1,0 +1,11 @@
+<h2 mat-dialog-title>{{ data.title }}</h2>
+<div mat-dialog-content>
+    <p>{{ data.message }}</p>
+</div>
+<div mat-dialog-actions align="end">
+    <app-round-button class="cancel-button" [label]="data.cancelText || 'Cancelar'" (onClick)="onCancel()">
+    </app-round-button>
+
+    <app-round-button class="confirm-button" [label]="data.confirmText || 'Excluir'" (onClick)="onConfirm()">
+    </app-round-button>
+</div>

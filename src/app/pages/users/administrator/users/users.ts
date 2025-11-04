@@ -10,11 +10,7 @@ import { User, UserRole } from '../../../../interfaces/user';
 import { TabsListCard } from '../../../../models/tabs-list-card';
 import { TabsSection } from '../../../../models/tabs-section';
 import { UserService } from '../../../../services/user.service';
-
-interface UserTab {
-  label: string;
-  type: UserRole;
-}
+import { Router } from '@angular/router'; // Importar o Router
 
 @Component({
   selector: 'app-administrator-users',
@@ -31,10 +27,13 @@ interface UserTab {
 })
 export class AdministratorUsers implements OnInit {
   private userService = inject(UserService);
+  private router = inject(Router); // Injetar o Router
 
   currentItems: WritableSignal<TabsListCard[]> = signal([]);
-
   isLoading = signal(true);
+
+  // Rastreia o role da aba ativa
+  private currentRole: UserRole = 'administrador';
 
   tabs: TabsSection[] = [
     { label: 'Administrador', content: [] },
@@ -49,9 +48,20 @@ export class AdministratorUsers implements OnInit {
     this.onTabChanged(0);
   }
 
+  refreshData(): void {
+    console.log('AdministratorUsers: Atualizando lista para o role:', this.currentRole);
+    this.isLoading.set(true);
+
+    this.userService.getUsersByRole(this.currentRole, '').subscribe(users => {
+      this.currentItems.set(this.transformUsersToCards(users));
+      this.isLoading.set(false);
+    });
+  }
+
   onTabChanged(index: number): void {
     this.isLoading.set(true);
     const tabType = this.tabTypes[index];
+    this.currentRole = tabType;
 
     this.userService.getUsersByRole(tabType, '').subscribe(users => {
       this.currentItems.set(this.transformUsersToCards(users));
@@ -83,7 +93,7 @@ export class AdministratorUsers implements OnInit {
   }
 
   createNewUser(): void {
-    console.log('Abrir modal/tela de criação de novo usuário');
+    this.router.navigate(['/administrador/usuarios/novo', this.currentRole]);
   }
 
 }

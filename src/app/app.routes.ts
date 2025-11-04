@@ -30,6 +30,7 @@ import { EntrepreneurNewCommerce } from './pages/users/entrepreneur/entrepreneur
 import { AdministratorCommerce } from './pages/users/administrator/commerce/commerce';
 import { AdministratorEvents } from './pages/users/administrator/events/events';
 import { AdministratorUsers } from './pages/users/administrator/users/users';
+import { AdministratorUserForm } from './pages/users/administrator/user-form/user-form';
 
 export const routes: Routes = [
   // ROTAS GERAIS
@@ -61,6 +62,13 @@ export const routes: Routes = [
     canActivate: [loginGuard],
     canDeactivate: [canDeactivateGuard],
     data: { animation: 'CadastroPage' },
+  },
+  {
+    path: 'administrador/usuarios/novo/:role',
+    component: AdministratorUserForm,
+    title: 'Criar Novo Usuário',
+    canActivate: [authGuard, roleGuard('administrador')],
+    data: { animation: 'AdminUserFormPage' },
   },
 
   // ROTAS DE VIAJANTE

@@ -1,0 +1,28 @@
+<mat-card class="list-card">
+    <div class="card-container">
+        <img mat-card-image class="card-image" [src]="item.img" alt="Imagem do usuário">
+
+        <div class="card-content">
+            <div class="card-header">
+                <mat-card-title class="card-title">{{ item.title }}</mat-card-title>
+
+                <button mat-icon-button class="card-menu" [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)="onEditClick($event)">
+                        <mat-icon>edit</mat-icon>
+                        <span>Editar</span>
+                    </button>
+                    <button mat-menu-item (click)="onDeleteClick($event)">
+                        <mat-icon color="warn">delete</mat-icon>
+                        <span class="text-warn">Excluir</span>
+                    </button>
+                </mat-menu>
+
+            </div>
+            <mat-card-subtitle class="card-subtitle">{{ item.description }}</mat-card-subtitle>
+        </div>
+    </div>
+</mat-card>

@@ -1,0 +1,38 @@
+:host {
+    .mat-mdc-dialog-container .mdc-dialog__surface {
+        border-radius: 12px;
+    }
+}
+
+[mat-dialog-title] {
+    font-weight: 500;
+    color: var(--text-color-dark);
+}
+
+[mat-dialog-content] {
+    color: var(--text-color-light);
+}
+
+[mat-dialog-actions] {
+    padding: 0 24px 20px 24px;
+    gap: 8px;
+}
+
+.cancel-button ::ng-deep button {
+    background-color: var(--white-color) !important;
+    color: var(--primary-color-dark) !important;
+
+    &:hover {
+        background-color: var(--primary-color-light) !important;
+    }
+}
+
+.confirm-button ::ng-deep button {
+    background-color: #EF4444 !important;
+    color: var(--white-color) !important;
+    border: none !important;
+
+    &:hover {
+        background-color: #D93737 !important;
+    }
+}
