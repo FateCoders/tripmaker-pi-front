@@ -65,10 +65,11 @@ mat-card {
   }
 
   app-fab-button {
-    margin-bottom: 15%;
-    position: fixed;
-    right: 30px;
-    z-index: 101; 
+    ::ng-deep .container {
+      bottom: 80px;
+      right: 30px;
+      z-index: 101;
+    }
   }
 
   app-bottom-menu {
