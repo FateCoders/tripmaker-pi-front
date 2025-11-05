@@ -1,5 +1,3 @@
-// app/pages/users/administrator/administrator-home/administrator-home.component.scss
-
 .home-container {
   display: grid;
   grid-template-rows: auto 1fr auto;
@@ -9,48 +7,49 @@
 
 .main-content {
   overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+
   padding: 1rem;
+
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 
-  max-height: calc(100dvh - 70.4px - 104px);
-
-  min-height: 0;
-
   width: 100%;
+
+  margin: 0 0 80px 0;
+
   scrollbar-color: #666 #f0f0f0;
   scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #666;
+    border-radius: 10px;
+    border: 2px solid #f0f0f0;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #888;
+  }
 }
 
-.main-content::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-.main-content::-webkit-scrollbar-track {
-  background: #f0f0f0;
-  border-radius: 10px;
-}
-.main-content::-webkit-scrollbar-thumb {
-  background-color: #666;
-  border-radius: 10px;
-  border: 2px solid #f0f0f0;
-}
-.main-content::-webkit-scrollbar-thumb:hover {
-  background-color: #888;
-}
-
-/* NOVOS ESTILOS PARA OS FILTROS DE CHIP */
 .filters-container {
   display: flex;
-  flex-direction: column; // Empilha em mobile
+  flex-direction: column;
   gap: 0.75rem;
   margin-bottom: 0.5rem;
-  padding: 0 0.5rem;
 
   .filter-group {
     display: flex;
-    flex-direction: column; // Label em cima dos chips
+    flex-direction: column;
     gap: 0.5rem;
   }
 
@@ -64,19 +63,16 @@
   }
 
   .filter-chip-list {
-    // Container com scroll horizontal
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
-    padding-bottom: 8px; // Espaço para scrollbar (mesmo se escondida)
+    padding-bottom: 8px;
 
-    // Esconde a barra de scroll
-    scrollbar-width: none; // Firefox
+    scrollbar-width: none;
     &::-webkit-scrollbar {
-      display: none; // Chrome, Safari
+      display: none;
     }
 
-    // Wrapper interno dos chips
     .mat-mdc-chip-set-wrapper {
       display: flex;
       flex-wrap: nowrap;
@@ -84,7 +80,7 @@
     }
 
     mat-chip-option {
-      flex-shrink: 0; // Impede que os chips encolham
+      flex-shrink: 0;
       --mdc-chip-elevated-container-color: var(--white-color);
       --mdc-chip-label-text-color: var(--text-color-dark);
       --mdc-chip-outline-color: var(--background-color-dark);
@@ -103,7 +99,6 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 1rem;
-  padding: 0 0.5rem;
 }
 
 .kpi-card {
@@ -131,12 +126,16 @@
 
   .kpi-icon {
     font-size: 24px;
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     padding: 4px;
     color: var(--white-color);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .kpi-value {
@@ -154,11 +153,40 @@
   }
 }
 
-.charts-container {
+.charts-section-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  ::ng-deep app-tabs-list {
+    .mat-mdc-tab-group {
+      background-color: var(--white-color);
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+    .mat-mdc-tab-header {
+      --mdc-tab-indicator-active-indicator-color: var(--primary-color-dark);
+      --mdc-tab-indicator-active-indicator-height: 4px;
+      --mdc-tab-indicator-active-indicator-shape: 9999px 9999px 0 0;
+    }
+    .mat-mdc-tab {
+      --mdc-tab-color: var(--text-color-light);
+      --mdc-tab-focus-label-text-color: var(--text-color-dark);
+      --mdc-tab-active-label-text-color: var(--text-color-dark);
+    }
+  }
+}
+
+.charts-content {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  padding: 0 0.5rem;
+}
+
+.charts-row {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .chart-card {
@@ -185,11 +213,10 @@
   height: 300px;
 }
 
-// Regras de responsividade (parecem boas, mantidas como estão)
 @media (min-width: 768px) {
   .main-content {
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 0 auto 80px auto;
     padding: 1.5rem;
   }
 
@@ -200,23 +227,26 @@
   }
 
   .filters-container {
-    padding: 0;
-    .filter-item {
-      min-width: 200px;
+    flex-direction: row;
+    .filter-group {
+      flex: 1;
     }
   }
 
   .kpi-container {
-    padding: 0;
     grid-template-columns: repeat(3, 1fr);
-  }
-
-  .charts-container {
-    padding: 0;
   }
 
   .chart-canvas,
   .chart-half-size {
     height: 300px;
   }
+}
+
+app-bottom-menu {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
 }
