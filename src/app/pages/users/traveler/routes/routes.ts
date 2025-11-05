@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core'; // Adicionado OnInit
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 
@@ -11,6 +11,7 @@ import {
 } from '../../../../components/map-item-card/map-item-card';
 import { HeaderTitle } from "../../../../components/header-title/header-title";
 import { FooterUsercomumComponent } from "../../../../components/public/bottom-menu/bottom-menu.component";
+import { RoutesService } from '../../../../services/routes.service'; // Importado
 
 @Component({
   selector: 'app-routes',
@@ -27,32 +28,19 @@ import { FooterUsercomumComponent } from "../../../../components/public/bottom-m
   templateUrl: './routes.html',
   styleUrls: ['./routes.scss'],
 })
-export class TravelerRoutes {
-  savedRoutes: MapItem[] = [
-    {
-      id: 'roteiro-1',
-      image: 'assets/images/jpg/teatro.jpeg',
-      title: 'Roteiro de 1 dia em Boituva',
-      category: 'Aventura',
-      rating: 4.8,
-      distance: '3 eventos',
-      details: 'Um dia radical com paraquedismo e balonismo.',
-    },
-    {
-      id: 'roteiro-2',
-      image: 'assets/images/png/conservatorio.png',
-      title: 'Fim de semana em Tatuí',
-      category: 'Cultural',
-      rating: 4.5,
-      distance: '5 eventos',
-      details: 'Conheça a capital da música e seus arredores.',
-    },
-  ];
+export class TravelerRoutes implements OnInit { // Implementado OnInit
+  private router = inject(Router);
+  private routesService = inject(RoutesService); // Injetado
+  
+  savedRoutes: MapItem[] = []; // Inicializado como vazio
 
-  constructor(private router: Router) {}
+  ngOnInit(): void {
+    // Carrega roteiros salvos ao inicializar
+    this.savedRoutes = this.routesService.getSavedRoutes();
+  }
 
   onRouteClick(route: MapItem): void {
-    console.log('Navegar para detalhes:', route.id);
+    console.log('Navegar para detalhes do roteiro (TODO):', route.id);
   }
 
   createNewRoute(): void {

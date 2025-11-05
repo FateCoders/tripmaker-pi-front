@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { RotasService } from './rotas.service';
+import { FavoritiesService } from './favorities-service';
 
-describe('RotasService', () => {
-  let service: RotasService;
+describe('FavoritiesService', () => {
+  let service: FavoritiesService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(RotasService);
+    service = TestBed.inject(FavoritiesService);
   });
 
   it('should be created', () => {

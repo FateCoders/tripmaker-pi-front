@@ -1,0 +1,21 @@
+<app-header-title
+  [title]="pageTitle()"
+  subtitle="Preencha os dados para cadastrar"
+  [showBackButton]="true"
+  (backClick)="goBack()"
+></app-header-title>
+
+<main class="form-page-container">
+  @if (dynamicFormFields().length > 0) {
+  <app-dynamic-form
+    [fields]="dynamicFormFields()"
+    [formValidators]="dynamicFormValidators"
+    [formTitle]="''"
+    submitButtonText="Salvar Usuário"
+    (formSubmit)="handleRegister($event)"
+  >
+  </app-dynamic-form>
+  } @else {
+  <p>Carregando formulário...</p>
+  }
+</main>

@@ -2,25 +2,25 @@
   @if (enableSearch) {
   <app-search-bar [(value)]="searchTerm" placeholder="Pesquise aqui"></app-search-bar>
   } @if (enableFilter) {
-  <app-filter-bar
-    class="filter-full"
-    [title]="'Categoria'"
-    [options]="[
-      { value: '', label: 'Todas' },
-      { value: 'A', label: 'Categoria A' },
-      { value: 'B', label: 'Categoria B' },
-      { value: 'C', label: 'Categoria C' }
-    ]"
-    (optionSelected)="onCategoryChange($event)"
-  >
-  </app-filter-bar>
   }
 </div>
 
 <mat-list class="card-list">
+  @switch (cardType) {
+
+  @case ('user') {
+  @for (item of filteredItems; track item.id) {
+  <app-card-user [item]="item" (userDeleted)="handleUserDeleted($event)"> </app-card-user>
+  <mat-divider></mat-divider>
+  }
+  }
+
+  @default {
   @for (item of filteredItems; track $index) {
   <app-card-default [item]="item"></app-card-default>
   <mat-divider></mat-divider>
+  }
+  }
   }
 </mat-list>
 

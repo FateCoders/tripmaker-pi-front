@@ -1,0 +1,120 @@
+@use '../../entrepreneur/entrepreneur-home/entrepreneur-home.scss';
+
+.list-container {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--background-color-light);
+}
+
+.list-content {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 1rem;
+  max-height: calc(100dvh - 102.4px - 104px);
+}
+
+.commerce-list-item {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .business-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+
+    .business-logo {
+      width: 48px;
+      height: 48px;
+    }
+
+    .business-name {
+      flex-grow: 1;
+    }
+
+    .chevron-icon {
+      color: var(--text-color-light-light);
+    }
+  }
+
+  .business-stats-card {
+    padding: 0;
+    box-shadow: none;
+    background: none;
+  }
+}
+
+.fab-container {
+  position: fixed;
+  right: 16px;
+  bottom: 80px;
+  z-index: 100;
+
+  button {
+    background-color: var(--primary-color-dark);
+    color: var(--white-color);
+  }
+}
+
+.empty-state-container {
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-color-dark);
+    margin: 0;
+  }
+  p {
+    font-size: 0.9rem;
+    color: var(--text-color-light);
+    max-width: 280px;
+  }
+}
+
+.dashboard-card {
+  margin-bottom: 20px;
+}
+
+.business-tags-card {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  justify-content: flex-start;
+  gap: 0.75rem;
+
+  padding: 1rem 0 1rem 1rem;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none; /* IE e Edge */
+  scrollbar-width: none; /* Firefox */
+
+  .tag-item {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+    color: var(--text-color-light);
+    background: var(--white-color);
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--background-color-dark);
+
+    mat-icon {
+      font-size: 1rem;
+    }
+  }
+}
