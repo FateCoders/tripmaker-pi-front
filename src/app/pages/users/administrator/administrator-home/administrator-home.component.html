@@ -10,7 +10,7 @@
   </main>
   } @else {
   <main class="main-content">
-    <!-- FILTROS -->
+    
     <section class="filters-container" ngSkipHydration>
       <div class="filter-group">
         <h4 class="filter-label">Período</h4>
@@ -39,7 +39,6 @@
       </div>
     </section>
 
-    <!-- 2. BIG NUMBERS (KPIs de Alto Nível) -->
     <section class="kpi-container">
       @for (kpi of kpis; track kpi.title) {
       <div class="kpi-card">
@@ -53,74 +52,81 @@
       }
     </section>
 
-    <!-- 3. ANÁLISES E GRÁFICOS -->
-    <div class="charts-container">
-      <!-- 3A. Análise de Crescimento de Usuários -->
-      <div class="chart-card">
-        <h3 class="chart-header">Crescimento de Usuários por Perfil</h3>
-        <div class="chart-canvas">
-          <canvas #growthChart></canvas>
-        </div>
-      </div>
+    <section class="charts-section-container">
+      
+      <app-tabs-list 
+        [tabs]="chartTabs" 
+        (tabChanged)="onTabChanged($event)">
+      </app-tabs-list>
 
-      <div class="charts-row">
-        <!-- 3B. Distribuição de Perfis (Rosca) -->
-        <div class="chart-card">
-          <h3 class="chart-header">Distribuição de Perfis</h3>
-          <div class="chart-half-size">
-            <canvas #distributionChart></canvas>
-          </div>
-        </div>
+      <div class="charts-content">
+        @switch (activeChartTab) {
+          
+          @case (chartTabs[0].label) { 
+            <div class="chart-card">
+              <h3 class="chart-header">Crescimento de Usuários por Perfil</h3>
+              <div class="chart-canvas">
+                <canvas #growthChart></canvas>
+              </div>
+            </div>
 
-        <!-- 3C. Criação de Conteúdo ao Longo do Tempo (Barras) -->
-        <div class="chart-card">
-          <h3 class="chart-header">Criação de Conteúdo (Mensal)</h3>
-          <div class="chart-half-size">
-            <canvas #contentCreationChart></canvas>
-          </div>
-        </div>
-      </div>
+            <div class="charts-row">
+              <div class="chart-card">
+                <h3 class="chart-header">Distribuição de Perfis</h3>
+                <div class="chart-half-size">
+                  <canvas #distributionChart></canvas>
+                </div>
+              </div>
 
-      <!-- 3D. Engajamento de Rotas (Top 5) -->
-      <div class="chart-card">
-        <h3 class="chart-header">Top 5 Rotas Mais Engajadas</h3>
-        <div class="chart-canvas">
-          <canvas #engagementChart></canvas>
-        </div>
-      </div>
+              <div class="chart-card">
+                <h3 class="chart-header">Criação de Conteúdo (Mensal)</h3>
+                <div class="chart-half-size">
+                  <canvas #contentCreationChart></canvas>
+                </div>
+              </div>
+            </div>
+          }
 
-      <!-- 3E. Mapa de Densidade de Conteúdo (DINÂMICO) -->
-      <div class="chart-card">
-        <h3 class="chart-header">Densidade de Conteúdo Geográfico</h3>
-        
-        <!-- CORREÇÃO: Mapa agora é dinâmico -->
-        @if (mapUrl(); as url) {
-        <div class="chart-canvas" style="height: 350px">
-          <iframe
-            width="100%"
-            height="100%"
-            style="border: 0; border-radius: 8px"
-            loading="lazy"
-            allowfullscreen
-            referrerpolicy="no-referrer-when-downgrade"
-            [src]="url"
-          ></iframe>
-          <p
-            style="
-              text-align: center;
-              font-size: 0.8rem;
-              color: var(--text-color-light);
-              margin-top: 0.5rem;
-            "
-          >
-            *Visualização da região selecionada.
-          </p>
-        </div>
-        } @else {
-          <p>Carregando mapa...</p>
+          @case (chartTabs[1].label) {
+            <div class="chart-card">
+              <h3 class="chart-header">Top 5 Rotas Mais Engajadas</h3>
+              <div class="chart-canvas">
+                <canvas #engagementChart></canvas>
+              </div>
+            </div>
+
+            <div class="chart-card">
+              <h3 class="chart-header">Densidade de Conteúdo Geográfico</h3>
+              
+              @if (mapUrl(); as url) {
+              <div class="chart-canvas" style="height: 350px">
+                <iframe
+                  width="100%"
+                  height="100%"
+                  style="border: 0; border-radius: 8px"
+                  loading="lazy"
+                  allowfullscreen
+                  referrerpolicy="no-referrer-when-downgrade"
+                  [src]="url"
+                ></iframe>
+                <p
+                  style="
+                    text-align: center;
+                    font-size: 0.8rem;
+                    color: var(--text-color-light);
+                  "
+                >
+                  Visualização da região selecionada.
+                </p>
+              </div>
+              } @else {
+                <p>Carregando mapa...</p>
+              }
+            </div>
+          }
         }
       </div>
-    </div>
+    </section>
   </main>
   }
 
