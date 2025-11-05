@@ -14,8 +14,8 @@ import { SearchBarComponent } from '../../../../components/search-bar/search-bar
     FooterUsercomumComponent,
     SearchBarComponent,
   ],
-  templateUrl: './tourism-promoter-map.component.html',
-  styleUrl: './tourism-promoter-map.component.scss',
+  templateUrl: './map.html',
+  styleUrl: './map.scss',
 })
 export class TourismPromoterMapComponent {
   searchTerm: string = '';
