@@ -5,12 +5,11 @@ import { MatListModule } from '@angular/material/list';
 import { ListCard } from '../card-default/card-default';
 import { TabsListCard } from '../../models/tabs-list-card';
 import { SearchBarComponent } from '../search-bar/search-bar.component';
-import { FilterBar } from '../filter-bar/filter-bar';
 import { CardUser } from '../card-user/card-user';
 
 @Component({
   selector: 'app-list-view',
-  imports: [CommonModule, FormsModule, MatListModule, ListCard, SearchBarComponent, FilterBar, CardUser],
+  imports: [CommonModule, FormsModule, MatListModule, ListCard, SearchBarComponent, CardUser],
   templateUrl: './list-view.html',
   styleUrls: ['./list-view.scss']
 })

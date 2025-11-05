@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
-import { RoundButton } from "../buttons/round-button/round-button";
 
 export interface ConfirmDialogData {
   title: string;
@@ -17,8 +16,7 @@ export interface ConfirmDialogData {
     CommonModule,
     MatDialogModule,
     MatButtonModule,
-    RoundButton
-],
+  ],
   templateUrl: './confirm-dialog.html',
   styleUrl: './confirm-dialog.scss'
 })

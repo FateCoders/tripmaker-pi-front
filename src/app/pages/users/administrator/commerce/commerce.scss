@@ -1,4 +1,4 @@
-@import '../../entrepreneur/entrepreneur-home/entrepreneur-home.scss';
+@use '../../entrepreneur/entrepreneur-home/entrepreneur-home.scss';
 
 .list-container {
   display: grid;
@@ -72,6 +72,7 @@
     color: var(--text-color-dark);
     margin: 0;
   }
+
   p {
     font-size: 0.9rem;
     color: var(--text-color-light);
@@ -98,8 +99,11 @@
   &::-webkit-scrollbar {
     display: none;
   }
-  -ms-overflow-style: none; /* IE e Edge */
-  scrollbar-width: none; /* Firefox */
+
+  -ms-overflow-style: none;
+  /* IE e Edge */
+  scrollbar-width: none;
+  /* Firefox */
 
   .tag-item {
     flex-shrink: 0;
