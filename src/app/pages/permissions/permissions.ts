@@ -27,8 +27,8 @@ interface PermissionItem {
   templateUrl: './permissions.html',
   styleUrl: './permissions.scss'
 })
-export class TravelerPermissions {
-  
+export class UserPermissions {
+
   // Injeção de dependência moderna
   private router = inject(Router);
   private location = inject(Location); // Location injetado

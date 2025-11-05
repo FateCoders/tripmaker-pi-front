@@ -43,7 +43,7 @@
     font-weight: 600;
     line-height: 1.2;
     color: var(--text-color-dark);
-    padding-top: 4px; // Ajuste para alinhar verticalmente com o botão
+    padding-top: 4px;
 }
 
 .card-subtitle {
@@ -56,19 +56,24 @@
 }
 
 .card-menu {
-    // mat-icon-button não tem borda por padrão.
-    // Estes estilos garantem o tamanho e cor corretos.
     padding: 0;
     display: flex;
+    background-color: transparent;
     justify-content: center;
     align-items: center;
+    border: none;
+    border-radius: 50%;
     width: 32px;
     height: 32px;
-    color: var(--text-color-light-light); // Cor sutil para o ícone
-    flex-shrink: 0;
+    color: var(--text-color-light-light);
+
+    &:hover {
+        background-color: var(--input-background);
+        transform: scale(1.08);
+        cursor: pointer;
+    }
 }
 
-// Estilos para o menu dropdown
 .mat-icon[color="warn"] {
     color: #EF4444;
 }
