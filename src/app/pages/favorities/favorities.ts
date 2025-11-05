@@ -5,7 +5,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { HeaderTitle } from '../../components/header-title/header-title';
-import { FooterUsercomumComponent } from '../../components/public/bottom-menu/bottom-menu.component';
 import { MapItem, MapItemCardComponent } from '../../components/map-item-card/map-item-card';
 import { Observable, switchMap, of, BehaviorSubject } from 'rxjs';
 import { FavoritesService } from '../../services/favorities-service';
