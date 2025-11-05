@@ -13,6 +13,22 @@
       [enableFilter]="true"
     ></app-list-view>
   </main>
-
+  
+  <div class="fab-container">
+    <button mat-fab color="primary" [matMenuTriggerFor]="creationMenu">
+      <mat-icon>add</mat-icon>
+    </button>
+    
+    <mat-menu #creationMenu="matMenu">
+      <button mat-menu-item (click)="createNewRoute()">
+        <mat-icon>map</mat-icon>
+        <span>Criar Nova Rota</span>
+      </button>
+      <button mat-menu-item (click)="createNewEvent()">
+        <mat-icon>event</mat-icon>
+        <span>Criar Novo Evento</span>
+      </button>
+    </mat-menu>
+  </div>
   <app-bottom-menu></app-bottom-menu>
 </div>

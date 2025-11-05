@@ -31,6 +31,8 @@ import { AdministratorCommerce } from './pages/users/administrator/commerce/comm
 import { AdministratorEvents } from './pages/users/administrator/events/events';
 import { AdministratorUsers } from './pages/users/administrator/users/users';
 import { AdministratorUserForm } from './pages/users/administrator/user-form/user-form';
+import { AdministradorNewCommerce } from './pages/users/administrator/new-commerce/new-commerce';
+import { FavoritesComponent } from './pages/favorities/favorities';
 
 export const routes: Routes = [
   // ROTAS GERAIS
@@ -85,6 +87,13 @@ export const routes: Routes = [
     title: 'Perfil do Viajante',
     canActivate: [authGuard, roleGuard('viajante')],
     data: { animation: 'ProfilePage' },
+  },
+  {
+    path: 'viajante/favoritos',
+    component: FavoritesComponent,
+    title: 'Favoritos do Viajante',
+    canActivate: [authGuard, roleGuard('viajante')],
+    data: { animation: 'ViajanteFavoritesPage' },
   },
   {
     path: 'viajante/permissoes',
@@ -210,7 +219,14 @@ export const routes: Routes = [
     component: AdministratorCommerce,
     title: 'Comércios do Administrador',
     canActivate: [authGuard, roleGuard('administrador')],
-    data: { animation: 'AdministradorHomePage' },
+    data: { animation: 'AdministradorCommercePage' },
+  },
+  {
+    path: 'administrador/comercios/cadastro',
+    component: AdministradorNewCommerce,
+    title: 'Novo Comércio do Administrador',
+    canActivate: [authGuard, roleGuard('administrador')],
+    data: { animation: 'AdministradorNewCommercePage' },
   },
   {
     path: 'administrador/eventos',
