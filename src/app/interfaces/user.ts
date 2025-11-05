@@ -8,4 +8,6 @@ export interface User {
   role: UserRole;
   password?: string;
   businessName?: string;
+  region?: string;
+  creationDate?: Date | string;
 }

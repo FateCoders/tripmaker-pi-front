@@ -1,3 +1,5 @@
+// src/app/pages/users/administrator/events/events.ts
+
 import { Component, inject, OnInit } from '@angular/core';
 import { HeaderTitle } from '../../../../components/header-title/header-title';
 import { FooterUsercomumComponent } from '../../../../components/public/bottom-menu/bottom-menu.component';
@@ -12,6 +14,7 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { Router } from '@angular/router';
+import { Route } from '../../../../interfaces/routes';
 
 @Component({
   selector: 'app-administrator-events',
@@ -74,7 +77,8 @@ export class AdministratorEvents implements OnInit {
   loadRoutes() {
     const routesFromService = this.routesService.getVisibleRoutes();
 
-    const mappedRoutes: TabsListCard[] = routesFromService.map((route) => {
+    // CORREÇÃO: Adicionado o tipo 'Route' ao parâmetro
+    const mappedRoutes: TabsListCard[] = routesFromService.map((route: Route) => {
       return {
         id: route.id,
         title: route.title,

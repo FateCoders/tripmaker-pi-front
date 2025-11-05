@@ -1,13 +1,20 @@
-import { Component, OnInit, inject, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+// src/app/pages/users/administrator/administrator-home/administrator-home.component.ts
+
+import {
+  Component,
+  OnInit,
+  inject,
+  ViewChild,
+  ElementRef,
+  OnDestroy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatSelectModule } from '@angular/material/select';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { Chart, registerables, TooltipItem } from 'chart.js';
 import { Subscription, combineLatest, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, startWith } from 'rxjs/operators';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { FooterUsercomumComponent } from '../../../../components/public/bottom-menu/bottom-menu.component';
 import { HeaderTitle } from '../../../../components/header-title/header-title';
@@ -28,11 +35,9 @@ Chart.register(...registerables);
     CommonModule,
     FooterUsercomumComponent,
     HeaderTitle,
-    MatSelectModule,
-    MatFormFieldModule,
-    MatInputModule,
     MatIconModule,
     ReactiveFormsModule,
+    MatChipsModule,
   ],
   templateUrl: './administrator-home.component.html',
   styleUrls: ['./administrator-home.component.scss'],
@@ -41,11 +46,51 @@ export class AdministratorHome implements OnInit, OnDestroy {
   private dashboardService = inject(DashboardService);
   private authService = inject(AuthService);
 
-  // Referências dos Canvas para o Chart.js (ViewChilds)
-  @ViewChild('growthChart') growthChartRef!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('distributionChart') distributionChartRef!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('contentCreationChart') contentCreationChartRef!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('engagementChart') engagementChartRef!: ElementRef<HTMLCanvasElement>;
+  // 1. Variáveis para armazenar as referências do Canvas
+  private growthChartRef: ElementRef<HTMLCanvasElement> | undefined;
+  private distributionChartRef: ElementRef<HTMLCanvasElement> | undefined;
+  private contentCreationChartRef: ElementRef<HTMLCanvasElement> | undefined;
+  private engagementChartRef: ElementRef<HTMLCanvasElement> | undefined;
+
+  // 2. Variáveis para armazenar os DADOS dos gráficos
+  private growthData: GrowthData | null = null;
+  private distributionData: DistributionData | null = null;
+  private contentData: GrowthData | null = null;
+  private engagementData: any | null = null;
+
+  // 3. Setters para os @ViewChild
+  @ViewChild('growthChart') set growthChart(
+    elRef: ElementRef<HTMLCanvasElement> | undefined
+  ) {
+    if (elRef) {
+      this.growthChartRef = elRef;
+      this.createUsersGrowthChart();
+    }
+  }
+  @ViewChild('distributionChart') set distributionChart(
+    elRef: ElementRef<HTMLCanvasElement> | undefined
+  ) {
+    if (elRef) {
+      this.distributionChartRef = elRef;
+      this.createProfileDistributionChart();
+    }
+  }
+  @ViewChild('contentCreationChart') set contentCreationChart(
+    elRef: ElementRef<HTMLCanvasElement> | undefined
+  ) {
+    if (elRef) {
+      this.contentCreationChartRef = elRef;
+      this.createContentCreationChart();
+    }
+  }
+  @ViewChild('engagementChart') set engagementChart(
+    elRef: ElementRef<HTMLCanvasElement> | undefined
+  ) {
+    if (elRef) {
+      this.engagementChartRef = elRef;
+      this.createTopRouteEngagementChart();
+    }
+  }
 
   // Variáveis para armazenar as instâncias dos gráficos
   private growthChartInstance!: Chart;
@@ -56,7 +101,7 @@ export class AdministratorHome implements OnInit, OnDestroy {
   kpis: KpiData[] = [];
   isLoading = true;
 
-  // Filtros (Mocked)
+  // Filtros
   regionControl = new FormControl('all');
   periodControl = new FormControl('30days');
 
@@ -71,60 +116,62 @@ export class AdministratorHome implements OnInit, OnDestroy {
     { value: '7days', label: 'Últimos 7 dias' },
     { value: '30days', label: 'Últimos 30 dias' },
     { value: '6months', label: 'Últimos 6 meses' },
+    { value: 'all', label: 'Todo o período' },
   ];
 
-  private chartSubscriptions: Subscription = new Subscription();
   private dataSubscription: Subscription = new Subscription();
 
   ngOnInit(): void {
-    const user = this.authService.getCurrentUser();
-
+    // CORREÇÃO: O combineLatest agora só observa os filtros
     this.dataSubscription = combineLatest([
-      this.regionControl.valueChanges,
-      this.periodControl.valueChanges,
-      this.dashboardService.getBigNumbers(),
+      this.regionControl.valueChanges.pipe(startWith(this.regionControl.value)),
+      this.periodControl.valueChanges.pipe(startWith(this.periodControl.value)),
     ])
       .pipe(
-        switchMap(([region, period, kpis]) => {
-          this.kpis = kpis.map((kpi) => {
-            if (kpi.title.includes('(30 dias)') && period === '7days') {
-              return { ...kpi, title: 'Novos Usuários (7 dias)', value: '+5' };
-            }
-            return kpi;
-          });
+        // O switchMap usa os valores dos filtros para chamar os serviços
+        switchMap(([region, period]) => {
+          this.isLoading = true;
+          this.destroyCharts(); // Limpa gráficos antigos
 
+          const currentRegion = region || 'all';
+          const currentPeriod = period || '30days';
+
+          // CORREÇÃO: Passa os filtros para TODOS os métodos do service
           return combineLatest([
-            this.dashboardService.getUsersGrowthData(),
-            this.dashboardService.getProfileDistributionData(),
-            this.dashboardService.getContentCreationData(),
-            this.dashboardService.getTopRouteEngagement(),
+            this.dashboardService.getBigNumbers(currentRegion, currentPeriod),
+            this.dashboardService.getUsersGrowthData(currentRegion, currentPeriod),
+            this.dashboardService.getProfileDistributionData(currentRegion, currentPeriod),
+            this.dashboardService.getContentCreationData(currentRegion, currentPeriod),
+            this.dashboardService.getTopRouteEngagement(currentRegion, currentPeriod),
           ]);
         })
       )
       .subscribe({
-        next: ([growthData, distributionData, contentData, engagementData]) => {
+        next: ([kpis, growthData, distributionData, contentData, engagementData]) => {
+          // Armazena todos os dados
+          this.kpis = kpis;
+          this.growthData = growthData;
+          this.distributionData = distributionData;
+          this.contentData = contentData;
+          this.engagementData = engagementData;
+
           this.isLoading = false;
-          // Chama os métodos de criação dos gráficos com os dados mockados
-          this.createUsersGrowthChart(growthData);
-          this.createProfileDistributionChart(distributionData);
-          this.createContentCreationChart(contentData);
-          this.createTopRouteEngagementChart(engagementData);
+
+          // Tenta (re)criar os gráficos
+          this.createUsersGrowthChart();
+          this.createProfileDistributionChart();
+          this.createContentCreationChart();
+          this.createTopRouteEngagementChart();
         },
         error: (err) => {
           console.error('Erro ao carregar dados do dashboard:', err);
           this.isLoading = false;
         },
       });
-
-    // Inicializa os controles para disparar a primeira busca
-    this.regionControl.setValue('all');
-    this.periodControl.setValue('30days');
   }
 
   ngOnDestroy(): void {
-    this.chartSubscriptions.unsubscribe();
     this.dataSubscription.unsubscribe();
-    // Destroi instâncias de Chart.js para evitar vazamento de memória
     this.destroyCharts();
   }
 
@@ -135,20 +182,21 @@ export class AdministratorHome implements OnInit, OnDestroy {
     if (this.engagementChartInstance) this.engagementChartInstance.destroy();
   }
 
-  // --- MÉTODOS DE CRIAÇÃO DOS GRÁFICOS ---
+  // --- MÉTODOS DE CRIAÇÃO DOS GRÁFICOS (sem alterações) ---
 
-  // 1. Gráfico de Crescimento de Usuários (Stacked Area)
-  private createUsersGrowthChart(data: GrowthData): void {
-    if (this.growthChartInstance) this.growthChartInstance.destroy(); // Destrói se já existir
-
+  private createUsersGrowthChart(): void {
+    if (!this.growthData || !this.growthChartRef) {
+      return;
+    }
+    if (this.growthChartInstance) this.growthChartInstance.destroy();
     const ctx = this.growthChartRef.nativeElement.getContext('2d');
     if (!ctx) return;
 
     this.growthChartInstance = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: data.labels,
-        datasets: data.datasets.map((dataset) => ({
+        labels: this.growthData.labels,
+        datasets: this.growthData.datasets.map((dataset) => ({
           label: dataset.label,
           data: dataset.data,
           backgroundColor: this.hexToRgba(dataset.color, 0.4),
@@ -156,7 +204,7 @@ export class AdministratorHome implements OnInit, OnDestroy {
           borderWidth: 2,
           fill: true,
           tension: 0.3,
-          stack: 'combined', // Empilha as áreas
+          stack: 'combined',
           pointRadius: 4,
           pointHoverRadius: 6,
         })),
@@ -172,30 +220,31 @@ export class AdministratorHome implements OnInit, OnDestroy {
         scales: {
           x: { grid: { display: false } },
           y: {
-            stacked: true, // Habilita empilhamento
+            stacked: true,
             beginAtZero: true,
             title: { display: true, text: 'Nº de Usuários' },
           },
         },
       },
-    }); // Atribuição direta à instância
+    });
   }
 
-  // 2. Gráfico de Distribuição de Perfis (Doughnut)
-  private createProfileDistributionChart(data: DistributionData): void {
+  private createProfileDistributionChart(): void {
+    if (!this.distributionData || !this.distributionChartRef) {
+      return;
+    }
     if (this.distributionChartInstance) this.distributionChartInstance.destroy();
-
     const ctx = this.distributionChartRef.nativeElement.getContext('2d');
     if (!ctx) return;
 
     this.distributionChartInstance = new Chart(ctx, {
       type: 'doughnut',
       data: {
-        labels: data.labels,
+        labels: this.distributionData.labels,
         datasets: [
           {
-            data: data.data,
-            backgroundColor: data.colors,
+            data: this.distributionData.data,
+            backgroundColor: this.distributionData.colors,
             hoverOffset: 10,
           },
         ],
@@ -212,18 +261,19 @@ export class AdministratorHome implements OnInit, OnDestroy {
     });
   }
 
-  // 3. Gráfico de Criação de Conteúdo (Barra)
-  private createContentCreationChart(data: GrowthData): void {
+  private createContentCreationChart(): void {
+    if (!this.contentData || !this.contentCreationChartRef) {
+      return;
+    }
     if (this.contentCreationChartInstance) this.contentCreationChartInstance.destroy();
-
     const ctx = this.contentCreationChartRef.nativeElement.getContext('2d');
     if (!ctx) return;
 
     this.contentCreationChartInstance = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: data.labels,
-        datasets: data.datasets.map((dataset) => ({
+        labels: this.contentData.labels,
+        datasets: this.contentData.datasets.map((dataset) => ({
           label: dataset.label,
           data: dataset.data,
           backgroundColor: dataset.color,
@@ -247,29 +297,30 @@ export class AdministratorHome implements OnInit, OnDestroy {
     });
   }
 
-  // 4. Gráfico de Engajamento de Rotas (Horizontal Bar - Top 5)
-  private createTopRouteEngagementChart(data: any): void {
+  private createTopRouteEngagementChart(): void {
+    if (!this.engagementData || !this.engagementChartRef) {
+      return;
+    }
     if (this.engagementChartInstance) this.engagementChartInstance.destroy();
-
     const ctx = this.engagementChartRef.nativeElement.getContext('2d');
     if (!ctx) return;
 
     this.engagementChartInstance = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: data.labels,
+        labels: this.engagementData.labels,
         datasets: [
           {
             label: 'Inscrições',
-            data: data.data,
-            backgroundColor: data.backgroundColor,
-            borderColor: data.backgroundColor,
+            data: this.engagementData.data,
+            backgroundColor: this.engagementData.backgroundColor,
+            borderColor: this.engagementData.backgroundColor,
             borderWidth: 1,
           },
         ],
       },
       options: {
-        indexAxis: 'y', // Tornar as barras horizontais
+        indexAxis: 'y',
         animation: { duration: 1000, easing: 'easeOutQuart' },
         responsive: true,
         maintainAspectRatio: false,
@@ -285,7 +336,6 @@ export class AdministratorHome implements OnInit, OnDestroy {
     });
   }
 
-  // Função utilitária para converter HEX para RGBA
   private hexToRgba(hex: string, alpha: number): string {
     const r = parseInt(hex.slice(1, 3), 16);
     const g = parseInt(hex.slice(3, 5), 16);
