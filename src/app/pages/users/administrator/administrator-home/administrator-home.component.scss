@@ -14,10 +14,8 @@
   flex-direction: column;
   gap: 1.5rem;
 
-  // CORREÇÃO: Removido o max-height que quebrava o layout '1fr' do grid
-  // max-height: calc(100dvh - 70.4px - 104px);
+  max-height: calc(100dvh - 70.4px - 104px);
 
-  // ADIÇÃO: Boa prática para evitar que flex/grid filhos causem overflow
   min-height: 0;
 
   width: 100%;

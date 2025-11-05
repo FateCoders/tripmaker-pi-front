@@ -7,14 +7,16 @@ import {
   ViewChild,
   ElementRef,
   OnDestroy,
+  signal, // <-- 1. Importar signal
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { Chart, registerables, TooltipItem } from 'chart.js';
 import { Subscription, combineLatest, of } from 'rxjs';
-import { switchMap, startWith } from 'rxjs/operators';
+import { switchMap, startWith, tap } from 'rxjs/operators';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatChipsModule } from '@angular/material/chips';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'; // <-- 2. Importar Sanitize
 
 import { FooterUsercomumComponent } from '../../../../components/public/bottom-menu/bottom-menu.component';
 import { HeaderTitle } from '../../../../components/header-title/header-title';
@@ -45,7 +47,9 @@ Chart.register(...registerables);
 export class AdministratorHome implements OnInit, OnDestroy {
   private dashboardService = inject(DashboardService);
   private authService = inject(AuthService);
+  private sanitizer = inject(DomSanitizer); // <-- 3. Injetar o Sanitizer
 
+  // ... (ViewChilds e setters dos gráficos) ...
   // 1. Variáveis para armazenar as referências do Canvas
   private growthChartRef: ElementRef<HTMLCanvasElement> | undefined;
   private distributionChartRef: ElementRef<HTMLCanvasElement> | undefined;
@@ -119,24 +123,36 @@ export class AdministratorHome implements OnInit, OnDestroy {
     { value: 'all', label: 'Todo o período' },
   ];
 
+  // 4. Mapeamento de URLs e signal
+  private regionMapUrls: Record<string, string> = {
+    all: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d117364.55073427976!2d-48.16914561842045!3d-23.47353932644246!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94c6328a9b244799%3A0x63428d022b39f3c!2sInterior%20de%20S%C3%A3o%20Paulo!5e0!3m2!1spt-BR!2sbr!4v1717462000000!5m2!1spt-BR!2sbr',
+    sorocaba: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d234281.3323485458!2d-47.63223151525426!3d-23.44421213076127!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94c58abceb02f0fb%3A0x4a58312760f38693!2sSorocaba%2C%20SP!5e0!3m2!1spt-BR!2sbr!4v1731174980645!5m2!1spt-BR!2sbr',
+    campinas: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d235252.1790432884!2d-47.190366885836!3d-22.913398042456723!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94c8c808b2612e59%3A0x622a03651111000a!2sCampinas%2C%20SP!5e0!3m2!1spt-BR!2sbr!4v1731175020739!5m2!1spt-BR!2sbr',
+    tatui: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d58673.07921890356!2d-47.88725831102927!3d-23.3512140669299!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94c5d8e7b165296d%3A0x6a0a09e0a80e1c31!2sTatu%C3%AD%2C%20SP!5e0!3m2!1spt-BR!2sbr!4v1731175051910!5m2!1spt-BR!2sbr'
+  };
+
+  mapUrl = signal<SafeResourceUrl | null>(null);
+
   private dataSubscription: Subscription = new Subscription();
 
   ngOnInit(): void {
-    // CORREÇÃO: O combineLatest agora só observa os filtros
     this.dataSubscription = combineLatest([
       this.regionControl.valueChanges.pipe(startWith(this.regionControl.value)),
       this.periodControl.valueChanges.pipe(startWith(this.periodControl.value)),
     ])
       .pipe(
-        // O switchMap usa os valores dos filtros para chamar os serviços
+        // 5. Atualizar a URL do mapa aqui
+        tap(([region, period]) => {
+          const url = this.regionMapUrls[region || 'all'];
+          this.mapUrl.set(this.sanitizer.bypassSecurityTrustResourceUrl(url));
+        }),
         switchMap(([region, period]) => {
           this.isLoading = true;
-          this.destroyCharts(); // Limpa gráficos antigos
+          this.destroyCharts();
 
           const currentRegion = region || 'all';
           const currentPeriod = period || '30days';
 
-          // CORREÇÃO: Passa os filtros para TODOS os métodos do service
           return combineLatest([
             this.dashboardService.getBigNumbers(currentRegion, currentPeriod),
             this.dashboardService.getUsersGrowthData(currentRegion, currentPeriod),
@@ -148,7 +164,6 @@ export class AdministratorHome implements OnInit, OnDestroy {
       )
       .subscribe({
         next: ([kpis, growthData, distributionData, contentData, engagementData]) => {
-          // Armazena todos os dados
           this.kpis = kpis;
           this.growthData = growthData;
           this.distributionData = distributionData;
@@ -157,7 +172,6 @@ export class AdministratorHome implements OnInit, OnDestroy {
 
           this.isLoading = false;
 
-          // Tenta (re)criar os gráficos
           this.createUsersGrowthChart();
           this.createProfileDistributionChart();
           this.createContentCreationChart();
@@ -175,6 +189,7 @@ export class AdministratorHome implements OnInit, OnDestroy {
     this.destroyCharts();
   }
 
+  // ... (destroyCharts e todos os métodos createChart) ...
   destroyCharts(): void {
     if (this.growthChartInstance) this.growthChartInstance.destroy();
     if (this.distributionChartInstance) this.distributionChartInstance.destroy();
