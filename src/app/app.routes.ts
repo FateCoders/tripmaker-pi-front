@@ -27,6 +27,7 @@ import { RouteSaveComponent } from './pages/route-save/route-save';
 import { Profile } from './pages/profile/profile.component';
 import { EntrepreneurCommerce } from './pages/users/entrepreneur/entrepreneur-commerce/entrepreneur-commerce';
 import { EntrepreneurNewCommerce } from './pages/users/entrepreneur/entrepreneur-new-commerce/entrepreneur-new-commerce';
+import { TourismPromoterEventDetails } from './pages/users/tourism-promoter/tourism-promoter-event-details/tourism-promoter-event-details';
 
 export const routes: Routes = [
   // ROTAS GERAIS
@@ -159,7 +160,13 @@ export const routes: Routes = [
     canActivate: [authGuard, roleGuard('promotor_turistico')],
     data: { animation: 'PromotorTuristicoHomePage' },
   },
-  // Nova rota de perfil para Promotor
+  {
+    path: 'promotor_turistico/evento/:id',
+    component: TourismPromoterEventDetails,
+    title: 'Detalhes do Evento',
+    canActivate: [authGuard, roleGuard('promotor_turistico')],
+    data: { animation: 'PromotorEventoDetalhesPage' },
+  },
   {
     path: 'promotor_turistico/perfil',
     component: Profile,

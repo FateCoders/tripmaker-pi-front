@@ -1,4 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { RoutesService } from '../../../../services/routes.service';
 import { ListView } from '../../../../components/list-view/list-view';
@@ -11,11 +13,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { FabButton } from '../../../../components/buttons/fab-button/fab-button';
 import { MatButtonModule } from '@angular/material/button';
-import { Chip } from "../../../../components/chip/chip";
+import { Chip } from '../../../../components/chip/chip';
 
 @Component({
   selector: 'app-tourism-promoter-home',
   imports: [
+    CommonModule,
     FooterUsercomumComponent,
     ListView,
     HeaderTitle,
@@ -25,13 +28,14 @@ import { Chip } from "../../../../components/chip/chip";
     MatCardModule,
     FabButton,
     MatButtonModule,
-    Chip
-],
+    Chip,
+  ],
   templateUrl: './tourism-promoter-home.html',
   styleUrl: './tourism-promoter-home.scss',
 })
-export class TourismPromoterHome {
+export class TourismPromoterHome implements OnInit {
   private routesService = inject(RoutesService);
+  private router = inject(Router);
 
   activeTab: string = 'Eventos';
   availableRoutes: any[] = [];
@@ -61,7 +65,6 @@ export class TourismPromoterHome {
       label: 'Rotas',
       content: [
         {
-          
           id: '1',
           img: 'assets/images/jpg/teatro.jpeg',
           title: 'Festival de Teatro de Tatuí',
@@ -96,7 +99,7 @@ export class TourismPromoterHome {
       {
         id: '2',
         title: 'Adrenalina em Boituva-SP',
-        priceRange: '$$ - $$$',
+        priceRange: '$$-$$$',
         duration: '4h ~ 4h40m',
         transportIcons: ['accessible', 'rocket', 'directions_bus', 'hotel'],
       },
@@ -108,6 +111,10 @@ export class TourismPromoterHome {
     if (this.tabs[index].label !== 'Rotas') {
       this.currentItems = this.tabs[index].content;
     }
+  }
+
+  onEventClick(route: any) {
+    this.router.navigate(['/promotor_turistico/evento', route.id]);
   }
 
   subscribeToRoute(routeId: string) {

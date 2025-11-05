@@ -5,40 +5,45 @@
   />
 
   <main class="home-content">
-    <app-tabs-list [tabs]="tabs" (tabChanged)="onTabChanged($event)"/>
+    <app-tabs-list [tabs]="tabs" (tabChanged)="onTabChanged($event)"></app-tabs-list>
+
     @if (activeTab === 'Rotas') {
-    <mat-list>
-      @for(route of availableRoutes; track route.id) {
-      <mat-card class="route-card">
-        <mat-card-header>
-          <mat-card-title>{{ route.title }}</mat-card-title>
-          <button mat-icon-button class="favorite-button">
-            <mat-icon>favorite_border</mat-icon> 
-          </button>
-        </mat-card-header>
+      <mat-list>
+        @for(route of availableRoutes; track route.id) {
+        <mat-card class="route-card" (click)="onEventClick(route)">
+          <mat-card-header>
+            <mat-card-title>{{ route.title }}</mat-card-title>
+            <button mat-icon-button class="favorite-button">
+              <mat-icon>favorite_border</mat-icon> 
+            </button>
+          </mat-card-header>
 
-        <mat-card-content>
-          <div class="chips-container">
-            <app-chip [label]="route.priceRange" icon="attach_money"></app-chip>
-            <app-chip [label]="route.duration" icon="schedule"></app-chip>
-          </div>
-          <div class="icons-container">
-            @for(icon of route.transportIcons; track $index) {
-            <mat-icon>{{ icon }}</mat-icon>
-            }
-          </div>
-      </mat-card-content>
-      </mat-card>
-      } @empty {
-      <div class="empty-state" style="text-align: center; padding: 20px">
-        Nenhuma rota encontrada.
-      </div>
-      }
-    </mat-list>
+          <mat-card-content>
+            <div class="chips-container">
+              <app-chip [label]="route.priceRange" icon="attach_money"></app-chip>
+              <app-chip [label]="route.duration" icon="schedule"></app-chip>
+            </div>
+            <div class="icons-container">
+              @for(icon of route.transportIcons; track $index) {
+              <mat-icon>{{ icon }}</mat-icon>
+              }
+            </div>
+        </mat-card-content>
+        </mat-card>
+        } @empty {
+          <div class="empty-state" style="text-align: center; padding: 20px;">Nenhuma rota encontrada.</div>
+        }
+      </mat-list>
     } @else {
-    <app-list-view [items]="currentItems" [enableSearch]="false" [enableFilter]="false" />
+      <app-list-view
+        [items]="currentItems"
+        [enableSearch]="false"
+        [enableFilter]="false"
+        (itemClick)="onEventClick($event)"
+      ></app-list-view>
     }
-    </main>
+  </main>
 
-  <app-fab-button icon="add" label="Criar" /> <app-bottom-menu />
+  <app-fab-button icon="add" label="Criar" /> 
+  <app-bottom-menu />
 </div>
