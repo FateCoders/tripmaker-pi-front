@@ -33,6 +33,8 @@ import { AdministratorUsers } from './pages/users/administrator/users/users';
 import { AdministratorUserForm } from './pages/users/administrator/user-form/user-form';
 import { AdministradorNewCommerce } from './pages/users/administrator/new-commerce/new-commerce';
 import { FavoritesComponent } from './pages/favorities/favorities';
+import { TermsComponent } from './pages/terms/terms';
+import { AdministratorCommerceDetail } from './pages/users/administrator/administrator-commerce-detail/administrator-commerce-detail';
 
 export const routes: Routes = [
   // ROTAS GERAIS
@@ -101,6 +103,13 @@ export const routes: Routes = [
     title: 'Permissões do Viajante',
     canActivate: [authGuard, roleGuard('viajante')],
     data: { animation: 'UserPermissionsPage' },
+  },
+  {
+    path: 'viajante/termos',
+    component: TermsComponent,
+    title: 'Termos do Viajante',
+    canActivate: [authGuard, roleGuard('viajante')],
+    data: { animation: 'UserTermsPage' },
   },
   {
     path: 'viajante/roteiros',
@@ -184,6 +193,13 @@ export const routes: Routes = [
     data: { animation: 'ProfilePage' },
   },
   {
+    path: 'empreendedor/termos',
+    component: TermsComponent,
+    title: 'Termos do Empreendedor',
+    canActivate: [authGuard, roleGuard('empreendedor')],
+    data: { animation: 'UserTermsPage' },
+  },
+  {
     path: 'empreendedor/permissoes',
     component: UserPermissions,
     title: 'Permissões do Empreendedor',
@@ -213,7 +229,13 @@ export const routes: Routes = [
     canActivate: [authGuard, roleGuard('promotor-turistico')],
     data: { animation: 'UserPermissionsPage' },
   },
-
+  {
+    path: 'promotor-turistico/termos',
+    component: TermsComponent,
+    title: 'Termos do Promotor Turístico',
+    canActivate: [authGuard, roleGuard('promotor-turistico')],
+    data: { animation: 'UserTermsPage' },
+  },
   {
     path: 'mapa',
     component: MapViewComponent,
@@ -234,6 +256,13 @@ export const routes: Routes = [
     title: 'Comércios do Administrador',
     canActivate: [authGuard, roleGuard('administrador')],
     data: { animation: 'AdministradorCommercePage' },
+  },
+  {
+    path: 'administrador/comercios/detalhe/:id',
+    component: AdministratorCommerceDetail,
+    title: 'Detalhes do Comércio',
+    canActivate: [authGuard, roleGuard('administrador')],
+    data: { animation: 'AdminCommerceDetailPage' },
   },
   {
     path: 'administrador/comercios/cadastro',
@@ -269,6 +298,13 @@ export const routes: Routes = [
     title: 'Permissões do Administrador',
     canActivate: [authGuard, roleGuard('administrador')],
     data: { animation: 'UserPermissionsPage' },
+  },
+  {
+    path: 'administrador/termos',
+    component: TermsComponent,
+    title: 'Termos do Administrador',
+    canActivate: [authGuard, roleGuard('administrador')],
+    data: { animation: 'UserTermsPage' },
   },
 
   // PÁGINA NÃO ENCONTRADA

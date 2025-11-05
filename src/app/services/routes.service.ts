@@ -1,10 +1,20 @@
+// src/app/services/routes.service.ts
+
 import { Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { AuthService } from './auth.service';
 import { RouteCardItem } from '../interfaces/route-card-item';
 import { isPlatformBrowser } from '@angular/common';
+import { Route } from '../interfaces/routes';
 
 const CURRENT_ROUTE_KEY = 'currentRouteItems';
 const SAVED_ROUTES_KEY = 'savedRoutes';
+
+// Helper para datas (hoje - N dias)
+const dateDaysAgo = (days: number): Date => {
+  const date = new Date();
+  date.setDate(date.getDate() - days);
+  return date;
+};
 
 @Injectable({
   providedIn: 'root',
@@ -14,9 +24,7 @@ export class RoutesService {
   private platformId = inject(PLATFORM_ID);
   private isBrowser = isPlatformBrowser(this.platformId);
 
-  // --- MOCKS E DADOS ---
-  
-  // Rotas de navegação do menu de rodapé (RESTORED)
+  // ... (código 'routes' do menu omitido) ...
   private readonly routes = {
     admin: [
       { path: '/administrador/inicio', label: 'Início', icon: 'home' },
@@ -45,33 +53,39 @@ export class RoutesService {
   };
 
   // Mocks para Rotas Visíveis (Usadas na tela do Viajante e Admin)
-  private allRoutes: any[] = [
+  private allRoutes: Route[] = [ // <-- USAR A INTERFACE
     {
       id: '1',
-      title: 'Rota Histórica',
+      title: 'Rota Histórica (Tatuí)',
       description: 'Descubra o centro histórico.',
       isActive: true,
       registeredUsers: ['user1@test.com', 'user2@test.com', 'user3@test.com'],
+      region: 'tatui',
+      creationDate: dateDaysAgo(6),
     },
     {
       id: '2',
-      title: 'Rota Gastronômica',
+      title: 'Rota Gastronômica (Sorocaba)',
       description: 'Sabores da cidade.',
       isActive: true,
       img: 'assets/images/png/conservatorio.png',
       registeredUsers: ['user1@test.com', 'user2@test.com'],
+      region: 'sorocaba',
+      creationDate: dateDaysAgo(15),
     },
     {
       id: '3',
-      title: 'Rota da Natureza',
+      title: 'Rota da Natureza (Campinas)',
       description: 'Trilhas e paisagens.',
       isActive: false,
       img: 'assets/images/png/conservatorio.png',
       registeredUsers: ['user4@test.com', 'user5@test.com', 'user6@test.com', 'user7@test.com'],
+      region: 'campinas',
+      creationDate: dateDaysAgo(50),
     },
     {
-      id: '4',
-      title: 'Rota de Aventura',
+      id: '4G',
+      title: 'Rota de Aventura (Tatuí)',
       description: 'Passeios radicais.',
       isActive: true,
       img: 'assets/images/png/conservatorio.png',
@@ -82,10 +96,22 @@ export class RoutesService {
         'user11@test.com',
         'user12@test.com',
       ],
+      region: 'tatui',
+      creationDate: dateDaysAgo(80),
+    },
+    {
+      id: '5',
+      title: 'Rota do Vinho (Sorocaba)',
+      description: 'Vinícolas da região.',
+      isActive: true,
+      img: 'assets/images/jpg/exposicao-arte.jpg',
+      registeredUsers: ['user1@test.com', 'user10@test.com', 'user12@test.com'],
+      region: 'sorocaba',
+      creationDate: dateDaysAgo(3),
     },
   ];
-  
-  // Mocks para Roteiros Salvos (Usados como fallback se o localStorage estiver vazio)
+
+  // ... (resto do service, initialMockRoutes, saveCurrentRoute, etc.) ...
   private initialMockRoutes = [
     {
       id: 'roteiro-1',
@@ -119,7 +145,6 @@ export class RoutesService {
   ];
   
   // --- MÉTODOS DE NAVEGAÇÃO ---
-
   getUserRoutes() {
     const userRole = this.authService.getUserRole();
     if (userRole === 'administrador') {
@@ -135,10 +160,6 @@ export class RoutesService {
   }
   
   // --- MÉTODOS DE ROTEIRO (USANDO LOCALSTORAGE) ---
-
-  /**
-   * Salva o roteiro atual (pontos de interesse) no localStorage.
-   */
   saveCurrentRoute(items: RouteCardItem[]): void {
     if (this.isBrowser) {
       try {
@@ -149,10 +170,6 @@ export class RoutesService {
       }
     }
   }
-
-  /**
-   * Carrega o roteiro atual (pontos de interesse) do localStorage.
-   */
   loadCurrentRoute(): RouteCardItem[] {
     if (this.isBrowser) {
       try {
@@ -165,24 +182,15 @@ export class RoutesService {
     }
     return [];
   }
-  
-  /**
-   * Limpa o roteiro atual do localStorage.
-   */
   clearCurrentRoute(): void {
     if (this.isBrowser) {
       localStorage.removeItem(CURRENT_ROUTE_KEY);
       console.log('Roteiro atual limpo do localStorage.');
     }
   }
-  
-  /**
-   * Salva o roteiro finalizado na lista de roteiros salvos.
-   */
   saveFinalRoute(routeData: any, items: RouteCardItem[]): boolean {
     if (this.isBrowser) {
       try {
-        // Filtra para garantir que só pegamos roteiros salvos (e não os mocks iniciais)
         const savedRoutes = this.getSavedRoutes().filter(r => !this.initialMockRoutes.some(mock => mock.id === r.id));
         
         const newRoute = {
@@ -190,14 +198,11 @@ export class RoutesService {
           id: `roteiro-${savedRoutes.length + 1}`,
           items: items,
           date: new Date().toLocaleDateString('pt-BR'), 
-          // Atributos necessários para a lista de cards
           image: items[0]?.image || 'assets/images/jpg/teatro.jpeg',
           category: routeData.name || 'Personalizado',
           rating: 5.0,
           distance: `${items.length} eventos`
         };
-
-        // Adiciona o novo roteiro à lista de salvos
         const updatedRoutes = [...this.initialMockRoutes, ...savedRoutes, newRoute];
         localStorage.setItem(SAVED_ROUTES_KEY, JSON.stringify(updatedRoutes));
         
@@ -211,14 +216,9 @@ export class RoutesService {
     }
     return false;
   }
-  
-  /**
-   * Carrega todos os roteiros salvos do localStorage.
-   */
   getSavedRoutes(): any[] {
     if (this.isBrowser) {
       const saved = localStorage.getItem(SAVED_ROUTES_KEY);
-      // Inclui os mocks iniciais se não houver dados salvos (para não quebrar a tela)
       return saved ? JSON.parse(saved) : this.initialMockRoutes;
     }
     return this.initialMockRoutes;
@@ -226,12 +226,12 @@ export class RoutesService {
   
   // --- MÉTODOS EXISTENTES ABAIXO (Mocks de Rotas) ---
 
-  getAllRoutes() {
-    return this.allRoutes;
+  getAllRoutes(): Route[] { // <-- RETORNA Route[]
+    return JSON.parse(JSON.stringify(this.allRoutes));
   }
 
-  getVisibleRoutes() {
-    return this.allRoutes.filter((route) => route.isActive);
+  getVisibleRoutes(): Route[] { // <-- RETORNA Route[]
+    return this.getAllRoutes().filter((route: Route) => route.isActive);
   }
 
   toggleRouteStatus(routeId: string) {
@@ -240,19 +240,19 @@ export class RoutesService {
       route.isActive = !route.isActive;
     }
   }
-
+  
   registerUserToRoute(routeId: string): boolean {
     const route = this.allRoutes.find((r) => r.id === routeId);
     const currentUser = this.authService.getCurrentUser();
 
     if (route && currentUser) {
       const userEmail = currentUser.email;
-      if (!route.registeredUsers.includes(userEmail)) {
+      if (userEmail && !route.registeredUsers.includes(userEmail)) { // Verifica se email existe
         route.registeredUsers.push(userEmail);
         console.log('Usuários na rota:', route.registeredUsers);
-        return true; // Sucesso
+        return true; 
       }
     }
-    return false; // Falha ou já registrado
+    return false; 
   }
 }

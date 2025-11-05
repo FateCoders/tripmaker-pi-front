@@ -11,24 +11,32 @@
   } @else {
   <main class="main-content">
     <!-- FILTROS -->
-    <section class="filters-container">
-      <mat-form-field appearance="outline" class="filter-item">
-        <mat-label>Período</mat-label>
-        <mat-select [formControl]="periodControl">
+    <section class="filters-container" ngSkipHydration>
+      <div class="filter-group">
+        <h4 class="filter-label">Período</h4>
+        <mat-chip-listbox
+          class="filter-chip-list"
+          aria-label="Selecionar período"
+          [formControl]="periodControl"
+        >
           @for (period of periods; track period.value) {
-          <mat-option [value]="period.value">{{ period.label }}</mat-option>
+          <mat-chip-option [value]="period.value">{{ period.label }}</mat-chip-option>
           }
-        </mat-select>
-      </mat-form-field>
+        </mat-chip-listbox>
+      </div>
 
-      <mat-form-field appearance="outline" class="filter-item">
-        <mat-label>Micro-Região / Cidade</mat-label>
-        <mat-select [formControl]="regionControl">
+      <div class="filter-group">
+        <h4 class="filter-label">Micro-Região / Cidade</h4>
+        <mat-chip-listbox
+          class="filter-chip-list"
+          aria-label="Selecionar região"
+          [formControl]="regionControl"
+        >
           @for (region of regions; track region.value) {
-          <mat-option [value]="region.value">{{ region.label }}</mat-option>
+          <mat-chip-option [value]="region.value">{{ region.label }}</mat-chip-option>
           }
-        </mat-select>
-      </mat-form-field>
+        </mat-chip-listbox>
+      </div>
     </section>
 
     <!-- 2. BIG NUMBERS (KPIs de Alto Nível) -->
@@ -37,11 +45,7 @@
       <div class="kpi-card">
         <div class="kpi-header">
           <p class="kpi-title">{{ kpi.title }}</p>
-          <mat-icon
-            class="kpi-icon"
-            [style.background-color]="kpi.color"
-            >{{ kpi.icon }}</mat-icon
-          >
+          <mat-icon class="kpi-icon" [style.background-color]="kpi.color">{{ kpi.icon }}</mat-icon>
         </div>
         <strong class="kpi-value">{{ kpi.value }}</strong>
         <span class="kpi-unit">{{ kpi.unit }}</span>
@@ -85,23 +89,36 @@
         </div>
       </div>
 
-      <!-- 3E. Mapa de Densidade de Conteúdo (Mock) -->
+      <!-- 3E. Mapa de Densidade de Conteúdo (DINÂMICO) -->
       <div class="chart-card">
-        <h3 class="chart-header">Densidade de Conteúdo Geográfico (Mock)</h3>
-        <div class="chart-canvas" style="height: 350px;">
+        <h3 class="chart-header">Densidade de Conteúdo Geográfico</h3>
+        
+        <!-- CORREÇÃO: Mapa agora é dinâmico -->
+        @if (mapUrl(); as url) {
+        <div class="chart-canvas" style="height: 350px">
           <iframe
             width="100%"
             height="100%"
-            style="border: 0; border-radius: 8px;"
+            style="border: 0; border-radius: 8px"
             loading="lazy"
             allowfullscreen
             referrerpolicy="no-referrer-when-downgrade"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d117364.55073427976!2d-48.16914561842045!3d-23.47353932644246!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94c6328a9b244799%3A0x63428d022b39f3c!2sInterior%20de%20S%C3%A3o%20Paulo!5e0!3m2!1spt-BR!2sbr!4v1717462000000!5m2!1spt-BR!2sbr"
+            [src]="url"
           ></iframe>
-          <p style="text-align: center; font-size: 0.8rem; color: var(--text-color-light); margin-top: 0.5rem;">
-            *Mapa representando a área do Interior de SP. O filtro geográfico alteraria os dados.
+          <p
+            style="
+              text-align: center;
+              font-size: 0.8rem;
+              color: var(--text-color-light);
+              margin-top: 0.5rem;
+            "
+          >
+            *Visualização da região selecionada.
           </p>
         </div>
+        } @else {
+          <p>Carregando mapa...</p>
+        }
       </div>
     </div>
   </main>

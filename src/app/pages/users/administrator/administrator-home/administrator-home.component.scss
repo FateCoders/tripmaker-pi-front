@@ -1,3 +1,5 @@
+// app/pages/users/administrator/administrator-home/administrator-home.component.scss
+
 .home-container {
   display: grid;
   grid-template-rows: auto 1fr auto;
@@ -11,11 +13,16 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+
   max-height: calc(100dvh - 70.4px - 104px);
+
+  min-height: 0;
+
   width: 100%;
   scrollbar-color: #666 #f0f0f0;
   scrollbar-width: thin;
 }
+
 .main-content::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -33,19 +40,61 @@
   background-color: #888;
 }
 
+/* NOVOS ESTILOS PARA OS FILTROS DE CHIP */
 .filters-container {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
+  flex-direction: column; // Empilha em mobile
+  gap: 0.75rem;
   margin-bottom: 0.5rem;
   padding: 0 0.5rem;
 
-  .filter-item {
-    flex-grow: 1;
-    min-width: 150px;
+  .filter-group {
+    display: flex;
+    flex-direction: column; // Label em cima dos chips
+    gap: 0.5rem;
+  }
 
-    ::ng-deep .mat-mdc-form-field-wrapper {
-      padding-bottom: 0;
+  .filter-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-color-light);
+    margin: 0;
+    padding-left: 0.25rem;
+    text-transform: uppercase;
+  }
+
+  .filter-chip-list {
+    // Container com scroll horizontal
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 8px; // Espaço para scrollbar (mesmo se escondida)
+
+    // Esconde a barra de scroll
+    scrollbar-width: none; // Firefox
+    &::-webkit-scrollbar {
+      display: none; // Chrome, Safari
+    }
+
+    // Wrapper interno dos chips
+    .mat-mdc-chip-set-wrapper {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 0.5rem;
+    }
+
+    mat-chip-option {
+      flex-shrink: 0; // Impede que os chips encolham
+      --mdc-chip-elevated-container-color: var(--white-color);
+      --mdc-chip-label-text-color: var(--text-color-dark);
+      --mdc-chip-outline-color: var(--background-color-dark);
+      --mdc-chip-selected-label-text-color: var(--white-color);
+      --mdc-chip-selected-elevated-container-color: var(--primary-color-dark);
+      --mdc-chip-selected-focus-label-text-color: var(--white-color);
+
+      &.mat-mdc-chip-selected {
+        --mdc-chip-outline-color: var(--primary-color-dark);
+      }
     }
   }
 }
@@ -136,6 +185,7 @@
   height: 300px;
 }
 
+// Regras de responsividade (parecem boas, mantidas como estão)
 @media (min-width: 768px) {
   .main-content {
     max-width: 1200px;

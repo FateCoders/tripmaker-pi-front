@@ -1,0 +1,114 @@
+:host {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100dvh;
+  background: var(--background-color-light);
+}
+
+.terms-content {
+  overflow-y: auto;
+  padding: 1.5rem; // Mais respiro
+  background-color: var(--white-color);
+  margin: 1rem auto; // Centraliza em telas maiores
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  max-width: 900px; // Limita a largura para leitura
+  width: calc(100% - 2rem); // Garante a margem em telas pequenas
+  box-sizing: border-box;
+
+  // Estilos de texto base
+  h1, h2, h3 {
+    color: var(--text-color-dark);
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .terms-h1 {
+    font-size: 1.7rem; // Um pouco menor
+    text-align: center;
+    color: var(--primary-color-dark);
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .terms-h2 {
+    font-size: 1.4rem;
+    border-bottom: 2px solid var(--background-color-dark); // Borda mais grossa
+    padding-bottom: 8px;
+    margin-top: 2.5rem; // Mais separação
+  }
+
+  .terms-h3 {
+    font-size: 1.15rem;
+    color: var(--text-color-dark); // Um pouco mais escuro que o 'light'
+    margin-top: 2rem;
+  }
+
+  .terms-p, .terms-ul li {
+    font-size: 0.95rem;
+    line-height: 1.7; // Mais espaçamento entre linhas
+    color: var(--text-color-light-middle);
+    margin-bottom: 1rem; // Parágrafos mais espaçados
+  }
+
+  .terms-ul {
+    padding-left: 0; // Remove padding padrão
+    list-style-type: none; // Remove bullets padrão
+    margin-bottom: 1.5rem;
+    
+    li {
+      position: relative;
+      padding-left: 24px; // Espaço para o "bullet" customizado
+      margin-bottom: 0.75rem; // Espaçamento entre itens
+      
+      &::before {
+        content: '•';
+        position: absolute;
+        left: 0;
+        top: 0;
+        color: var(--primary-color); // Cor do bullet
+        font-size: 1.2rem;
+        font-weight: bold;
+        line-height: 1.7; // Alinha com o texto
+      }
+    }
+  }
+
+  .terms-table-wrapper {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border: 1px solid var(--background-color-dark);
+    border-radius: 8px;
+    overflow: hidden; // Força o border-radius na tabela interna
+  }
+
+  .terms-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+
+    th, td {
+      padding: 12px 16px; // Mais padding
+      text-align: left;
+      border-bottom: 1px solid var(--background-color-dark);
+      font-size: 0.9rem;
+      color: var(--text-color-light-middle);
+    }
+
+    th {
+      background-color: var(--background-color-light);
+      color: var(--text-color-dark);
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    
+    tbody tr:nth-child(even) {
+        background-color: var(--background-color-light); // Fundo zebrado
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+  }
+}
