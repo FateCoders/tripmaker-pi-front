@@ -34,8 +34,7 @@ export class AdministratorCommerce {
   }
 
   onCommerceClick(commerce: Commerce): void {
-    this.commerceService.selectCommerce(commerce.id);
-    this.router.navigate(['/administrador/inicio']);
+    this.router.navigate(['/administrador/comercios/detalhe', commerce.id]);
   }
 
   registerNewCommerce(): void {
