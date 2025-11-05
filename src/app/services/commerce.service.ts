@@ -49,11 +49,10 @@ export class CommerceService {
 
   private activeCommerceId = new BehaviorSubject<string | null>(null);
 
-  // NOVO MÉTODO SÍNCRONO PARA DASHBOARD
   getAllCommercesForUserMock(): Commerce[] {
     return this.allBusinesses;
   }
-  
+
   getAllCommercesForUser(): Observable<Commerce[]> {
     return of(this.allBusinesses).pipe(delay(500));
   }
@@ -84,6 +83,11 @@ export class CommerceService {
         );
       })
     );
+  }
+
+  getCommerceById(id: string): Observable<Commerce | null> {
+    const foundCommerce = this.allBusinesses.find(c => c.id === id);
+    return of(foundCommerce || null).pipe(delay(300));
   }
 
   registerCommerce(commerceData: Commerce): Observable<boolean> {

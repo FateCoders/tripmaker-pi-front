@@ -1,0 +1,107 @@
+<div class="home-container">
+
+  <app-header-title [title]="'Detalhes do Comércio'" [subtitle]="'Visualização de informações importantes'"
+    [showBackButton]="true" (backClick)="goBack()"></app-header-title>
+
+  @if (isLoading()) {
+  <main class="home-content loading-state">
+    <p>Carregando dados...</p>
+  </main>
+  } @else {
+  <main class="home-content">
+
+    @if (businessData(); as business) {
+    <div class="dashboard-container">
+
+      <section class="dashboard-card business-header-card">
+        <div class="business-info">
+          <img [src]="business.logoUrl" alt="Logo do Comércio" class="business-logo" />
+          <div class="business-name">
+            <h3>{{ business.name }}</h3>
+            <p>{{ business.address }}</p>
+          </div>
+          <button mat-icon-button (click)="refreshData()" class="refresh-button">
+            <mat-icon>refresh</mat-icon>
+          </button>
+        </div>
+      </section>
+
+      <section class="dashboard-card business-stats-card">
+        <div class="stat-item">
+          <span>Visitantes</span>
+          <strong>{{ business.visitors }}</strong>
+        </div>
+        <div class="stat-item">
+          <span>Avaliações</span>
+          <div class="star-rating">
+            @for (isFilled of getRatingStars(business.rating); track $index) {
+            <mat-icon>{{ isFilled ? 'star' : 'star_border' }}</mat-icon>
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="business-tags-card">
+        @if (business.priceRange) {
+        <app-chip-button [label]="business.priceRange" icon="attach_money" [isDisabled]="true">
+        </app-chip-button>
+        }
+        <app-chip-button [label]="business.hours" icon="schedule" [isDisabled]="true">
+        </app-chip-button>
+        @if (business.category) {
+        <app-chip-button [label]="business.category" icon="storefront" [isDisabled]="true">
+        </app-chip-button>
+        }
+        @if (business.caracteristicas) { @for (item of business.caracteristicas; track $index) {
+        <app-chip-button [label]="item" [isDisabled]="true"></app-chip-button>
+        } }
+      </section>
+
+      <section class="dashboard-card routes-map-card">
+        <div class="routes-info">
+          <span class="routes-label">Seu comércio está em</span>
+          <strong class="routes-count">{{ business.routesCount }}</strong>
+          <span class="routes-label">Rotas</span>
+        </div>
+        <div class="map-placeholder">
+          @if(mapUrl()) {
+          <iframe class="map-iframe" width="100%" height="100%" style="border: 0" loading="lazy" allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade" [src]="mapUrl()">
+          </iframe>
+          }
+        </div>
+      </section>
+
+      <section class="dashboard-card visitors-card">
+        <div class="card-header">
+          <h4>Visitantes</h4>
+          <button mat-flat-button class="filter-button">Hoje</button>
+        </div>
+        <div class="graph-placeholder">
+          <canvas #visitorsChart></canvas>
+        </div>
+        <p class="visitors-footer">{{ business.monthlyVisitors }} visitantes no mês</p>
+      </section>
+
+      <section class="dashboard-card reviews-card">
+        <div class="reviews-icon">
+          <mat-icon>reviews</mat-icon>
+        </div>
+        <div class="reviews-text">
+          <strong>Avaliações</strong>
+          <p>Confira como os viajantes avaliam o seu comércio.</p>
+        </div>
+        <mat-icon class="reviews-arrow">chevron_right</mat-icon>
+      </section>
+    </div>
+    } @else {
+    <div class="empty-state-container">
+      <mat-icon class="empty-state-icon">error_outline</mat-icon>
+      <h3>Comércio não encontrado</h3>
+      <p>Não foi possível carregar os dados. Tente voltar e selecionar novamente.</p>
+    </div>
+    }
+  </main>
+  }
+
+</div>

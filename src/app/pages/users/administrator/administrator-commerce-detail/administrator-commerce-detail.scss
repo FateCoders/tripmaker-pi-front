@@ -1,0 +1,12 @@
+@use '../../entrepreneur/entrepreneur-home/entrepreneur-home.scss';
+
+:host {
+  .home-container {
+    grid-template-rows: auto 1fr; 
+    min-height: 100dvh;
+  }
+
+  .home-content {
+    max-height: none;
+  }
+}

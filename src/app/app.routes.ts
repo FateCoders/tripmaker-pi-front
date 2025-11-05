@@ -33,6 +33,7 @@ import { AdministratorUsers } from './pages/users/administrator/users/users';
 import { AdministratorUserForm } from './pages/users/administrator/user-form/user-form';
 import { AdministradorNewCommerce } from './pages/users/administrator/new-commerce/new-commerce';
 import { FavoritesComponent } from './pages/favorities/favorities';
+import { AdministratorCommerceDetail } from './pages/users/administrator/administrator-commerce-detail/administrator-commerce-detail';
 
 export const routes: Routes = [
   // ROTAS GERAIS
@@ -234,6 +235,13 @@ export const routes: Routes = [
     title: 'Comércios do Administrador',
     canActivate: [authGuard, roleGuard('administrador')],
     data: { animation: 'AdministradorCommercePage' },
+  },
+  {
+    path: 'administrador/comercios/detalhe/:id',
+    component: AdministratorCommerceDetail,
+    title: 'Detalhes do Comércio',
+    canActivate: [authGuard, roleGuard('administrador')],
+    data: { animation: 'AdminCommerceDetailPage' },
   },
   {
     path: 'administrador/comercios/cadastro',
