@@ -10,3 +10,15 @@
   overflow-y: auto;
   max-height: calc(100dvh - 102.4px - 104px);
 }
+
+.fab-container {
+  position: fixed;
+  right: 16px;
+  bottom: 80px;
+  z-index: 100;
+
+  button[mat-fab] {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+  }
+}

@@ -1,5 +1,3 @@
-// [MODIFICADO] src/app/pages/users/entrepreneur/entrepreneur-new-commerce/entrepreneur-new-commerce.ts
-
 import { Component, OnInit, inject, ViewChild, OnDestroy, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -25,8 +23,7 @@ import { Commerce } from '../../../../interfaces/commerce';
 import { ChipButtonComponent } from '../../../../components/buttons/chip-button/chip-button';
 
 @Component({
-  selector: 'app-entrepreneur-new-commerce',
-  standalone: true,
+  selector: 'app-new-commerce',
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -40,10 +37,10 @@ import { ChipButtonComponent } from '../../../../components/buttons/chip-button/
     NgxMaskDirective,
     ChipButtonComponent,
   ],
-  templateUrl: './entrepreneur-new-commerce.html',
-  styleUrl: './entrepreneur-new-commerce.scss',
+  templateUrl: './new-commerce.html',
+  styleUrl: './new-commerce.scss',
 })
-export class EntrepreneurNewCommerce implements OnInit, OnDestroy {
+export class AdministradorNewCommerce implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private commerceService = inject(CommerceService);
@@ -180,7 +177,7 @@ export class EntrepreneurNewCommerce implements OnInit, OnDestroy {
 
     this.commerceService.registerCommerce(newCommerce).subscribe((success) => {
       if (success) {
-        this.router.navigate(['/empreendedor/comercios']);
+        this.router.navigate(['/administrador/comercios']);
       } else {
         console.error('Falha ao cadastrar comércio.');
       }
@@ -188,6 +185,6 @@ export class EntrepreneurNewCommerce implements OnInit, OnDestroy {
   }
 
   goBack(): void {
-    this.router.navigate(['/empreendedor/comercios']);
+    this.router.navigate(['/administrador/comercios']);
   }
 }

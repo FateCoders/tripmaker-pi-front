@@ -1,0 +1,343 @@
+// [SUBSTITUIR] src/app/pages/users/entrepreneur/entrepreneur-new-commerce/entrepreneur-new-commerce.scss
+
+:host {
+  display: block;
+  background-color: var(--background-color-light, #f4f7f6);
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.form-container {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto; // Cabeçalho, Card Usuário, Stepper (flexível), Rodapé
+  height: 100vh;
+  height: 100dvh;
+}
+
+.form-header {
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  background-color: var(--white-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  gap: 1rem;
+  flex-shrink: 0;
+
+  .back-button {
+    color: var(--text-color-dark);
+  }
+
+  h1 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.2;
+  }
+  
+  p {
+    font-size: 0.875rem;
+    color: var(--text-color-light);
+    margin: 0;
+  }
+}
+
+// Card do usuário (layout)
+.user-card {
+  grid-row: 2;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  margin: 1rem 1rem 0 1rem; // Espaçamento
+  background-color: var(--white-color);
+  border-radius: 8px;
+  border: 1px solid var(--primary-color-light);
+
+  .user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+
+  .user-info {
+    flex-grow: 1;
+    .user-name {
+      display: block;
+      font-weight: 500;
+      color: var(--text-color-dark);
+    }
+    .user-doc {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--text-color-light);
+    }
+  }
+
+  .user-check {
+    color: var(--primary-color);
+  }
+}
+
+// Stepper (área de rolagem)
+.form-stepper {
+  grid-row: 3;
+  overflow-y: auto;
+  background-color: transparent; // O stepper em si é transparente
+
+  // Ajusta o conteúdo de cada step
+  ::ng-deep .mat-step-body-content {
+    padding-bottom: 1rem;
+  }
+  
+  // Coloca o conteúdo do step dentro de um "card" branco
+  .form-step-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: var(--white-color);
+    border-radius: 8px;
+    margin: 0 1rem; // Mesma margem do card de usuário
+  }
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+
+  mat-form-field, button {
+    flex: 1;
+  }
+}
+
+.form-textarea {
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+}
+
+// Rodapé fixo
+.stepper-footer {
+  grid-row: 4;
+  padding: 1rem;
+  background-color: var(--white-color);
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+  z-index: 10;
+
+  .full-width-btn {
+    width: 100%;
+    padding: 0.75rem 0;
+    font-size: 1rem;
+  }
+}
+
+// --- Estilos Específicos dos Steps ---
+
+// Mapa (Step 2)
+.map-container {
+  height: 200px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--background-color-dark);
+}
+
+// Chips (Step 2)
+.caracteristicas-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+// Upload (Step 3)
+.upload-label {
+  font-weight: 500;
+  color: var(--text-color-dark);
+  margin-bottom: -0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  
+  mat-icon {
+    font-size: 1.25rem;
+  }
+}
+
+.upload-box-single {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--text-color-light-light);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  position: relative;
+
+  .upload-box-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .upload-icon-placeholder {
+    color: var(--text-color-light);
+    font-size: 2rem;
+    width: 2rem;
+    height: 2rem;
+  }
+  
+  .upload-icon-action {
+    color: var(--primary-color);
+  }
+
+  input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  &:hover {
+    border-color: var(--primary-color);
+  }
+}
+
+.upload-box-multi {
+  border: 2px dashed var(--text-color-light-light);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  color: var(--text-color-light);
+  cursor: pointer;
+  position: relative;
+  
+  .multi-placeholder {
+    background-color: var(--background-color-light);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    
+    mat-icon {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+      color: var(--background-color-dark);
+    }
+  }
+
+  .upload-box-dropzone {
+    span {
+      display: block;
+      font-weight: 500;
+      color: var(--primary-color);
+    }
+    .drop-text {
+      font-size: 0.9rem;
+      color: var(--text-color-light);
+    }
+  }
+  
+  input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  &:hover {
+    border-color: var(--primary-color);
+  }
+}
+
+// [MODIFICADO] src/app/pages/users/entrepreneur/entrepreneur-home/entrepreneur-home.scss
+
+// ... (Layout principal, loading-state, empty-state, business-header-card, business-stats-card) ...
+
+// Card: Tags (MODIFICADO)
+.business-tags-card {
+  display: flex;
+  flex-wrap: nowrap; // <-- MUDADO: Força uma linha única
+  overflow-x: auto; // <-- ADICIONADO: Habilita scroll horizontal
+  justify-content: flex-start; // <-- MUDADO: Alinha itens à esquerda
+  gap: 0.75rem;
+  padding: 1rem 1rem 0.5rem 1rem; // Ajustado para dar espaço ao scroll
+  background: transparent; // Fundo transparente
+  box-shadow: none; // Sem sombra
+  border-radius: 0; // Sem borda
+
+  .tag-item {
+    flex-shrink: 0; // <-- ADICIONADO: Impede que os badges encolham
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+    color: var(--text-color-light);
+    background: var(--white-color); // Fundo branco
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--background-color-dark); // Borda sutil como no layout
+
+    mat-icon {
+      font-size: 1rem;
+    }
+  }
+
+  // Esconde a barra de rolagem visualmente
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none; /* IE e Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+// ... (routes-map-card) ...
+
+// Card: Visitantes (Gráfico)
+.visitors-card {
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    h4 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 0;
+      color: var(--text-color-dark);
+    }
+
+    // ADICIONADO: Estilo para o botão "Hoje"
+    .filter-button {
+      background: var(--primary-color-light);
+      color: var(--primary-color-dark);
+      border-radius: 50px;
+      font-weight: 500;
+      box-shadow: none;
+      height: 36px;
+      line-height: 36px;
+      padding: 0 1.5rem;
+    }
+  }
+
+  .graph-placeholder {
+    width: 100%;
+    height: 150px;
+    margin-bottom: 0.5rem;
+    position: relative; // Necessário para o Chart.js
+  }
+
+  .visitors-footer {
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--text-color-light);
+    margin: 0;
+  }
+}

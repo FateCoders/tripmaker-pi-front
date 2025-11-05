@@ -9,6 +9,9 @@ import { ListView } from '../../../../components/list-view/list-view';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-administrator-events',
@@ -19,6 +22,8 @@ import { CommonModule } from '@angular/common';
     FooterUsercomumComponent,
     MatListModule,
     MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
     ListView,
     TabsList,
   ],
@@ -27,6 +32,7 @@ import { CommonModule } from '@angular/common';
 })
 export class AdministratorEvents implements OnInit {
   private routesService = inject(RoutesService);
+  private router = inject(Router);
 
   activeTab: string = 'Rotas';
 
@@ -88,5 +94,15 @@ export class AdministratorEvents implements OnInit {
   onTabChanged(index: number): void {
     this.activeTab = this.tabs[index].label;
     this.currentItems = this.tabs[index].content;
+  }
+
+  createNewRoute(): void {
+    console.log('Navegando para criação de Nova Rota...');
+    this.router.navigate(['/administrador/eventos/nova-rota']);
+  }
+
+  createNewEvent(): void {
+    console.log('Navegando para criação de Novo Evento...');
+    this.router.navigate(['/administrador/eventos/novo-evento']);
   }
 }
