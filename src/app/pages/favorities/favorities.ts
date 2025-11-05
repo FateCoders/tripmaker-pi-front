@@ -19,7 +19,6 @@ type FavoriteTab = 'Roteiros' | 'Rotas' | 'Eventos';
   imports: [
     CommonModule,
     HeaderTitle,
-    FooterUsercomumComponent,
     MatTabsModule,
     MatIconModule,
     MatButtonModule,

@@ -14,7 +14,7 @@ import { AdministratorHome } from './pages/users/administrator/administrator-hom
 import { EntrepreneurHome } from './pages/users/entrepreneur/entrepreneur-home/entrepreneur-home';
 import { TourismPromoterHome } from './pages/users/tourism-promoter/tourism-promoter-home/tourism-promoter-home';
 import { TravelerHome } from './pages/users/traveler/traveler-home/traveler-home';
-import { TravelerPermissions } from './pages/permissions/permissions';
+import { UserPermissions } from './pages/permissions/permissions';
 import { TravelerRoutes } from './pages/users/traveler/routes/routes';
 import { TravelerEvents } from './pages/users/traveler/events/events';
 import { PreferencesComponent } from './pages/users/traveler/preferences/preferences';
@@ -97,10 +97,10 @@ export const routes: Routes = [
   },
   {
     path: 'viajante/permissoes',
-    component: TravelerPermissions,
+    component: UserPermissions,
     title: 'Permissões do Viajante',
     canActivate: [authGuard, roleGuard('viajante')],
-    data: { animation: 'ViajantePermissionsPage' },
+    data: { animation: 'UserPermissionsPage' },
   },
   {
     path: 'viajante/roteiros',
@@ -183,6 +183,13 @@ export const routes: Routes = [
     canActivate: [authGuard, roleGuard('empreendedor')],
     data: { animation: 'ProfilePage' },
   },
+  {
+    path: 'empreendedor/permissoes',
+    component: UserPermissions,
+    title: 'Permissões do Empreendedor',
+    canActivate: [authGuard, roleGuard('empreendedor')],
+    data: { animation: 'UserPermissionsPage' },
+  },
 
   // ROTAS DE PROMOTOR TURÍSTICO
   {
@@ -198,6 +205,13 @@ export const routes: Routes = [
     title: 'Perfil do Promotor Turístico',
     canActivate: [authGuard, roleGuard('promotor-turistico')],
     data: { animation: 'ProfilePage' },
+  },
+  {
+    path: 'promotor-turistico/permissoes',
+    component: UserPermissions,
+    title: 'Permissões do Promotor Turistico',
+    canActivate: [authGuard, roleGuard('promotor-turistico')],
+    data: { animation: 'UserPermissionsPage' },
   },
 
   {
@@ -248,6 +262,13 @@ export const routes: Routes = [
     title: 'Perfil do Administrador',
     canActivate: [authGuard, roleGuard('administrador')],
     data: { animation: 'ProfilePage' },
+  },
+  {
+    path: 'administrador/permissoes',
+    component: UserPermissions,
+    title: 'Permissões do Administrador',
+    canActivate: [authGuard, roleGuard('administrador')],
+    data: { animation: 'UserPermissionsPage' },
   },
 
   // PÁGINA NÃO ENCONTRADA
