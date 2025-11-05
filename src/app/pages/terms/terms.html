@@ -1,0 +1,50 @@
+<div class="terms-container">
+  <app-header-title
+    [title]="pageTitle"
+    [subtitle]="pageSubtitle"
+    [showBackButton]="true"
+    (backClick)="goBack()"
+  ></app-header-title>
+
+  <main class="terms-content">
+    @for (block of termsContent; track $index) { @switch (block.type) { @case ('heading') { @if
+    (block.level === 1) {
+    <h1 class="terms-h1">{{ block.text }}</h1>
+    } @else if (block.level === 2) {
+    <h2 class="terms-h2">{{ block.text }}</h2>
+    } @else if (block.level === 3) {
+    <h3 class="terms-h3">{{ block.text }}</h3>
+    } } @case ('text') {
+    <p class="terms-p">{{ block.content }}</p>
+    } @case ('list') {
+    <ul class="terms-ul">
+      @for (item of block.items; track $index) {
+      <li>{{ item }}</li>
+      }
+    </ul>
+    } @case ('table') { @if (block.content) {
+    <div class="terms-table-wrapper">
+      <table class="terms-table">
+        <thead>
+          <tr>
+            @for (header of block.content[0]; track $index) {
+            <th>{{ header }}</th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of block.content.slice(1); track $index) {
+          <tr>
+            @for (cell of row; track $index) {
+            <td>{{ cell }}</td>
+            }
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    } } } }
+  </main>
+
+  <app-bottom-menu></app-bottom-menu>
+</div>
