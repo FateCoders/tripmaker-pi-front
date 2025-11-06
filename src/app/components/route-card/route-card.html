@@ -1,0 +1,35 @@
+<div class="route-card">
+  <div class="card-image-container">
+    <img [src]="item.image" alt="{{ item.title }}" class="card-image" />
+    <button mat-flat-button class="view-more-btn" (click)="onViewClick()">
+      <mat-icon>visibility</mat-icon> Ver mais
+    </button>
+  </div>
+
+  <div class="card-content">
+    <div class="card-header">
+      <h3 class="card-title">{{ item.title }}</h3>
+      @if (item.duration) {
+      <div class="card-duration">
+        <mat-icon>schedule</mat-icon>
+        <span>{{ item.duration }}</span>
+      </div>
+      }
+    </div>
+
+    <p class="card-subtitle">{{ item.category }}</p>
+    <p class="card-description">{{ item.details }}</p>
+
+    <div class="icon-bar">
+      @for (icon of itemIcons; track $index) {
+      <mat-icon>{{ icon }}</mat-icon>
+      }
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <button mat-flat-button class="add-button" (click)="onAddClick()">
+      Adicionar ao Roteiro
+    </button>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<main class="landing_container">
+  <section class="landing_container_main">
+    <article class="landing_container_header">
+      <img src="favicon.svg" alt="Logo" />
+      <h2>TripMaker</h2>
+    </article>
+    <article class="landing_container_footer">
+      <a routerLink="/profile">
+        <app-round-button
+          class="signUp"
+          [label]="'CADASTRE-SE'"
+          [isDisabled]="false"
+        ></app-round-button>
+      </a>
+      <a routerLink="/login">
+        <app-round-button class="signIn" [label]="'ENTRAR'" [isDisabled]="false"></app-round-button>
+      </a>
+    </article>
+  </section>
+</main>

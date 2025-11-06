@@ -1,0 +1,36 @@
+.header-title-container {
+  display: flex;
+  align-items: center;
+  background: #f9fafb;
+  padding: 20px 16px;
+  border-bottom: 2px solid var(--text-color-light-light);
+}
+
+.back-button {
+  margin-right: 16px;
+  color: var(--text-color-dark);
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-title-content {
+  flex-grow: 1;
+
+  .title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-color-dark);
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+    color: var(--text-color-light);
+    margin: 4px 0 0 0;
+  }
+}

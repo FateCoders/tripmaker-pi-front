@@ -1,0 +1,38 @@
+.notfound_container {
+    width: 100%;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    &__lottiefiles {
+        width: 90%;
+        max-width: 500px;
+        margin-bottom: 2rem;
+    }
+
+    &__message {
+        text-align: center;
+
+        h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(text-color-light-light);
+        }
+
+        button {
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            font-weight: 500;
+            border: none;
+            border-radius: 100px;
+            background-color: var(--primary-color-dark);
+            color: var(--white-color);
+            cursor: pointer;
+            padding: 10px 30px;
+
+        }
+    }
+}

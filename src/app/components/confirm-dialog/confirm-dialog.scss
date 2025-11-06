@@ -1,0 +1,38 @@
+:host ::ng-deep .mat-mdc-dialog-container .mdc-dialog__surface {
+    border-radius: 12px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+[mat-dialog-title] {
+    font-weight: 600;
+    color: var(--text-color-dark);
+    padding-bottom: 12px;
+}
+
+[mat-dialog-content] {
+    color: var(--text-color-light);
+    padding-top: 0;
+    padding-bottom: 24px;
+}
+
+[mat-dialog-actions] {
+    padding: 0 24px 20px 24px;
+    gap: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.confirm-button {
+    background-color: var(--danger-color);
+}
+
+.cancel-button {
+    color: var(--text-color-light);
+    border-radius: 50px;
+    padding: 0 24px;
+    height: 40px;
+
+    &:hover {
+        background-color: #f9f9f9;
+    }
+}

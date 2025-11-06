@@ -1,0 +1,18 @@
+<div class="summary-item-container">
+  <img [src]="item.image" alt="{{ item.title }}" class="item-image" />
+
+  <div class="item-content">
+    <h3 class="item-title">{{ item.title }}</h3>
+    <p class="item-subtitle">{{ item.category }}</p>
+
+    <div class="icon-bar">
+      @for (icon of itemIcons; track $index) {
+      <mat-icon>{{ icon }}</mat-icon>
+      }
+    </div>
+  </div>
+
+  <button mat-icon-button class="remove-button" (click)="onRemoveClick()">
+    <mat-icon>remove</mat-icon>
+  </button>
+</div>

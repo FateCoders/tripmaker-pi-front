@@ -1,0 +1,139 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: var(--white-color);
+
+  ::ng-deep .mdc-evolution-chip-set__chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+}
+
+app-header-title {
+  flex-shrink: 0;
+}
+
+.chat-container {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.chat-content {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-input-footer {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-color-light);
+  border-top: 1px solid var(--divider-color-light);
+}
+
+.suggestion-chips-container {
+  overflow-x: auto;
+  padding: 10px 12px 0;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mat-mdc-chip-list-wrapper {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+  }
+
+  mat-chip-option {
+    flex-shrink: 0;
+    border-radius: 20px !important;
+    background-color: var(--white-color) !important;
+    border: 1px solid var(--divider-color-light) !important;
+    color: var(--text-color-dark) !important;
+    font-size: 0.85rem;
+    height: 30px;
+
+    .mat-mdc-chip-trailing-icon,
+    .mat-mdc-chip-leading-icon {
+      display: none !important;
+    }
+  }
+}
+
+.input-bar {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  gap: 10px;
+  position: relative;
+}
+
+.message-input {
+  flex-grow: 1;
+  margin-right: 8px;
+  height: 54px;
+
+  ::ng-deep .mat-mdc-form-field-flex {
+    background-color: var(--white-color) !important;
+    border-radius: 20px !important;
+  }
+  ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+  ::ng-deep .mat-mdc-text-field-wrapper {
+    padding-bottom: 0 !important;
+    height: 40px !important;
+  }
+  ::ng-deep .mdc-text-field--outlined .mat-mdc-notch-piece {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 30px !important;
+  }
+  ::ng-deep div.mat-mdc-notch-piece.mdc-notched-outline__leading {
+    display: none;
+  }
+}
+
+.action-button {
+  position: absolute;
+  bottom: 14px;
+  right: 34px;
+
+  color: var(--text-color-light-middle);
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: var(--primary-color-dark);
+  color: var(--background-color-light);
+}
+
+.send-button {
+  position: absolute;
+  bottom: 14px;
+  right: 81px;
+
+  background-color: var(--primary-color-dark);
+  color: var(--background-color-light);
+
+  &:disabled {
+    background-color: var(--text-color-light-light);
+    color: var(--background-color-light);
+  }
+}

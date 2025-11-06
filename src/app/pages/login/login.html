@@ -1,0 +1,22 @@
+<main class="login_container">
+  <section class="login_container_header">
+    <img src="favicon.svg" alt="Logo" />
+    <h2>TripMaker</h2>
+  </section>
+  <section class="login_container_formulario">
+    <app-dynamic-form
+      [fields]="loginFormFields"
+      formTitle="Bem-vindo de volta!"
+      submitButtonText="Entrar"
+      (formSubmit)="handleLogin($event)"
+    > 
+    </app-dynamic-form>
+    <a href="#">Esqueci a minha senha</a>
+  </section>
+  <section class="login_container_footer">
+    <span
+      >Novo por aqui?
+      <a routerLink="/profile">Cadastre-se</a>
+    </span>
+  </section>
+</main>

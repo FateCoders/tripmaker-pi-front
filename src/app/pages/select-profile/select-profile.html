@@ -1,0 +1,58 @@
+<main class="select_profile_container">
+  <section class="select_profile_container_header">
+    <img src="favicon.svg" alt="TripMaker Logo" />
+    <h1>TripMaker</h1>
+  </section>
+
+  <section class="select_profile_container_content">
+    <h2 class="form-title">Escolha <span>seu perfil</span></h2>
+
+    <div
+    class="carousel-container"
+    (mousedown)="onSwipeStart($event)"
+    (touchstart)="onSwipeStart($event)"
+    (mousemove)="onSwipeMove($event)"
+    (touchmove)="onSwipeMove($event)"
+    (mouseup)="onSwipeEnd($event)"
+    (touchend)="onSwipeEnd($event)"
+    (mouseleave)="onSwipeEnd($event)"
+    (touchcancel)="onSwipeEnd($event)"
+  >
+    <div class="carousel-wrapper">
+      @for (profile of profiles; track profile.type; let i = $index) {
+      <div
+        class="carousel-slide"
+        [ngStyle]="calculateSlideStyle(i)"
+        (click)="goToSlide(i)" >
+        <mat-card
+          class="profile-card"
+          [style.background]="
+            'linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url(' +
+            profile.patternUrl +
+            ')'
+          "
+        >
+          <mat-card-content>
+            <app-profile-img [imagem]="{url: profile.imageUrl, alt: 'teste'}"></app-profile-img>
+            <h3>{{ profile.title }}</h3>
+            <p>{{ profile.description }}</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      }
+    </div>
+  </div>
+
+    <div class="carousel-navigation">
+      <div class="carousel-dots">
+        @for (profile of profiles; track profile.type; let i = $index) {
+        <span class="dot" [class.active]="currentIndex() === i" (click)="goToSlide(i)"> </span>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="select_profile_container_footer">
+    <button mat-flat-button color="primary" (click)="navigateToRegister()">CADASTRE-SE</button>
+  </section>
+</main>

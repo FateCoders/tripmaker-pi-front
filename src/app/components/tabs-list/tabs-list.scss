@@ -1,0 +1,17 @@
+:host {
+  ::ng-deep .mat-mdc-tab .mdc-tab-indicator__content--underline {
+    width: 50%;
+    display: block;
+    border-top-width: 4px;
+    border-radius: 20px 20px 0 0;
+    border-color: var(--primary-color-dark);
+  }
+
+  ::ng-deep .mdc-tab-indicator--active{
+    color: var(--primary-color-dark);
+  }
+}
+
+mat-list {
+  padding: 20px;
+}

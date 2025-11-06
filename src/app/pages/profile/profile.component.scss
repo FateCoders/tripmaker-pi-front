@@ -1,0 +1,104 @@
+.home-container {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--background-color-light);
+}
+
+.home-content {
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2.5rem 1.5rem 1.5rem;
+
+  h2 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--text-color-dark);
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+}
+
+.search-container {
+  padding: 0 0.5rem;
+  margin-bottom: 1.5rem;
+
+  ::ng-deep app-search-bar .search-container {
+    background-color: var(--white-color) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+}
+
+.profile-menu {
+  padding: 0 0.5rem;
+
+  .mat-mdc-list-base {
+    padding-top: 0;
+    background: transparent;
+  }
+
+  .menu-link {
+    text-decoration: none;
+    cursor: pointer; // Adicionado para links de ação
+  }
+
+  .menu-item {
+    background: var(--white-color);
+    border-radius: 12px;
+    margin-bottom: 0.75rem;
+    height: auto !important;
+    padding: 0.85rem 1rem !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    cursor: pointer;
+
+    .menu-icon-container {
+      width: 44px;
+      height: 44px;
+      background: var(--background-color-light);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1rem;
+      flex-shrink: 0;
+    }
+
+    .menu-icon {
+      color: var(--text-color-light);
+      opacity: 0.8;
+    }
+
+    .menu-text {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      gap: 2px;
+      padding-right: 0.5rem;
+    }
+
+    .title {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-color-dark);
+      line-height: 1.3;
+    }
+
+    .description {
+      font-size: 0.8rem;
+      color: var(--text-color-light);
+      line-height: 1.4;
+    }
+
+    .menu-chevron {
+      color: var(--text-color-light-light);
+      flex-shrink: 0;
+    }
+  }
+}

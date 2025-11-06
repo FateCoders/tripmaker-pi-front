@@ -1,0 +1,22 @@
+.list-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px 20px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 20px;
+  color: var(--text-color-light-light);
+  font-size: 14px;
+}
+
+.card-list {
+  padding: 10px;
+}
+
+mat-divider {
+  opacity: 0.4;
+  margin: 10px 0;
+}

@@ -1,0 +1,132 @@
+// Removemos o `@use "../profile/profile.scss";` pois não vamos mais herdar estilos específicos dos itens da lista de perfil.
+// Algumas variáveis globais de cor ainda serão usadas do seu styles.scss principal.
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: var(--background-color-light); // Cor de fundo geral clara
+}
+
+// Cabeçalho
+.permissions-header {
+  display: flex;
+  align-items: center;
+  padding: 1.25rem 1rem;
+  background-color: var(--white-color); // Fundo branco para o cabeçalho
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); // Pequena sombra para destacá-lo um pouco do fundo
+  
+  .back-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-right: 1rem;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    mat-icon {
+      color: var(--text-color-dark); // Cor do ícone de voltar
+      font-size: 24px;
+    }
+  }
+
+  h1 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-color-dark); // Cor do título
+    margin: 0;
+  }
+}
+
+// Conteúdo principal
+.page-content {
+  flex-grow: 1; // Permite que o conteúdo ocupe o espaço restante
+  overflow-y: auto; // Habilita scroll se o conteúdo for muito longo
+  padding: 1rem; // Preenchimento nas laterais
+}
+
+// Lista de Permissões
+.permissions-list {
+  padding: 0; // Remove o padding horizontal da lista
+  margin: 0; // Remove qualquer margem padrão
+  list-style: none; // Garante que não haja bullets ou números
+
+  .mat-mdc-list-base {
+    padding-top: 0;
+    background-color: transparent; // Fundo transparente para a lista
+  }
+
+  .permission-list-item {
+    background-color: var(--white-color); // Fundo branco para cada item
+    border-radius: 12px; // Cantos arredondados
+    margin-bottom: 0.75rem; // Espaçamento entre os itens
+    padding: 0.85rem 1rem !important; // Preenchimento interno
+    height: auto !important; // Altura automática para o conteúdo
+    box-shadow: none; // Nenhuma sombra nos itens da lista, conforme o protótipo
+    
+    // Alinhamento dos itens internos com flexbox
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .permission-icon-container {
+      width: 44px;
+      height: 44px;
+      background-color: var(--background-color-light); // Fundo para o ícone
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1rem; // Espaçamento à direita do ícone
+      flex-shrink: 0; // Impede que o container do ícone encolha
+    }
+
+    .permission-icon {
+      color: var(--text-color-light); // Cor do ícone
+      opacity: 0.8;
+    }
+
+    .permission-text {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1; // Permite que o texto ocupe o máximo de espaço
+      gap: 2px;
+      padding-right: 0.5rem; // Espaçamento antes do toggle
+    }
+
+    .title {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-color-dark); // Cor do título da permissão
+      line-height: 1.3;
+    }
+
+    .description {
+      font-size: 0.8rem;
+      color: var(--text-color-light); // Cor da descrição
+      line-height: 1.4;
+    }
+
+    .permission-toggle {
+      // matListItemMeta já cuida do posicionamento lateral
+      display: flex;
+      align-items: center;
+      flex-shrink: 0; // Impede que o toggle encolha
+      color: white;
+    }
+
+    // Estilo do slide toggle do Material Design
+    ::ng-deep .mdc-switch.mdc-switch--checked .mdc-switch__handle::after {
+      background-color: var(--primary-color-dark) !important; // Cor do "cabeça" do toggle quando ligado
+    }
+    ::ng-deep .mdc-switch.mdc-switch--checked .mdc-switch__track {
+      background-color: var(--primary-color-light) !important; // Cor do "trilho" do toggle quando ligado
+    }
+    ::ng-deep .mdc-switch__track {
+      background-color: var(--text-color-light-light) !important; // Cor do "trilho" do toggle quando desligado
+    }
+  }
+}

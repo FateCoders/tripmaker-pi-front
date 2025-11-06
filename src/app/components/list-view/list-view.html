@@ -1,0 +1,29 @@
+<div class="list-controls">
+  @if (enableSearch) {
+  <app-search-bar [(value)]="searchTerm" placeholder="Pesquise aqui"></app-search-bar>
+  } @if (enableFilter) {
+  }
+</div>
+
+<mat-list class="card-list">
+  @switch (cardType) {
+
+  @case ('user') {
+  @for (item of filteredItems; track item.id) {
+  <app-card-user [item]="item" (userDeleted)="handleUserDeleted($event)"> </app-card-user>
+  <mat-divider></mat-divider>
+  }
+  }
+
+  @default {
+  @for (item of filteredItems; track $index) {
+  <app-card-default [item]="item"></app-card-default>
+  <mat-divider></mat-divider>
+  }
+  }
+  }
+</mat-list>
+
+@if (filteredItems.length === 0) {
+<div class="empty-state">Nenhum item encontrado.</div>
+}

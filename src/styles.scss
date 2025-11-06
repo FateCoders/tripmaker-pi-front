@@ -1,1 +1,84 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+html {
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
+}
+
+body {
+  color-scheme: light;
+
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background: var(--white-color);
+}
+
+:root {
+  --primary-color: #00a7ff;
+  --primary-color-light: #bbe7ff;
+  --primary-color-dark: #035ed0;
+
+  --secondary-color: #ffa62a;
+  --secondary-color-light: #fed0a6;
+  --secondary-color-dark: #ff8f27;
+
+  --background-color: #ffffff;
+  --background-color-light: #fbfdff;
+  --background-color-dark: #cadde8;
+
+  --text-color-dark: #1b1b20;
+  --text-color-light: #49454f;
+  --text-color-light-middle: #747474;
+  --text-color-light-light: #a5a3a9;
+
+  --highlight-color: #ffd6a5;
+  --highlight-color-light: #ffead1;
+  --highlight-color-dark: #ffb670;
+
+  --black-color: #1e1e1e;
+  --white-color: #ffffff;
+  --input-background: #e3e5e7;
+
+  --danger-color: #d93737;
+}
+
+.mat-mdc-snack-bar-container {
+  &.snackbar-error {
+    --mdc-snackbar-container-color: var(--danger-color, #ef4444); // Cor de fundo
+    --mdc-snackbar-supporting-text-color: #ffffff; // Cor do texto
+    --mat-mdc-snack-bar-button-color: #ffffff; // Cor do botão "Fechar"
+  }
+
+  &.snackbar-success {
+    --mdc-snackbar-container-color: var(--success-color, #10b981);
+    --mdc-snackbar-supporting-text-color: #ffffff;
+    --mat-mdc-snack-bar-button-color: #ffffff;
+  }
+
+  &.snackbar-info {
+    --mdc-snackbar-container-color: var(--text-color-light-middle, #6b7280);
+    --mdc-snackbar-supporting-text-color: #ffffff;
+    --mat-mdc-snack-bar-button-color: #ffffff;
+  }
+}

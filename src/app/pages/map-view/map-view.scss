@@ -1,0 +1,118 @@
+:host {
+  display: block;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.map-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.map-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.bottom-sheet {
+  position: absolute;
+  bottom: 80px;
+  left: 0;
+  right: 0;
+  background-color: var(--white-color);
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+
+  &.expanded .list {
+    max-height: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
+
+.handle {
+  width: 40px;
+  height: 4px;
+  background-color: #ccc;
+  border-radius: 2px;
+  margin: 8px auto;
+  cursor: grab;
+}
+
+.expand-button-wrapper {
+  display: flex;
+  justify-content: center;
+  padding-top: 8px;
+}
+
+.expand-button {
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 20px;
+  padding: 0 16px;
+  height: 40px;
+  line-height: 40px;
+
+  mat-icon {
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+}
+
+.tab-content {
+  overflow-y: auto;
+  padding: 0 16px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-color-light-light);
+}
+
+.see-more-button {
+  display: block;
+  margin: 16px auto;
+  border-radius: 20px;
+  color: var(--text-color-dark);
+  border-color: var(--text-color-light-light);
+}
+
+:host ::ng-deep {
+  .mat-mdc-tab-body-wrapper {
+    height: 100%;
+  }
+  .mat-mdc-tab-group {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .mat-mdc-tab-header {
+    flex-shrink: 0;
+    margin: 0 16px;
+  }
+  .mat-mdc-tab-body-content {
+    flex-grow: 1;
+    overflow: hidden;
+  }
+}
+
+app-bottom-menu {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+}
