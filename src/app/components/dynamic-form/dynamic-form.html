@@ -3,17 +3,34 @@
   <form class="dynamicForm" [formGroup]="form" (ngSubmit)="onSubmit()">
     @for (field of fields; track field.name) {
     <div class="form-field">
+      
       <mat-form-field appearance="fill">
         <mat-label>{{ field.label }}</mat-label>
+        
         <input
           matInput
-          [type]="field.type"
+          [type]="field.type === 'password' ? getPasswordFieldType(field.name) : field.type"
           [id]="field.name"
           [formControlName]="field.name"
           [placeholder]="field.placeholder"
           [mask]="field.mask"
         />
+
+        @if (field.type === 'password') {
+          <button 
+            mat-icon-button 
+            matSuffix 
+            (click)="togglePasswordVisibility($event, field.name)" 
+            type="button" 
+            [attr.aria-label]="(hidePasswordFields.get(field.name) ? 'Mostrar' : 'Ocultar') + ' senha'"
+          >
+            <mat-icon>
+              {{ hidePasswordFields.get(field.name) ? 'visibility_off' : 'visibility' }}
+            </mat-icon>
+          </button>
+        }
       </mat-form-field>
+
       @if (getControl(field.name)?.invalid && getControl(field.name)?.touched) {
       <div class="error-message">
         @for (validation of field.validationMessages; track validation.type) { @if

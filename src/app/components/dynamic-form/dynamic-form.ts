@@ -5,8 +5,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { NgxMaskDirective } from "ngx-mask";
-
-import { NotificationService } from '../../services/notification-service'; 
+import { NotificationService } from '../../services/notification-service';
+import { MatIconModule } from '@angular/material/icon';
 
 export interface FormFieldConfig {
   mask?: string;
@@ -36,14 +36,14 @@ export interface FormFieldConfig {
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    NgxMaskDirective
+    NgxMaskDirective,
+    MatIconModule
 ],
   templateUrl: './dynamic-form.html',
   styleUrls: ['./dynamic-form.scss']
 })
 export class DynamicFormComponent implements OnInit {
   private fb = inject(FormBuilder);
-  
   private notificationService = inject(NotificationService);
 
   @Input() fields: FormFieldConfig[] = [];
@@ -56,17 +56,24 @@ export class DynamicFormComponent implements OnInit {
 
   form!: FormGroup;
 
+  hidePasswordFields = new Map<string, boolean>();
+
   ngOnInit(): void {
     this.buildForm();
   }
 
   private buildForm(): void {
     const controlsConfig: { [key: string]: any } = {};
+    
     this.fields.forEach(field => {
       controlsConfig[field.name] = [
         field.initialValue || '',
         field.validators || []
       ];
+
+      if (field.type === 'password') {
+        this.hidePasswordFields.set(field.name, true);
+      }
     });
     
     this.form = this.fb.group(controlsConfig, { validators: this.formValidators });
@@ -83,5 +90,18 @@ export class DynamicFormComponent implements OnInit {
       this.form.markAllAsTouched();
       this.notificationService.open('Formulário inválido. Por favor, verifique os campos destacados.', 'Fechar', 'error');
     }
+  }
+
+  togglePasswordVisibility(event: MouseEvent, fieldName: string): void {
+    event.stopPropagation();
+    const currentState = this.hidePasswordFields.get(fieldName);
+    this.hidePasswordFields.set(fieldName, !currentState);
+  }
+
+  getPasswordFieldType(fieldName: string): string {
+    if (this.hidePasswordFields.get(fieldName)) {
+      return 'password';
+    }
+    return 'text';
   }
 }
