@@ -1,37 +1,27 @@
-// Include theming for Angular Material with `mat.theme()`.
-// This Sass mixin will define CSS variables that are used for styling Angular Material
-// components according to the Material 3 design spec.
-// Learn more about theming and how to use it for your application's
-// custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
 
 html {
-  @include mat.theme((color: (primary: mat.$azure-palette,
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$azure-palette,
         tertiary: mat.$blue-palette,
       ),
       typography: Roboto,
       density: 0,
-    ));
+    )
+  );
 }
 
 body {
-  // Default the application to a light color theme. This can be changed to
-  // `dark` to enable the dark color theme, or to `light dark` to defer to the
-  // user's system settings.
   color-scheme: light;
 
-  // Set a default background, font and text colors for the application using
-  // Angular Material's system-level CSS variables. Learn more about these
-  // variables at https://material.angular.dev/guide/system-variables
   background-color: var(--mat-sys-surface);
   color: var(--mat-sys-on-surface);
   font: var(--mat-sys-body-medium);
 
-  // Reset the user agent margin.
   margin: 0;
 }
-
-/* You can add global styles to this file, and also import other style files */
 
 html,
 body {
@@ -40,35 +30,55 @@ body {
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
   background: var(--white-color);
 }
 
 :root {
-  --primary-color: #00A7FF;
-  --primary-color-light: #BBE7FF;
-  --primary-color-dark: #035ED0;
+  --primary-color: #00a7ff;
+  --primary-color-light: #bbe7ff;
+  --primary-color-dark: #035ed0;
 
-  --secondary-color: #FFA62A;
-  --secondary-color-light: #FED0A6;
-  --secondary-color-dark: #FF8F27;
+  --secondary-color: #ffa62a;
+  --secondary-color-light: #fed0a6;
+  --secondary-color-dark: #ff8f27;
 
   --background-color: #ffffff;
-  --background-color-light: #FBFDFF;
-  --background-color-dark: #CADDE8;
+  --background-color-light: #fbfdff;
+  --background-color-dark: #cadde8;
 
-  --text-color-dark: #1B1B20;
-  --text-color-light: #49454F;
+  --text-color-dark: #1b1b20;
+  --text-color-light: #49454f;
   --text-color-light-middle: #747474;
-  --text-color-light-light: #A5A3A9;
+  --text-color-light-light: #a5a3a9;
 
-  --highlight-color: #FFD6A5;
-  --highlight-color-light: #FFEAD1;
-  --highlight-color-dark: #FFB670;
+  --highlight-color: #ffd6a5;
+  --highlight-color-light: #ffead1;
+  --highlight-color-dark: #ffb670;
 
-  --black-color: #1E1E1E;
-  --white-color: #FFFFFF;
-  --input-background: #E3E5E7;
+  --black-color: #1e1e1e;
+  --white-color: #ffffff;
+  --input-background: #e3e5e7;
 
-  --danger-color: #D93737;
+  --danger-color: #d93737;
+}
+
+.mat-mdc-snack-bar-container {
+  &.snackbar-error {
+    --mdc-snackbar-container-color: var(--danger-color, #ef4444); // Cor de fundo
+    --mdc-snackbar-supporting-text-color: #ffffff; // Cor do texto
+    --mat-mdc-snack-bar-button-color: #ffffff; // Cor do botão "Fechar"
+  }
+
+  &.snackbar-success {
+    --mdc-snackbar-container-color: var(--success-color, #10b981);
+    --mdc-snackbar-supporting-text-color: #ffffff;
+    --mat-mdc-snack-bar-button-color: #ffffff;
+  }
+
+  &.snackbar-info {
+    --mdc-snackbar-container-color: var(--text-color-light-middle, #6b7280);
+    --mdc-snackbar-supporting-text-color: #ffffff;
+    --mat-mdc-snack-bar-button-color: #ffffff;
+  }
 }

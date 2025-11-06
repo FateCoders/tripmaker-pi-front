@@ -1,3 +1,6 @@
+// app/services/auth.service.ts
+// [CONTEÚDO COMPLETO E MODIFICADO]
+
 import { Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
@@ -69,7 +72,12 @@ export class AuthService {
     }
   }
 
-  login(credentials: any): boolean {
+  /**
+   * Tenta logar o usuário.
+   * @param credentials Email e senha.
+   * @returns O objeto 'User' em caso de sucesso, ou 'null' em caso de falha.
+   */
+  login(credentials: any): User | null {
     const user = this.users.find(
       (u) => u.email === credentials.email && u.password === credentials.password
     );
@@ -81,10 +89,10 @@ export class AuthService {
       this.loggedInUser = userToStore;
       this.saveUserToStorage(userToStore);
 
-      this.router.navigate([`/${user.role}/inicio`]);
-      return true;
+      return userToStore; // Retorna o usuário em caso de sucesso
     }
-    return false;
+    
+    return null; // Retorna null em caso de falha
   }
 
   logout(): void {
@@ -93,13 +101,24 @@ export class AuthService {
     this.router.navigate(['/']);
   }
 
-  register(user: any): void {
-    const newUser: User = {
-      id: (this.users.length + 1).toString(),
-      ...user,
-    };
-    this.users.push(newUser);
-    console.log('Usuários registrados:', this.users);
+  /**
+   * Registra um novo usuário (mock).
+   * @param user Dados do usuário.
+   * @returns 'true' se o registro foi bem-sucedido (neste mock, sempre é).
+   */
+  register(user: any): boolean {
+    try {
+      const newUser: User = {
+        id: (this.users.length + 1).toString(),
+        ...user,
+      };
+      this.users.push(newUser);
+      console.log('Usuários registrados:', this.users);
+      return true; // Retorna sucesso
+    } catch (e) {
+      console.error('Erro ao registrar:', e);
+      return false; // Retorna falha
+    }
   }
 
   isLoggedIn(): boolean {

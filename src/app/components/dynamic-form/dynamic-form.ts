@@ -6,6 +6,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { NgxMaskDirective } from "ngx-mask";
 
+import { NotificationService } from '../../services/notification-service'; 
+
 export interface FormFieldConfig {
   mask?: string;
 }
@@ -41,6 +43,8 @@ export interface FormFieldConfig {
 })
 export class DynamicFormComponent implements OnInit {
   private fb = inject(FormBuilder);
+  
+  private notificationService = inject(NotificationService);
 
   @Input() fields: FormFieldConfig[] = [];
   @Input() formTitle: string = 'Formulário';
@@ -77,6 +81,7 @@ export class DynamicFormComponent implements OnInit {
       this.formSubmit.emit(this.form.value);
     } else {
       this.form.markAllAsTouched();
+      this.notificationService.open('Formulário inválido. Por favor, verifique os campos destacados.', 'Fechar', 'error');
     }
   }
 }

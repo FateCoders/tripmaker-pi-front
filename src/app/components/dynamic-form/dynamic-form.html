@@ -25,7 +25,13 @@
     </div>
     }
 
-    <button mat-button="filled" type="submit" [disabled]="form.invalid">
+    <button 
+      mat-flat-button 
+      color="primary" 
+      type="submit" 
+      [disabled]="form.invalid"
+      class="submit-button"
+    >
       {{ submitButtonText }}
     </button>
   </form>
