@@ -1,3 +1,6 @@
+// app/pages/users/tourism-promoter/tourism-promoter-home/tourism-promoter-home.ts
+// [CONTEÚDO COMPLETO E MODIFICADO]
+
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -11,7 +14,6 @@ import { TabsListCard } from '../../../../models/tabs-list-card';
 import { TabsSection } from '../../../../models/tabs-section';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
-import { FabButton } from '../../../../components/buttons/fab-button/fab-button';
 import { MatButtonModule } from '@angular/material/button';
 import { Chip } from '../../../../components/chip/chip';
 
@@ -26,7 +28,6 @@ import { Chip } from '../../../../components/chip/chip';
     MatListModule,
     MatIconModule,
     MatCardModule,
-    FabButton,
     MatButtonModule,
     Chip,
   ],
@@ -113,8 +114,14 @@ export class TourismPromoterHome implements OnInit {
     }
   }
 
-  onEventClick(route: any) {
-    this.router.navigate(['/promotor_turistico/evento', route.id]);
+  // Este método navega para os DETALHES DO EVENTO (existente)
+  onEventClick(event: any) {
+    this.router.navigate(['/promotor_turistico/evento', event.id]);
+  }
+
+  // NOVO MÉTODO: Navega para os DETALHES DA ROTA (RoutesDatais)
+  onRouteClick(route: any) {
+    this.router.navigate(['/promotor_turistico/rota', route.id]);
   }
 
   subscribeToRoute(routeId: string) {

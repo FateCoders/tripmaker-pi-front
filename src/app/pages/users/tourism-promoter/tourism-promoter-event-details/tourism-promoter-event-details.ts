@@ -6,13 +6,14 @@ import {
   ElementRef,
   OnDestroy,
   ChangeDetectorRef,
+  signal, // 1. Importar o 'signal'
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Chart, TooltipItem } from 'chart.js/auto'; // Importa Chart
+import { Chart, TooltipItem } from 'chart.js/auto';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { FooterUsercomumComponent } from '../../../../components/public/bottom-menu/bottom-menu.component';
 import { HeaderTitle } from '../../../../components/header-title/header-title';
@@ -20,17 +21,17 @@ import { RoutesService } from '../../../../services/routes.service';
 import { GoogleMapIframeComponent } from '../../../../components/google-map-iframe/google-map-iframe';
 import { Chip } from "../../../../components/chip/chip";
 
-// Interface mockada para os detalhes do evento
+// Interface mockada
 export interface EventRouteDetails {
   id: string;
   name: string;
   address: string;
-  visitors: string; // Visitantes (total)
+  visitors: string;
   rating: number;
   hours: string;
   tags: string[];
-  dailyVisitors: string; // Visitantes (do dia)
-  dailyVisitorsLabel: string; // Label (No 2º Dia)
+  dailyVisitors: string;
+  dailyVisitorsLabel: string;
   locationQuery: string;
   chartData: number[];
   chartLabels: string[];
@@ -61,18 +62,20 @@ export class TourismPromoterEventDetails implements OnInit, OnDestroy {
 
   private chartInstance: Chart | undefined;
 
-  // Ajuste no ViewChild para garantir que o gráfico seja criado
   @ViewChild('visitorsChart') set visitorsChart(elRef: ElementRef<HTMLCanvasElement> | undefined) {
     if (elRef) {
       this.chartRef = elRef;
-      this.createChartIfReady(); // Tenta criar o gráfico assim que o canvas estiver disponível
+      this.createChartIfReady(); 
     }
   }
   private chartRef: ElementRef<HTMLCanvasElement> | undefined;
 
   isLoading = true;
   eventData: EventRouteDetails | null = null;
-  mapUrl = '';
+  
+  // 2. Transformar mapUrl numa propriedade 'signal'
+  // (Usamos <string> porque o componente google-map-iframe espera uma string)
+  mapUrl = signal<string>('');
 
   ngOnInit(): void {
     const eventId = this.route.snapshot.paramMap.get('id');
@@ -80,7 +83,6 @@ export class TourismPromoterEventDetails implements OnInit, OnDestroy {
       this.loadEventData(eventId);
     } else {
       this.isLoading = false;
-      // Tratar erro de ID não encontrado
     }
   }
 
@@ -92,8 +94,8 @@ export class TourismPromoterEventDetails implements OnInit, OnDestroy {
     this.isLoading = true;
     this.chartInstance?.destroy();
     this.chartInstance = undefined;
+    this.mapUrl.set(''); // 3. Limpar o signal durante o carregamento
 
-    // Mock: Simula a busca de dados do evento
     setTimeout(() => {
       const mockData: EventRouteDetails = {
         id: id,
@@ -105,23 +107,25 @@ export class TourismPromoterEventDetails implements OnInit, OnDestroy {
         tags: ['Cultural', 'Pet Friend'],
         dailyVisitors: '144',
         dailyVisitorsLabel: 'No 2º Dia seu Evento teve',
-        locationQuery: 'Conservatório de Tatuí, Tatuí - SP',
-        chartLabels: ['Dom', 'Seg', 'Dia 2', 'Qua', 'Qui', 'Sex', 'Sáb'], // Labels do gráfico
-        chartData: [40, 60, 144, 90, 100, 110, 120], // Dados do gráfico
+        locationQuery: 'Conservatório de Tatuí, Tatuí - SP', 
+        chartLabels: ['Dom', 'Seg', 'Dia 2', 'Qua', 'Qui', 'Sex', 'Sáb'], 
+        chartData: [40, 60, 144, 90, 100, 110, 120], 
       };
 
       this.eventData = mockData;
+      // 4. Definir o valor do signal usando .set()
+      this.mapUrl.set(this.getMapUrl(this.eventData.locationQuery));
+      
       this.isLoading = false;
-      this.cdr.detectChanges(); // Força detecção de mudanças
-      this.createChartIfReady(); // Tenta criar o gráfico
+      this.cdr.detectChanges(); 
+      this.createChartIfReady(); 
     }, 500);
   }
 
-  private getSanitizedMapUrl(query: string): SafeResourceUrl {
+  private getMapUrl(query: string): string {
     const encodedQuery = encodeURIComponent(query);
-    // ATENÇÃO: A URL do mapa está mockada. Substitua pela URL correta da API do Google.
-    const url = `https://www.google.com/maps/embed/v1/place?key=SUA_API_KEY&q=${encodedQuery}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
-    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    const url = `https://maps.google.com/maps?q=${encodedQuery}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+    return url;
   }
 
   get ratingStars(): boolean[] {
@@ -150,9 +154,9 @@ export class TourismPromoterEventDetails implements OnInit, OnDestroy {
 
     this.chartInstance?.destroy();
 
-    const gradient = ctx.createLinearGradient(0, 0, 0, 150); // Altura do gráfico
-    gradient.addColorStop(0, 'rgba(0, 123, 255, 0.4)'); // Cor primária com transparência
-    gradient.addColorStop(1, 'rgba(0, 123, 255, 0)'); // Transparente
+    const gradient = ctx.createLinearGradient(0, 0, 0, 150); 
+    gradient.addColorStop(0, 'rgba(0, 123, 255, 0.4)'); 
+    gradient.addColorStop(1, 'rgba(0, 123, 255, 0)'); 
 
     this.chartInstance = new Chart(ctx, {
       type: 'line',
@@ -163,11 +167,11 @@ export class TourismPromoterEventDetails implements OnInit, OnDestroy {
             label: 'Visitantes',
             data: data.chartData,
             fill: true,
-            backgroundColor: gradient, // Gradiente azul
-            borderColor: 'var(--primary-color-dark)', // Linha azul
+            backgroundColor: gradient, 
+            borderColor: 'var(--primary-color-dark)', 
             borderWidth: 2.5,
-            tension: 0.4, // Curva suave
-            pointRadius: 0, // Sem pontos
+            tension: 0.4, 
+            pointRadius: 0, 
             pointHoverRadius: 6,
             pointHoverBackgroundColor: 'var(--primary-color-dark)',
             pointHoverBorderColor: 'var(--white-color)',
@@ -184,7 +188,7 @@ export class TourismPromoterEventDetails implements OnInit, OnDestroy {
         },
         plugins: {
           legend: {
-            display: false, // Esconde legenda
+            display: false, 
           },
           tooltip: {
             enabled: true,
@@ -205,25 +209,25 @@ export class TourismPromoterEventDetails implements OnInit, OnDestroy {
         scales: {
           x: {
             grid: {
-              display: false, // Sem linhas de grade X
+              display: false, 
             },
             ticks: {
-              display: false, // Esconde labels do eixo X (Dia 1, Dia 2...)
+              display: false, 
             },
             border: {
-              display: false, // Sem borda do eixo X
+              display: false, 
             },
           },
           y: {
             beginAtZero: true,
             grid: {
-              display: false, // Sem linhas de grade Y
+              display: false, 
             },
             ticks: {
-              display: false, // Esconde labels do eixo Y (100, 120...)
+              display: false, 
             },
             border: {
-              display: false, // Sem borda do eixo Y
+              display: false, 
             },
           },
         },

@@ -56,8 +56,9 @@
         <span>visitantes</span>
       </div>
       <div class="dashboard-card map-card">
-        @if(mapUrl) {
-          <app-google-map-iframe [mapSrcUrl]="mapUrl" height="100%"></app-google-map-iframe>
+        
+        @if(mapUrl()) { 
+          <app-google-map-iframe [mapSrcUrl]="mapUrl()" height="100%"></app-google-map-iframe>
         }
       </div>
     </section>
