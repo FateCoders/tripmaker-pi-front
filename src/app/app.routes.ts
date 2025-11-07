@@ -174,13 +174,13 @@ export const routes: Routes = [
     canActivate: [authGuard, roleGuard('promotor_turistico')],
     data: { animation: 'ProfilePage' },
   },
-
   {
-    path: 'mapa',
+    path: 'promotor_turistico/mapa',
     component: MapViewComponent,
-    title: 'Mapa de Eventos',
+    title: 'Mapa do Promotor Turístico',
+    canActivate: [authGuard, roleGuard('promotor_turistico')],
+    data: { animation: 'MapPage' },
   },
-
   // ROTAS DE ADMINISTRADOR
   {
     path: 'administrador/inicio',
