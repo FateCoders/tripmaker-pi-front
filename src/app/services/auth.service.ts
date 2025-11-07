@@ -8,19 +8,34 @@ export class AuthService {
   private router = inject(Router);
 
   private users: any[] = [
-    { email: 'viajante@email.com', password: 'password', role: 'viajante', name: 'Viajante Teste'},
     {
-      email: 'empreendedor@email.com',
+      email: 'promotor@gmail.com',
+      password: 'password',
+      role: 'promotor_turistico',
+      name: 'Promotor Turístico Teste',
+    },
+        {
+      id: '1',
+      email: 'viajante@gmail.com',
+      password: 'password',
+      role: 'viajante',
+      name: 'Viajante Teste',
+    },
+    {
+      id: '2',
+      email: 'empreendedor@gmail.com',
       password: 'password',
       role: 'empreendedor',
       name: 'Empreendedor Teste',
     },
     {
-      email: 'e@e.com',
+      id: '3',
+      email: 'administrador@gmail.com',
       password: 'password',
-      role: 'promotor_turistico',
-      name: 'Promotor Turístico Teste',
+      role: 'administrador',
+      name: 'Administrador Teste',
     },
+
   ];
 
   private loggedInUser: any = null;
