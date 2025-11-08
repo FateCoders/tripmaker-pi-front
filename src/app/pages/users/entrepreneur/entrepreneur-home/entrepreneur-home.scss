@@ -1,20 +1,17 @@
-// Layout principal (Grid)
 .home-container {
   display: grid;
-  grid-template-rows: auto 1fr auto; // Cabeçalho, Conteúdo (flexível), Rodapé
-  min-height: 100vh;
-  min-height: 100dvh; // Garante altura total
+  grid-template-rows: auto 1fr auto;
+  min-height: 100dvh;
   background: var(--background-color-light);
 }
 
-// O conteúdo principal é quem deve rolar
 .home-content {
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  max-height: calc(100dvh - 120.4px - 104px);
 }
 
-// Estilo para o estado de Carregamento
 .loading-state {
   display: flex;
   justify-content: center;
@@ -23,14 +20,12 @@
   color: var(--text-color-light);
 }
 
-// --- ESTADO 1: SEM COMÉRCIO (Tela Vazia) ---
-
 .empty-state-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-grow: 1; // Ocupa todo o espaço vertical disponível
+  flex-grow: 1;
   padding: 2rem;
   gap: 1.5rem;
   text-align: center;
@@ -50,16 +45,13 @@
   }
 }
 
-// --- ESTADO 2: POSSUI COMÉRCIO (Dashboard) ---
-
 .dashboard-container {
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem; // Espaçamento entre os cards
+  gap: 1rem;
 }
 
-// Classe base para todos os cards
 .dashboard-card {
   background: var(--white-color);
   border-radius: 12px;
@@ -67,7 +59,6 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
-// Card: Cabeçalho do Comércio
 .business-header-card {
   .business-info {
     display: flex;
@@ -103,19 +94,18 @@
   }
 }
 
-// Card: Estatísticas (Pills)
 .business-stats-card {
   display: flex;
   gap: 1rem;
 
   .stat-item {
-    flex: 1; // Faz os dois itens dividirem o espaço
+    flex: 1;
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
     padding: 1rem;
     border-radius: 10px;
-    background: var(--background-color-light); // Fundo claro para a "pill"
+    background: var(--background-color-light);
     border: 1px solid var(--background-color-dark);
 
     span {
@@ -139,21 +129,19 @@
   }
 }
 
-// Card: Tags
 .business-tags-card {
   display: flex;
-  flex-wrap: nowrap;     // <-- Garante linha única
-  overflow-x: auto;   // <-- Adiciona scroll horizontal
+  flex-wrap: nowrap;
+  overflow-x: auto;
   justify-content: flex-start;
   gap: 0.75rem;
-  padding: 0; // Padding removido do container
-  background: transparent; // Fundo transparente
-  box-shadow: none;        // Sem sombra
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
   border-radius: 0;
-  margin-top: -0.25rem; // Ajuste fino
-  margin-bottom: -0.25rem; // Ajuste fino
+  margin-top: -0.25rem;
+  margin-bottom: -0.25rem;
 
-  // Esconde a barra de rolagem visualmente
   &::-webkit-scrollbar {
     display: none;
   }
@@ -161,38 +149,33 @@
   scrollbar-width: none; /* Firefox */
 
   app-chip-button {
-    flex-shrink: 0; // Impede que os chips encolham
-    
-    // Sobrescreve o estilo do chip-button para parecer
-    // um "badge" estático, como na imagem.
+    flex-shrink: 0;
+
     ::ng-deep mat-chip-option {
-      // Estilo do chip desabilitado
       &.mat-mdc-chip-disabled {
         background-color: var(--white-color) !important;
         border: 1px solid var(--background-color-dark) !important;
         color: var(--text-color-light) !important;
-        cursor: default !important; // Remove o cursor de clique
-        opacity: 1 !important; // Garante que não fique transparente
+        cursor: default !important;
+        opacity: 1 !important;
       }
-      
+
       .mdc-evolution-chip__text-label {
         color: var(--text-color-light) !important;
         font-size: 0.875rem;
       }
 
-      // Estilo do ícone dentro do chip
       mat-icon {
         color: var(--text-color-light) !important;
         font-size: 1rem !important;
         height: 1rem;
         width: 1rem;
-        margin-right: 4px !important; // Ajusta espaçamento do ícone
+        margin-right: 4px !important;
       }
     }
   }
 }
 
-// Card: Rotas e Mapa
 .routes-map-card {
   display: flex;
   justify-content: space-between;
@@ -200,7 +183,7 @@
   gap: 1rem;
 
   .routes-info {
-    flex-basis: 50%; // Metade do espaço
+    flex-basis: 50%;
     text-align: left;
 
     .routes-label {
@@ -219,8 +202,8 @@
   }
 
   .map-placeholder {
-    flex-basis: 50%; // Outra metade
-    height: 120px; // Altura fixa para o mapa
+    flex-basis: 50%;
+    height: 120px;
     border-radius: 8px;
     background: var(--background-color-dark);
     flex-shrink: 0;
@@ -234,7 +217,6 @@
   }
 }
 
-// Card: Visitantes (Gráfico)
 .visitors-card {
   .card-header {
     display: flex;
@@ -265,7 +247,7 @@
     width: 100%;
     height: 150px;
     margin-bottom: 0.5rem;
-    position: relative; // Necessário para o Chart.js
+    position: relative;
   }
 
   .visitors-footer {
@@ -276,7 +258,6 @@
   }
 }
 
-// Card: Avaliações (Link)
 .reviews-card {
   display: flex;
   align-items: center;

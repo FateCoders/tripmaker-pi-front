@@ -1,4 +1,134 @@
 <div class="home-container">
+  <app-header-title
+    [title]="'Dashboard Analítico'"
+    [subtitle]="'Visão geral da plataforma TripMaker'"
+  ></app-header-title>
+
+  @if (isLoading) {
+  <main class="main-content">
+    <p>Carregando dados do dashboard...</p>
+  </main>
+  } @else {
+  <main class="main-content">
+    
+    <section class="filters-container" ngSkipHydration>
+      <div class="filter-group">
+        <h4 class="filter-label">Período</h4>
+        <mat-chip-listbox
+          class="filter-chip-list"
+          aria-label="Selecionar período"
+          [formControl]="periodControl"
+        >
+          @for (period of periods; track period.value) {
+          <mat-chip-option [value]="period.value">{{ period.label }}</mat-chip-option>
+          }
+        </mat-chip-listbox>
+      </div>
+
+      <div class="filter-group">
+        <h4 class="filter-label">Micro-Região / Cidade</h4>
+        <mat-chip-listbox
+          class="filter-chip-list"
+          aria-label="Selecionar região"
+          [formControl]="regionControl"
+        >
+          @for (region of regions; track region.value) {
+          <mat-chip-option [value]="region.value">{{ region.label }}</mat-chip-option>
+          }
+        </mat-chip-listbox>
+      </div>
+    </section>
+
+    <section class="kpi-container">
+      @for (kpi of kpis; track kpi.title) {
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <p class="kpi-title">{{ kpi.title }}</p>
+          <mat-icon class="kpi-icon" [style.background-color]="kpi.color">{{ kpi.icon }}</mat-icon>
+        </div>
+        <strong class="kpi-value">{{ kpi.value }}</strong>
+        <span class="kpi-unit">{{ kpi.unit }}</span>
+      </div>
+      }
+    </section>
+
+    <section class="charts-section-container">
+      
+      <app-tabs-list 
+        [tabs]="chartTabs" 
+        (tabChanged)="onTabChanged($event)">
+      </app-tabs-list>
+
+      <div class="charts-content">
+        @switch (activeChartTab) {
+          
+          @case (chartTabs[0].label) { 
+            <div class="chart-card">
+              <h3 class="chart-header">Crescimento de Usuários por Perfil</h3>
+              <div class="chart-canvas">
+                <canvas #growthChart></canvas>
+              </div>
+            </div>
+
+            <div class="charts-row">
+              <div class="chart-card">
+                <h3 class="chart-header">Distribuição de Perfis</h3>
+                <div class="chart-half-size">
+                  <canvas #distributionChart></canvas>
+                </div>
+              </div>
+
+              <div class="chart-card">
+                <h3 class="chart-header">Criação de Conteúdo (Mensal)</h3>
+                <div class="chart-half-size">
+                  <canvas #contentCreationChart></canvas>
+                </div>
+              </div>
+            </div>
+          }
+
+          @case (chartTabs[1].label) {
+            <div class="chart-card">
+              <h3 class="chart-header">Top 5 Rotas Mais Engajadas</h3>
+              <div class="chart-canvas">
+                <canvas #engagementChart></canvas>
+              </div>
+            </div>
+
+            <div class="chart-card">
+              <h3 class="chart-header">Densidade de Conteúdo Geográfico</h3>
+              
+              @if (mapUrl(); as url) {
+              <div class="chart-canvas" style="height: 350px">
+                <iframe
+                  width="100%"
+                  height="100%"
+                  style="border: 0; border-radius: 8px"
+                  loading="lazy"
+                  allowfullscreen
+                  referrerpolicy="no-referrer-when-downgrade"
+                  [src]="url"
+                ></iframe>
+                <p
+                  style="
+                    text-align: center;
+                    font-size: 0.8rem;
+                    color: var(--text-color-light);
+                  "
+                >
+                  Visualização da região selecionada.
+                </p>
+              </div>
+              } @else {
+                <p>Carregando mapa...</p>
+              }
+            </div>
+          }
+        }
+      </div>
+    </section>
+  </main>
+  }
 
   <app-bottom-menu></app-bottom-menu>
 </div>

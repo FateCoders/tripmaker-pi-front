@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { DynamicFormComponent, FormFieldConfig } from "../../components/dynamic-form/dynamic-form";
 import { AuthService } from '../../services/auth.service';
+import { NotificationService } from '../../services/notification-service';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +16,8 @@ import { AuthService } from '../../services/auth.service';
 })
 export class Login {
   private authService = inject(AuthService);
+  private router = inject(Router);
+  private notificationService = inject(NotificationService);
 
   loginFormFields: FormFieldConfig[] = [
     {
@@ -43,8 +46,13 @@ export class Login {
 
   handleLogin(formData: any): void {
     if (formData) {
-      if (!this.authService.login(formData)) {
-        console.error('Login falhou: email ou senha inválidos.');
+      const user = this.authService.login(formData);
+
+      if (user) {
+        this.notificationService.open(`Bem-vindo de volta, ${user.name}!`, 'OK', 'success');
+        this.router.navigate([`/${user.role}/inicio`]);
+      } else {
+        this.notificationService.open('Email ou senha inválidos. Tente novamente.', 'Fechar', 'error');
       }
     }
   }

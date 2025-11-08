@@ -21,6 +21,9 @@ export class ListView {
 
   @Output() itemClick = new EventEmitter<TabsListCard>();
 
+
+  @Output() listChanged = new EventEmitter<void>();
+
   searchTerm: string = '';
   selectedCategory: string = '';
 

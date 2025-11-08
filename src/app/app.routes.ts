@@ -14,7 +14,7 @@ import { AdministratorHome } from './pages/users/administrator/administrator-hom
 import { EntrepreneurHome } from './pages/users/entrepreneur/entrepreneur-home/entrepreneur-home';
 import { TourismPromoterHome } from './pages/users/tourism-promoter/tourism-promoter-home/tourism-promoter-home';
 import { TravelerHome } from './pages/users/traveler/traveler-home/traveler-home';
-import { TravelerPermissions } from './pages/permissions/permissions';
+import { UserPermissions } from './pages/permissions/permissions';
 import { TravelerRoutes } from './pages/users/traveler/routes/routes';
 import { TravelerEvents } from './pages/users/traveler/events/events';
 import { PreferencesComponent } from './pages/users/traveler/preferences/preferences';
@@ -29,6 +29,8 @@ import { EntrepreneurCommerce } from './pages/users/entrepreneur/entrepreneur-co
 import { EntrepreneurNewCommerce } from './pages/users/entrepreneur/entrepreneur-new-commerce/entrepreneur-new-commerce';
 import { TourismPromoterEventDetails } from './pages/users/tourism-promoter/tourism-promoter-event-details/tourism-promoter-event-details';
 import { TourismPromoterRouteDetais } from './pages/users/tourism-promoter/tourism-promoter-route-detais/tourism-promoter-route-detais';
+import { FavoritesComponent } from './pages/favorities/favorities';
+import { TermsComponent } from './pages/terms/terms';
 
 export const routes: Routes = [
   // ROTAS GERAIS
@@ -61,6 +63,13 @@ export const routes: Routes = [
     canDeactivate: [canDeactivateGuard],
     data: { animation: 'CadastroPage' },
   },
+  {
+    path: 'administrador/usuarios/novo/:role',
+    component: AdministratorUserForm,
+    title: 'Criar Novo Usuário',
+    canActivate: [authGuard, roleGuard('administrador')],
+    data: { animation: 'AdminUserFormPage' },
+  },
 
   // ROTAS DE VIAJANTE
   {
@@ -78,11 +87,25 @@ export const routes: Routes = [
     data: { animation: 'ProfilePage' },
   },
   {
+    path: 'viajante/favoritos',
+    component: FavoritesComponent,
+    title: 'Favoritos do Viajante',
+    canActivate: [authGuard, roleGuard('viajante')],
+    data: { animation: 'ViajanteFavoritesPage' },
+  },
+  {
     path: 'viajante/permissoes',
-    component: TravelerPermissions,
+    component: UserPermissions,
     title: 'Permissões do Viajante',
     canActivate: [authGuard, roleGuard('viajante')],
-    data: { animation: 'ViajantePermissionsPage' },
+    data: { animation: 'UserPermissionsPage' },
+  },
+  {
+    path: 'viajante/termos',
+    component: TermsComponent,
+    title: 'Termos do Viajante',
+    canActivate: [authGuard, roleGuard('viajante')],
+    data: { animation: 'UserTermsPage' },
   },
   {
     path: 'viajante/roteiros',
@@ -144,13 +167,40 @@ export const routes: Routes = [
     canActivate: [authGuard, roleGuard('empreendedor')],
     data: { animation: 'EmpreendedorHomePage' },
   },
-  // Nova rota de perfil para Empreendedor
+  {
+    path: 'empreendedor/comercios',
+    component: EntrepreneurCommerce,
+    title: 'Meus Comércios',
+    canActivate: [authGuard, roleGuard('empreendedor')],
+    data: { animation: 'EmpreendedorComerciosPage' },
+  },
+  {
+    path: 'empreendedor/comercios/cadastro',
+    component: EntrepreneurNewCommerce,
+    title: 'Cadastrar Comércio',
+    canActivate: [authGuard, roleGuard('empreendedor')],
+    data: { animation: 'EmpreendedorNewCommercePage' },
+  },
   {
     path: 'empreendedor/perfil',
     component: Profile,
     title: 'Perfil do Empreendedor',
     canActivate: [authGuard, roleGuard('empreendedor')],
     data: { animation: 'ProfilePage' },
+  },
+  {
+    path: 'empreendedor/termos',
+    component: TermsComponent,
+    title: 'Termos do Empreendedor',
+    canActivate: [authGuard, roleGuard('empreendedor')],
+    data: { animation: 'UserTermsPage' },
+  },
+  {
+    path: 'empreendedor/permissoes',
+    component: UserPermissions,
+    title: 'Permissões do Empreendedor',
+    canActivate: [authGuard, roleGuard('empreendedor')],
+    data: { animation: 'UserPermissionsPage' },
   },
 
   // ROTAS DE PROMOTOR TURÍSTICO
@@ -198,26 +248,60 @@ export const routes: Routes = [
     data: { animation: 'AdministradorHomePage' },
   },
   {
-    path: 'empreendedor/comercios',
-    component: EntrepreneurCommerce,
-    title: 'Meus Comércios',
-    canActivate: [authGuard, roleGuard('empreendedor')],
-    data: { animation: 'EmpreendedorComerciosPage' },
+    path: 'administrador/comercios',
+    component: AdministratorCommerce,
+    title: 'Comércios do Administrador',
+    canActivate: [authGuard, roleGuard('administrador')],
+    data: { animation: 'AdministradorCommercePage' },
   },
   {
-    path: 'empreendedor/comercios/cadastro',
-    component: EntrepreneurNewCommerce,
-    title: 'Cadastrar Comércio',
-    canActivate: [authGuard, roleGuard('empreendedor')],
-    data: { animation: 'EmpreendedorNewCommercePage' },
+    path: 'administrador/comercios/detalhe/:id',
+    component: AdministratorCommerceDetail,
+    title: 'Detalhes do Comércio',
+    canActivate: [authGuard, roleGuard('administrador')],
+    data: { animation: 'AdminCommerceDetailPage' },
   },
-  // Nova rota de perfil para Administrador
+  {
+    path: 'administrador/comercios/cadastro',
+    component: AdministradorNewCommerce,
+    title: 'Novo Comércio do Administrador',
+    canActivate: [authGuard, roleGuard('administrador')],
+    data: { animation: 'AdministradorNewCommercePage' },
+  },
+  {
+    path: 'administrador/eventos',
+    component: AdministratorEvents,
+    title: 'Eventos do Administrador',
+    canActivate: [authGuard, roleGuard('administrador')],
+    data: { animation: 'AdministradorEventsPage' },
+  },
+  {
+    path: 'administrador/usuarios',
+    component: AdministratorUsers,
+    title: 'Usuários do Administrador',
+    canActivate: [authGuard, roleGuard('administrador')],
+    data: { animation: 'AdministradorUsersPage' },
+  },
   {
     path: 'administrador/perfil',
     component: Profile,
     title: 'Perfil do Administrador',
     canActivate: [authGuard, roleGuard('administrador')],
     data: { animation: 'ProfilePage' },
+  },
+  {
+    path: 'administrador/permissoes',
+    component: UserPermissions,
+    title: 'Permissões do Administrador',
+    canActivate: [authGuard, roleGuard('administrador')],
+    data: { animation: 'UserPermissionsPage' },
+  },
+  {
+    path: 'administrador/termos',
+    component: TermsComponent,
+    title: 'Termos do Administrador',
+    canActivate: [authGuard, roleGuard('administrador')],
+    data: { animation: 'UserTermsPage' },
   },
 
   // PÁGINA NÃO ENCONTRADA

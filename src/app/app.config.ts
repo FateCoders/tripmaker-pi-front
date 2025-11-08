@@ -1,5 +1,6 @@
 import {
   ApplicationConfig,
+  importProvidersFrom,
   provideBrowserGlobalErrorListeners,
   provideZoneChangeDetection,
 } from '@angular/core';
@@ -12,6 +13,7 @@ import { provideNgxMask } from 'ngx-mask';
 
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideHttpClient, withFetch } from '@angular/common/http';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -23,6 +25,7 @@ export const appConfig: ApplicationConfig = {
       player: () => import('lottie-web'),
     }),
     provideAnimations(),
+    importProvidersFrom(MatSnackBarModule),
     provideNgxMask(),
     provideHttpClient(withFetch()),
   ],
