@@ -1,0 +1,53 @@
+<div class="favorites-container">
+  <app-header-title
+    [title]="'Favoritos'"
+    [showBackButton]="true"
+    (backClick)="goBack()"
+  ></app-header-title>
+
+  <main class="main-content">
+    <mat-tab-group
+      (selectedIndexChange)="onTabChange($event)"
+      [selectedIndex]="tabs.indexOf((activeTab$ | async) ?? 'Eventos')"
+      animationDuration="0ms"
+      class="favorites-tabs"
+    >
+      @for (tab of tabs; track tab) {
+      <mat-tab [label]="tab"></mat-tab>
+      }
+    </mat-tab-group>
+
+    <div class="controls-bar">
+      <div class="filter-sort">
+        <button mat-button class="sort-button" (click)="onFilterChange()">
+          <mat-icon>swap_vert</mat-icon>
+          Avaliação mais alta
+        </button>
+      </div>
+
+      <button mat-icon-button class="view-toggle" (click)="onFilterChange()">
+        <mat-icon>format_list_bulleted</mat-icon>
+      </button>
+    </div>
+
+    <div class="favorites-grid-content">
+      @if (favoriteItems$ | async; as items) { @if (items.length > 0) {
+      <div class="favorites-grid">
+        @for (item of items; track item.id) {
+        <app-map-item-card [item]="item" (cardClick)="onItemClick(item)"> </app-map-item-card>
+        }
+      </div>
+      } @else {
+      <div class="empty-state">
+        <mat-icon>favorite_border</mat-icon>
+        <h3>Nenhum favorito encontrado nesta categoria.</h3>
+        <p>Adicione Rotas, Roteiros ou Eventos aos seus favoritos para vê-los aqui.</p>
+      </div>
+      } } @else {
+      <div class="loading-state">
+        <p>Carregando favoritos...</p>
+      </div>
+      }
+    </div>
+  </main>
+</div>

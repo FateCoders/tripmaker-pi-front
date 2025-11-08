@@ -16,4 +16,6 @@ export interface Commerce {
   description: string;
   caracteristicas: string[];
   imagesUrl?: string[];
+  region?: string;
+  creationDate?: Date | string;
 }

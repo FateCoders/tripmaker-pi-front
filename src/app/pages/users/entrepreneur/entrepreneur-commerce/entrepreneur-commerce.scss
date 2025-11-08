@@ -1,6 +1,8 @@
+@use '../entrepreneur-home/entrepreneur-home.scss';
+
 .list-container {
   display: grid;
-  grid-template-rows: auto 1fr auto; // Cabeçalho, Conteúdo, Rodapé
+  grid-template-rows: auto 1fr auto;
   min-height: 100vh;
   min-height: 100dvh;
   background: var(--background-color-light);
@@ -11,10 +13,10 @@
   display: flex;
   flex-direction: column;
   padding: 1rem;
-  gap: 1rem; // Espaçamento entre os cards
+  gap: 1rem;
+  max-height: calc(100dvh - 102.4px - 104px);
 }
 
-// Estilo para cada item da lista
 .commerce-list-item {
   cursor: pointer;
   transition: all 0.2s ease-in-out;
@@ -24,12 +26,11 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   }
 
-  // Pega o estilo de business-info do home
   .business-info {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    margin-bottom: 1rem; // Adiciona espaço para os stats
+    margin-bottom: 1rem;
 
     .business-logo {
       width: 48px;
@@ -45,19 +46,17 @@
     }
   }
 
-  // Pega o estilo de business-stats-card do home
   .business-stats-card {
-    padding: 0; // Remove padding do wrapper
-    box-shadow: none; // Remove sombra do wrapper
-    background: none; // Remove fundo do wrapper
+    padding: 0;
+    box-shadow: none;
+    background: none;
   }
 }
 
-// Container para o botão flutuante
 .fab-container {
   position: fixed;
   right: 16px;
-  bottom: 80px; // Posição acima do bottom-menu
+  bottom: 80px;
   z-index: 100;
 
   button {
@@ -66,7 +65,6 @@
   }
 }
 
-// Estilos para o estado vazio, reutilizando do home
 .empty-state-container {
   h3 {
     font-size: 1.25rem;
@@ -74,6 +72,7 @@
     color: var(--text-color-dark);
     margin: 0;
   }
+
   p {
     font-size: 0.9rem;
     color: var(--text-color-light);
@@ -85,33 +84,29 @@
   margin-bottom: 20px;
 }
 
-// [MODIFICADO] src/app/pages/users/entrepreneur/entrepreneur-home/entrepreneur-home.scss
-
-// ... (outros estilos)
-
-// Card: Tags
 .business-tags-card {
   display: flex;
-  flex-wrap: nowrap; // <-- AQUI: Impede que os itens quebrem a linha
-  overflow-x: auto; // <-- AQUI: Permite o scroll horizontal
-  justify-content: flex-start; // Alinha os itens ao início
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  justify-content: flex-start;
   gap: 0.75rem;
-  
-  // Ajustes de layout para ficar idêntico à imagem
-  padding: 1rem 0 1rem 1rem; // Adiciona padding só no início
+
+  padding: 1rem 0 1rem 1rem;
   background: transparent;
   box-shadow: none;
   border-radius: 0;
-  
-  // Remove a barra de rolagem visualmente
+
   &::-webkit-scrollbar {
     display: none;
   }
-  -ms-overflow-style: none; /* IE e Edge */
-  scrollbar-width: none; /* Firefox */
+
+  -ms-overflow-style: none;
+  /* IE e Edge */
+  scrollbar-width: none;
+  /* Firefox */
 
   .tag-item {
-    flex-shrink: 0; // <-- AQUI: Impede que o item se encolha
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     gap: 0.25rem;
@@ -127,5 +122,3 @@
     }
   }
 }
-
-// ... (outros estilos: .routes-map-card, .visitors-card, etc.)

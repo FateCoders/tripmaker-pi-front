@@ -1,0 +1,83 @@
+.list-card {
+    box-shadow: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background: var(--white-color);
+    cursor: pointer;
+
+    &:hover {
+        transform: scale(1.01);
+    }
+}
+
+.card-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 15px;
+}
+
+.card-image {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    padding: 8px;
+    background: var(--background-color-light);
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+.card-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.card-title {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--text-color-dark);
+    padding-top: 4px;
+}
+
+.card-subtitle {
+    font-size: 13px;
+    color: var(--text-color-light);
+    margin-top: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.card-menu {
+    padding: 0;
+    display: flex;
+    background-color: transparent;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    color: var(--text-color-light-light);
+
+    &:hover {
+        background-color: var(--input-background);
+        transform: scale(1.08);
+        cursor: pointer;
+    }
+}
+
+.mat-icon[color="warn"] {
+    color: #EF4444;
+}
+
+.text-warn {
+    color: #EF4444;
+}

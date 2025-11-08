@@ -7,7 +7,8 @@ import {
 import { Validators, ValidatorFn } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 
-// Importa os novos validadores da pasta dedicada
+import { NotificationService } from '../../services/notification-service';
+
 import { cnpjValidator } from '../../validators/cnpj.validator';
 import { phoneValidator } from '../../validators/phone.validator';
 import { matchPasswordsValidator } from '../../validators/match-passwords.validator';
@@ -22,6 +23,7 @@ export class Cadastro implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private authService = inject(AuthService);
+  private notificationService = inject(NotificationService);
 
   selectedUserType: 'traveler' | 'entrepreneur' | 'promoter' = 'traveler';
   currentFormFields: FormFieldConfig[] = [];
@@ -46,7 +48,6 @@ export class Cadastro implements OnInit {
     } else {
       this.currentFormFields = this.entrepreneurAndPromoterFields;
     }
-    // Adiciona o validador de senhas ao grupo do formulário
     this.currentFormGroupValidators = [matchPasswordsValidator];
   }
 
@@ -62,11 +63,16 @@ export class Cadastro implements OnInit {
       role: roleMap[this.selectedUserType],
     };
 
-    // Remove o campo de confirmação de senha antes de "salvar"
     delete userToRegister.confirmPassword;
 
-    this.authService.register(userToRegister);
-    this.router.navigate(['/']); // Redireciona para a página de login
+    const success = this.authService.register(userToRegister);
+
+    if (success) {
+      this.notificationService.open('Cadastro realizado com sucesso! Redirecionando para o login.', 'OK', 'success');
+      this.router.navigate(['/']); 
+    } else {
+      this.notificationService.open('Ocorreu um erro inesperado. Por favor, tente novamente.', 'Fechar', 'error');
+    }
   }
 
   private travelerFields: FormFieldConfig[] = [
@@ -94,7 +100,7 @@ export class Cadastro implements OnInit {
       label: 'Telefone',
       type: 'tel',
       placeholder: '(XX) XXXXX-XXXX',
-      mask: '(00) 00000-0000', // Máscara para telefone
+      mask: '(00) 00000-0000', 
       validators: [Validators.required, phoneValidator],
       validationMessages: [
         { type: 'required', message: 'O telefone é obrigatório.' },
@@ -139,7 +145,7 @@ export class Cadastro implements OnInit {
       label: 'CNPJ',
       type: 'text',
       placeholder: 'XX.XXX.XXX/XXXX-XX',
-      mask: '00.000.000/0000-00', // Máscara para CNPJ
+      mask: '00.000.000/0000-00', 
       validators: [Validators.required, cnpjValidator],
       validationMessages: [
         { type: 'required', message: 'O CNPJ é obrigatório.' },

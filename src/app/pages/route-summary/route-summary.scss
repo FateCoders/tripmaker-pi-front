@@ -3,10 +3,34 @@
   flex-direction: column;
   height: 100vh;
   background-color: var(--white-color);
+  // Adiciona transição suave para a expansão/redução
+  transition: all 0.3s ease-in-out;
 }
 
 app-header-title {
   flex-shrink: 0;
+}
+
+// Classe de expansão para o HOST
+:host.map-expanded {
+  .page-container {
+    padding-bottom: 0; // Remove padding inferior
+  }
+  .map-preview-container {
+    height: 100vh !important; // Ocupa a altura total
+    position: fixed; // Fixa na tela
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 200; // Fica acima de tudo
+    border-radius: 0; // Remove bordas
+  }
+  .summary-list-container,
+  .footer-button-container,
+  app-header-title {
+    display: none; // Esconde o restante do conteúdo
+  }
 }
 
 .page-container {
@@ -24,6 +48,7 @@ app-header-title {
   overflow: hidden;
   background-color: #eee;
   margin-bottom: 24px;
+  transition: height 0.3s ease-in-out, border-radius 0.3s ease-in-out; // Adiciona transição
 
   .expand-button {
     position: absolute;
@@ -37,9 +62,15 @@ app-header-title {
     padding: 0 16px;
     height: 40px;
     line-height: 40px;
+    transition: background-color 0.3s ease;
 
     mat-icon {
       margin-right: 8px;
+    }
+
+    // Estilo do botão quando o mapa está expandido (ajustado no HTML/TS)
+    &.expanded-btn {
+      background-color: var(--text-color-light); // Mudar cor para indicar "Reduzir"
     }
   }
 }

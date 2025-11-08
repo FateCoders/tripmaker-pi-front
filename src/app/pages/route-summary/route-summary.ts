@@ -1,15 +1,18 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, HostBinding, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 import { HeaderTitle } from '../../components/header-title/header-title';
 import { RouteCardItem } from '../../interfaces/route-card-item';
 import { RouteSummaryItemComponent } from '../../components/route-summary-item/route-summary-item';
 import { GoogleMapIframeComponent } from '../../components/google-map-iframe/google-map-iframe';
+import { RoutesService } from '../../services/routes.service';
+import { environment } from '../../../environments/environment.prod';
 
 @Component({
   selector: 'app-route-summary',
@@ -29,86 +32,81 @@ import { GoogleMapIframeComponent } from '../../components/google-map-iframe/goo
 })
 export class RouteSummaryComponent implements OnInit {
   private router = inject(Router);
+  private routesService = inject(RoutesService);
+  private sanitizer = inject(DomSanitizer);
 
   routeItems: RouteCardItem[] = [];
 
-  mapUrl: string = '';
-  private readonly GOOGLE_MAPS_API_KEY = 'SUA_API';
+  mapUrl: SafeResourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl('');
+
+  @HostBinding('class.map-expanded') isMapExpanded: boolean = false;
+
+  private readonly GOOGLE_MAPS_API_KEY = environment.googleMapsApiKey;
 
   ngOnInit(): void {
-    this.routeItems = this.getMockSummaryItems();
+    this.routeItems = this.routesService.loadCurrentRoute();
 
-    this.mapUrl = this.buildDirectionsUrl(this.routeItems);
+    if (this.routeItems.length > 0) {
+      this.mapUrl = this.buildDirectionsUrl(this.routeItems);
+    } else {
+      this.router.navigate(['/viajante/roteiros/chat']);
+    }
   }
 
-  private buildDirectionsUrl(items: RouteCardItem[]): string {
+  private buildDirectionsUrl(items: RouteCardItem[]): SafeResourceUrl {
     if (items.length === 0) {
-      return `https://www.google.com/maps/embed/v1/place?key=${this.GOOGLE_MAPS_API_KEY}&q=Itapetininga+SP`;
+      const genericUrl = `https://www.google.com/maps/embed/v1/place?key=${this.GOOGLE_MAPS_API_KEY}&q=Interior+de+São+Paulo`;
+      return this.sanitizer.bypassSecurityTrustResourceUrl(genericUrl);
     }
 
     const encode = (str: string) => encodeURIComponent(str).replace(/%20/g, '+');
 
-    const origin = encode(`${items[0].title}, ${items[0].category}`);
+    const getLocationString = (item: RouteCardItem) => encode(`${item.title}, ${item.category}`);
+
+    const origin = getLocationString(items[0]);
     let destination = origin;
     let waypoints = '';
 
     if (items.length > 1) {
       const lastItem = items[items.length - 1];
-      destination = encode(`${lastItem.title}, ${lastItem.category}`);
+      destination = getLocationString(lastItem);
+
+      if (items.length > 2) {
+        waypoints = items.slice(1, -1).map(getLocationString).join('|');
+      }
     }
 
-    if (items.length > 2) {
-      waypoints = items
-        .slice(1, -1)
-        .map((item) => encode(`${item.title}, ${item.category}`))
-        .join('|');
+    let url = `https://www.google.com/maps/embed/v1/directions?key=${this.GOOGLE_MAPS_API_KEY}&origin=${origin}&destination=${destination}`;
+    if (waypoints) {
+      url += `&waypoints=${waypoints}`;
     }
 
-    return `https://www.google.com/maps/embed/v1/directions?key=${this.GOOGLE_MAPS_API_KEY}&origin=${origin}&destination=${destination}&waypoints=${waypoints}`;
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
   goBack(): void {
     this.router.navigate(['/viajante/roteiros/chat']);
   }
+
   onRemoveItem(itemToRemove: RouteCardItem): void {
     console.log('Removendo item:', itemToRemove.id);
     this.routeItems = this.routeItems.filter((item) => item.id !== itemToRemove.id);
+
+    this.routesService.saveCurrentRoute(this.routeItems);
     this.mapUrl = this.buildDirectionsUrl(this.routeItems);
+
+    if (this.routeItems.length === 0) {
+      this.routesService.clearCurrentRoute();
+    }
   }
+
   onAdvance(): void {
     console.log('Avançando para a tela de salvar...');
+
     this.router.navigate(['/viajante/roteiros/salvar']);
   }
+
   onExpandMap(): void {
-    console.log('Expandir mapa');
-  }
-  private getMockSummaryItems(): RouteCardItem[] {
-    //
-    return [
-      {
-        id: 'evento-x-1',
-        image: 'assets/images/jpg/teatro.jpeg',
-        title: 'Cachoeira do Barro Preto',
-        category: 'Boituva-SP',
-        details: 'Trilha leve...',
-        icons: ['store', 'stairs', 'accessible', 'hotel', 'directions_bus'],
-      },
-      {
-        id: 'evento-y-1',
-        image: 'assets/images/jpg/exposicao-arte.jpg',
-        title: 'Exposição de Arte',
-        category: 'Itapetininga-SP',
-        details: 'Artistas locais...',
-        icons: ['store', 'stairs', 'accessible', 'hotel', 'directions_bus'],
-      },
-      {
-        id: 'evento-x-2',
-        image: 'assets/images/jpg/fundo-landing.jpg',
-        title: 'Voo de Balão',
-        category: 'Boituva-SP',
-        details: 'Experiência inesquecível...',
-        icons: ['store', 'stairs', 'accessible', 'hotel', 'directions_bus'],
-      },
-    ];
+    this.isMapExpanded = !this.isMapExpanded;
   }
 }

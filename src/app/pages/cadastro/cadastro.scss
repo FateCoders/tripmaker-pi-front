@@ -1,12 +1,16 @@
 .cadastro_container {
   display: flex;
-  justify-content: space-evenly;
-  align-content: center;
   flex-direction: column;
-  background: var(--background-color);
-  max-height: 100dvh;
-  height: auto;
+  justify-content: center;
+  align-items: center;
+  
   width: 100%;
+  min-height: 100dvh;
+  
+  background: var(--background-color);
+  box-sizing: border-box;
+  
+  padding: 2.5rem 1rem; 
 
   &_header {
     margin-bottom: 2rem;
@@ -28,12 +32,14 @@
     align-items: center;
     flex-direction: column;
     gap: 15px;
+    width: 100%;
   }
 
   &_footer {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 1.5rem;
 
     span {
       font-size: 12px;
