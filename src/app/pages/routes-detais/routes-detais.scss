@@ -1,0 +1,189 @@
+// app/pages/routes-datais/routes-datais.scss
+// [NOVO CONTEÚDO]
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.route-details-container {
+  display: grid;
+  grid-template-rows: 1fr auto; // Conteúdo principal (com scroll) e menu inferior
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: var(--white-color);
+}
+
+.main-wrapper {
+  grid-row: 1;
+  overflow-y: auto; // Apenas esta área deve rolar
+  position: relative; // Para o rodapé de ações
+  padding-bottom: 90px; // Espaço para o rodapé de ações não cobrir o conteúdo
+}
+
+app-bottom-menu {
+  grid-row: 2;
+  position: sticky;
+  bottom: 0;
+  z-index: 101; // Acima do rodapé de ações
+}
+
+// Cabeçalho
+.header-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  overflow: hidden;
+
+  .header-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .back-button {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    z-index: 10;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0.5) 40%,
+      rgba(0, 0, 0, 0) 100%
+    );
+  }
+
+  .header-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 16px;
+    color: white;
+    width: 100%;
+    box-sizing: border-box;
+
+    .route-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+  }
+
+  .chips-bar {
+    display: flex;
+    flex-wrap: wrap; // Permite que os chips quebrem a linha
+    gap: 8px;
+
+    // Sobrescreve o estilo do app-chip para o design do protótipo
+    ::ng-deep app-chip {
+      .mat-mdc-chip-row {
+        background-color: rgba(255, 255, 255, 0.2) !important;
+        backdrop-filter: blur(4px);
+        color: white !important;
+
+        mat-icon {
+          color: white !important;
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+}
+
+// Conteúdo principal (branco)
+.content-area {
+  padding: 16px;
+  background-color: var(--white-color);
+  border-top-left-radius: 20px; // Curva no topo
+  border-top-right-radius: 20px;
+  margin-top: -20px; // Puxa para cima da imagem
+  position: relative;
+  z-index: 2;
+
+  .section {
+    margin-bottom: 24px;
+
+    h2 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--text-color-dark);
+      margin-bottom: 8px;
+    }
+
+    .section-text {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text-color-light);
+      margin-bottom: 12px;
+    }
+  }
+
+  .points-section {
+    .points-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      mat-icon {
+        color: var(--primary-color);
+      }
+    }
+
+    // Remove o padding do carrossel para alinhá-lo
+    ::ng-deep app-card-carousel .carousel-container {
+      padding: 16px 0;
+    }
+  }
+}
+
+// Rodapé de Ações
+.footer-actions {
+  position: sticky; // Fica preso no fim do .main-wrapper
+  bottom: 0;
+  width: 100%;
+  padding: 12px 16px;
+  padding-bottom: calc(12px + env(safe-area-inset-bottom)); // Para iPhones
+  background-color: white;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  box-sizing: border-box;
+  z-index: 100; // Acima do conteúdo, abaixo do menu
+
+  .save-button {
+    flex-grow: 1; // Ocupa a maior parte do espaço
+    height: 48px;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 8px;
+
+    mat-icon {
+      margin-right: 8px;
+    }
+  }
+
+  .favorite-button {
+    background-color: var(--primary-color-light);
+    border: 1px solid var(--primary-color-light);
+    border-radius: 8px;
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    color: var(--primary-color-dark);
+  }
+}

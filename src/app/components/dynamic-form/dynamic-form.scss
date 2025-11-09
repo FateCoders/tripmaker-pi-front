@@ -51,10 +51,11 @@ mat-form-field {
   font-size: 0.75rem;
 }
 
-.submit-button {
-  padding: 0.75rem 50px;
-  height: 48px;
-  font-size: 1rem;
-  font-weight: 500;
-  width: 100%;
+form {
+  .submit-button {
+    background: var(--primary-color-dark);
+    color: var(--white-color);
+    padding: 0 50px;
+    text-decoration: none;
+  }
 }

@@ -1,0 +1,58 @@
+<div class="route-details-container">
+  
+  <div class="main-wrapper">
+    
+    <div class="header-image-wrapper">
+      <button mat-icon-button class="back-button" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+
+      <img [src]="routeDetails.headerImage" [alt]="routeDetails.title" class="header-image" />
+      <div class="overlay"></div>
+      
+      <div class="header-content">
+        <h1 class="route-title">{{ routeDetails.title }}</h1>
+        
+        <div class="chips-bar">
+          <app-chip [label]="routeDetails.duration" icon="schedule"></app-chip>
+          <app-chip [label]="routeDetails.price" icon="attach_money"></app-chip>
+          @for (tag of routeDetails.tags; track tag.label) {
+            <app-chip [label]="tag.label" [icon]="tag.icon"></app-chip>
+          }
+        </div>
+      </div>
+    </div>
+
+    <main class="content-area">
+      
+      <section class="section">
+        <h2>Detalhes da Rota:</h2>
+        <p class="section-text">{{ routeDetails.description }}</p>
+      </section>
+
+      <section class="section points-section">
+        <div class="points-header">
+          <h2>Pontos da Rota</h2>
+          <mat-icon>arrow_forward</mat-icon>
+        </div>
+        
+        <app-card-carousel [items]="routePoints"></app-card-carousel>
+      </section>
+      
+    </main>
+
+    <div class="footer-actions">
+      <button mat-flat-button color="primary" class="save-button" (click)="saveRoute()">
+        <mat-icon>flag</mat-icon> 
+        SALVAR ROTA
+      </button>
+      <button mat-icon-button class="favorite-button" (click)="toggleFavorite()">
+        <mat-icon>favorite_border</mat-icon>
+      </button>
+    </div>
+
+  </div>
+
+  <app-bottom-menu></app-bottom-menu>
+
+</div>

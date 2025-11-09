@@ -1,0 +1,95 @@
+mat-card {
+  mat-card-title {
+    margin: 0.3%;
+  }
+  mat-card-subtitle {
+    margin: 0.3%;
+  }
+  mat-card-content {
+    margin: 0.3%;
+  }
+}
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  height: 100dvh;
+  overflow: hidden;
+
+  .home-content {
+    display: flex;
+    overflow: auto;
+    flex-direction: column;
+    padding-bottom: 120px;
+
+    height: calc(100dvh - 191.4px - 104px);
+
+    .route-card {
+      margin: 12px 8px;
+      padding: 16px;
+      border-radius: 16px;
+      border: 1px solid #e0e0e0;
+      box-shadow: none;
+
+      mat-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0;
+        width: 100%;
+        margin-bottom: 12px;
+        mat-card-title {
+          margin: 0;
+          font-size: 1.1rem;
+          font-weight: 500;
+          line-height: 1.4;
+        }
+      }
+
+      mat-card-content {
+        margin: 0;
+        padding: 0;
+      }
+      .chips-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+
+      .icons-container {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        color: rgba(0, 0, 0, 0.6);
+        mat-icon {
+          font-size: 20px;
+          height: 20px;
+          width: 20px;
+        }
+      }
+    }
+  }
+
+  app-bottom-menu {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+  }
+}
+
+.fab-add {
+  position: fixed;
+  bottom: 80px;
+  right: 16px;
+  background-color: var(--primary-color);
+  color: var(--white-color);
+  z-index: 99;
+}
+
+::ng-deep .mat-mdc.fab{
+  box-shadow: none;
+}

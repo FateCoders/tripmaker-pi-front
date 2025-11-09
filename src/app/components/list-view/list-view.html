@@ -17,7 +17,7 @@
 
   @default {
   @for (item of filteredItems; track $index) {
-  <app-card-default [item]="item"></app-card-default>
+  <app-card-default [item]="item" (cardClick)="onItemClicked(item)"></app-card-default>
   <mat-divider></mat-divider>
   }
   }
