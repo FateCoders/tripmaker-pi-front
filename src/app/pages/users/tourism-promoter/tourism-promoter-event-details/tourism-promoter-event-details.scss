@@ -258,14 +258,18 @@ app-bottom-menu {
   gap: 1rem;
   cursor: pointer;
 
-  .reviews-icon mat-icon {
-    font-size: 2.5rem;
-    width: 2.5rem;
-    height: 2.5rem;
-    color: var(--text-color-light-light);
+  .reviews-icon {
+    flex-shrink: 0;
+
+    mat-icon {
+      font-size: 2.5rem;
+      width: 2.5rem;
+      height: 2.5rem;
+      color: var(--text-color-light-light);
+    }
   }
 
-  S .reviews-text {
+  .reviews-text {
     flex-grow: 1;
 
     strong {
@@ -284,6 +288,7 @@ app-bottom-menu {
   }
 
   .reviews-arrow {
+    flex-shrink: 0;
     color: var(--text-color-light-light);
   }
 }

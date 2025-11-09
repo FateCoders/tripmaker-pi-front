@@ -42,6 +42,7 @@ export class ReviewService {
     const reviews = this.mockReviews.filter(
       r => r.targetId === targetId && r.targetType === targetType
     );
+    console.log(reviews);
     return of(reviews).pipe(delay(500));
   }
 }

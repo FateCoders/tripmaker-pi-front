@@ -7,7 +7,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatChipsModule } from '@angular/material/chips';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Observable, combineLatest, map, startWith } from 'rxjs';
+import { Observable, combineLatest, map, startWith, tap } from 'rxjs';
 
 import { Review } from '../../interfaces/review';
 import { ReviewService } from '../../services/review.service';
@@ -67,7 +67,11 @@ export class Reviews implements OnInit {
     if (targetType === 'event') this.pageTitle.set('Avaliações do Evento');
     if (targetType === 'route') this.pageTitle.set('Avaliações da Rota');
 
-    this.allReviews$ = this.reviewService.getReviewsByTarget(id, targetType);
+    this.allReviews$ = this.reviewService.getReviewsByTarget(id, targetType).pipe(
+      tap(() => {
+        this.isLoading.set(false);
+      })
+    );
 
     const filterChanges$ = this.filterControl.valueChanges.pipe(
       startWith(null)
@@ -78,7 +82,6 @@ export class Reviews implements OnInit {
       filterChanges$
     ]).pipe(
       map(([reviews, selectedRating]) => {
-        this.isLoading.set(false);
         if (selectedRating === null) {
           return reviews;
         }
