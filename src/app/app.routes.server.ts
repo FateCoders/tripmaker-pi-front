@@ -2,6 +2,10 @@ import { RenderMode, ServerRoute } from '@angular/ssr';
 
 export const serverRoutes: ServerRoute[] = [
   {
+    path: 'empreendedor/avaliacoes/:id',
+    renderMode: ('dynamic' as unknown) as RenderMode
+  } as ServerRoute,
+  {
     path: 'administrador/usuarios/novo/:role',
     renderMode: ('dynamic' as unknown) as RenderMode
   } as ServerRoute,
@@ -14,7 +18,15 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: ('dynamic' as unknown) as RenderMode
   } as ServerRoute,
   {
+    path: 'administrador/avaliacoes/:type/:id',
+    renderMode: ('dynamic' as unknown) as RenderMode
+  } as ServerRoute,
+  {
     path: 'promotor_turistico/evento/:id',
+    renderMode: ('dynamic' as unknown) as RenderMode
+  } as ServerRoute,
+  {
+    path: 'promotor_turistico/avaliacoes/:type/:id',
     renderMode: ('dynamic' as unknown) as RenderMode
   } as ServerRoute,
   {

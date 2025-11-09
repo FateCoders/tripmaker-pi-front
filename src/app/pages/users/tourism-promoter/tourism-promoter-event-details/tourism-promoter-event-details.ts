@@ -49,7 +49,7 @@ export interface EventRouteDetails {
     MatIconModule,
     GoogleMapIframeComponent,
     Chip
-],
+  ],
   templateUrl: './tourism-promoter-event-details.html',
   styleUrl: './tourism-promoter-event-details.scss',
 })
@@ -65,14 +65,14 @@ export class TourismPromoterEventDetails implements OnInit, OnDestroy {
   @ViewChild('visitorsChart') set visitorsChart(elRef: ElementRef<HTMLCanvasElement> | undefined) {
     if (elRef) {
       this.chartRef = elRef;
-      this.createChartIfReady(); 
+      this.createChartIfReady();
     }
   }
   private chartRef: ElementRef<HTMLCanvasElement> | undefined;
 
   isLoading = true;
   eventData: EventRouteDetails | null = null;
-  
+
   // 2. Transformar mapUrl numa propriedade 'signal'
   // (Usamos <string> porque o componente google-map-iframe espera uma string)
   mapUrl = signal<string>('');
@@ -107,18 +107,18 @@ export class TourismPromoterEventDetails implements OnInit, OnDestroy {
         tags: ['Cultural', 'Pet Friend'],
         dailyVisitors: '144',
         dailyVisitorsLabel: 'No 2º Dia seu Evento teve',
-        locationQuery: 'Conservatório de Tatuí, Tatuí - SP', 
-        chartLabels: ['Dom', 'Seg', 'Dia 2', 'Qua', 'Qui', 'Sex', 'Sáb'], 
-        chartData: [40, 60, 144, 90, 100, 110, 120], 
+        locationQuery: 'Conservatório de Tatuí, Tatuí - SP',
+        chartLabels: ['Dom', 'Seg', 'Dia 2', 'Qua', 'Qui', 'Sex', 'Sáb'],
+        chartData: [40, 60, 144, 90, 100, 110, 120],
       };
 
       this.eventData = mockData;
       // 4. Definir o valor do signal usando .set()
       this.mapUrl.set(this.getMapUrl(this.eventData.locationQuery));
-      
+
       this.isLoading = false;
-      this.cdr.detectChanges(); 
-      this.createChartIfReady(); 
+      this.cdr.detectChanges();
+      this.createChartIfReady();
     }, 500);
   }
 
@@ -154,9 +154,9 @@ export class TourismPromoterEventDetails implements OnInit, OnDestroy {
 
     this.chartInstance?.destroy();
 
-    const gradient = ctx.createLinearGradient(0, 0, 0, 150); 
-    gradient.addColorStop(0, 'rgba(0, 123, 255, 0.4)'); 
-    gradient.addColorStop(1, 'rgba(0, 123, 255, 0)'); 
+    const gradient = ctx.createLinearGradient(0, 0, 0, 150);
+    gradient.addColorStop(0, 'rgba(0, 123, 255, 0.4)');
+    gradient.addColorStop(1, 'rgba(0, 123, 255, 0)');
 
     this.chartInstance = new Chart(ctx, {
       type: 'line',
@@ -167,11 +167,11 @@ export class TourismPromoterEventDetails implements OnInit, OnDestroy {
             label: 'Visitantes',
             data: data.chartData,
             fill: true,
-            backgroundColor: gradient, 
-            borderColor: 'var(--primary-color-dark)', 
+            backgroundColor: gradient,
+            borderColor: 'var(--primary-color-dark)',
             borderWidth: 2.5,
-            tension: 0.4, 
-            pointRadius: 0, 
+            tension: 0.4,
+            pointRadius: 0,
             pointHoverRadius: 6,
             pointHoverBackgroundColor: 'var(--primary-color-dark)',
             pointHoverBorderColor: 'var(--white-color)',
@@ -188,7 +188,7 @@ export class TourismPromoterEventDetails implements OnInit, OnDestroy {
         },
         plugins: {
           legend: {
-            display: false, 
+            display: false,
           },
           tooltip: {
             enabled: true,
@@ -209,29 +209,35 @@ export class TourismPromoterEventDetails implements OnInit, OnDestroy {
         scales: {
           x: {
             grid: {
-              display: false, 
+              display: false,
             },
             ticks: {
-              display: false, 
+              display: false,
             },
             border: {
-              display: false, 
+              display: false,
             },
           },
           y: {
             beginAtZero: true,
             grid: {
-              display: false, 
+              display: false,
             },
             ticks: {
-              display: false, 
+              display: false,
             },
             border: {
-              display: false, 
+              display: false,
             },
           },
         },
       },
     });
+  }
+
+  navigateToReviews(): void {
+    if (this.eventData) {
+      this.router.navigate(['/promotor_turistico/avaliacoes', 'event', this.eventData.id]);
+    }
   }
 }

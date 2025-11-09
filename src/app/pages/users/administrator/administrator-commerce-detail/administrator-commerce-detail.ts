@@ -220,4 +220,9 @@ export class AdministratorCommerceDetail implements OnInit, OnDestroy {
       },
     });
   }
+  navigateToReviews(): void {
+    if (this.businessData()) {
+      this.router.navigate(['/administrador/avaliacoes', 'commerce', this.businessData()!.id]);
+    }
+  }
 }

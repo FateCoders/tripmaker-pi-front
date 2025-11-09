@@ -216,4 +216,10 @@ export class EntrepreneurHome implements OnInit, OnDestroy {
       },
     });
   }
+
+  navigateToReviews(): void {
+    if (this.businessData) {
+      this.router.navigate(['/empreendedor/avaliacoes', this.businessData.id]);
+    }
+  }
 }
