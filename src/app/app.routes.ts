@@ -31,6 +31,12 @@ import { TourismPromoterEventDetails } from './pages/users/tourism-promoter/tour
 import { TourismPromoterRouteDetais } from './pages/users/tourism-promoter/tourism-promoter-route-detais/tourism-promoter-route-detais';
 import { FavoritesComponent } from './pages/favorities/favorities';
 import { TermsComponent } from './pages/terms/terms';
+import { AdministratorUserForm } from './pages/users/administrator/user-form/user-form';
+import { AdministratorCommerce } from './pages/users/administrator/commerce/commerce';
+import { AdministratorCommerceDetail } from './pages/users/administrator/administrator-commerce-detail/administrator-commerce-detail';
+import { AdministradorNewCommerce } from './pages/users/administrator/new-commerce/new-commerce';
+import { AdministratorEvents } from './pages/users/administrator/events/events';
+import { AdministratorUsers } from './pages/users/administrator/users/users';
 
 export const routes: Routes = [
   // ROTAS GERAIS
