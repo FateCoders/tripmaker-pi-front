@@ -239,6 +239,20 @@ export const routes: Routes = [
     data: { animation: 'ProfilePage' },
   },
   {
+    path: 'promotor_turistico/permissoes',
+    component: UserPermissions,
+    title: 'Permissões do Promotor Turístico',
+    canActivate: [authGuard, roleGuard('promotor_turistico')],
+    data: { animation: 'ProfilePermissionsPage' },
+  },
+  {
+    path: 'promotor_turistico/termos',
+    component: TermsComponent,
+    title: 'Termos do Promotor Turístico',
+    canActivate: [authGuard, roleGuard('promotor_turistico')],
+    data: { animation: 'ProfileTermsPage' },
+  },
+  {
     path: 'promotor_turistico/mapa',
     component: MapViewComponent,
     title: 'Mapa do Promotor Turístico',
