@@ -15,24 +15,31 @@ export class AuthService {
   private router = inject(Router);
   private platformId = inject(PLATFORM_ID);
 
-  private users: User[] = [
+  private users: any[] = [
     {
+      id: '3',
+      email: 'promotor@gmail.com',
+      password: 'password',
+      role: 'promotor_turistico',
+      name: 'Promotor Turístico Teste',
+    },
+        {
       id: '1',
-      email: 'viajante@email.com',
+      email: 'viajante@gmail.com',
       password: 'password',
       role: 'viajante',
       name: 'Viajante Teste',
     },
     {
       id: '2',
-      email: 'empreendedor@email.com',
+      email: 'empreendedor@gmail.com',
       password: 'password',
       role: 'empreendedor',
       name: 'Empreendedor Teste',
     },
     {
-      id: '3',
-      email: 'administrador@email.com',
+      id: '4',
+      email: 'administrador@gmail.com',
       password: 'password',
       role: 'administrador',
       name: 'Administrador Teste',

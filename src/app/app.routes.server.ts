@@ -14,6 +14,14 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: ('dynamic' as unknown) as RenderMode
   } as ServerRoute,
   {
+    path: 'promotor_turistico/evento/:id',
+    renderMode: ('dynamic' as unknown) as RenderMode
+  } as ServerRoute,
+  {
+    path: 'promotor_turistico/rota/:id',
+    renderMode: ('dynamic' as unknown) as RenderMode
+  } as ServerRoute,
+  {
     path: '**',
     renderMode: RenderMode.Prerender,
   },

@@ -39,10 +39,10 @@ export class RoutesService {
       { path: '/empreendedor/perfil', label: 'Perfil', icon: 'person' },
     ],
     promotor_turistico: [
-      { path: '/promotor-turistico/inicio', label: 'Início', icon: 'home' },
-      { path: '/promotor-turistico/eventos', label: 'Eventos', icon: 'event' },
-      { path: '/promotor-turistico/mapa', label: 'Mapa', icon: 'map' },
-      { path: '/promotor-turistico/perfil', label: 'Perfil', icon: 'person' },
+      {path: '/promotor_turistico/inicio', label: 'Início', icon: 'home'},
+      // {path: '/promotor_turistico/eventos', label: 'Eventos', icon: 'event'},
+      {path: '/promotor_turistico/mapa', label: 'Mapa', icon: 'map'},
+      {path: '/promotor_turistico/perfil', label: 'Perfil', icon: 'person'},
     ],
     viajante: [
       { path: '/viajante/inicio', label: 'Início', icon: 'home' },

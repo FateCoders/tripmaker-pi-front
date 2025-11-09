@@ -1,0 +1,89 @@
+<div class="details-container">
+  
+  <app-header-title 
+    title="Evento" 
+    subtitle="Visualização de informações importantes"
+    [showBackButton]="true"
+    (backClick)="goBack()">
+  </app-header-title>
+
+  @if (isLoading) {
+  <main class="details-content loading-state">
+    <p>Carregando dados...</p>
+  </main>
+  } @else if (eventData) {
+  <main class="details-content">
+    
+    <section class="dashboard-card event-summary-card">
+      <div class="business-info">
+        <img src="assets/images/png/tourism-promoter.png" alt="Logo do Evento" class="business-logo" />
+        <div class="business-name">
+          <h3>{{ eventData.name }}</h3>
+          <p>{{ eventData.address }}</p>
+        </div>
+      </div>
+      
+      <div class="business-stats-card">
+        <div class="stat-item">
+          <span>Visitantes</span>
+          <strong>{{ eventData.visitors }}</strong>
+        </div>
+        <div class="stat-item">
+          <span>Avaliações</span>
+          <div class="star-rating">
+            @for (isFilled of ratingStars; track $index) {
+            <mat-icon>{{ isFilled ? 'star' : 'star_border' }}</mat-icon>
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="business-tags-card">
+        <app-chip [label]="eventData.hours" icon="schedule" />
+        @for (tag of eventData.tags; track $index) {
+        <app-chip 
+          [label]="tag" 
+          [icon]="tag === 'Cultural' ? 'theater_comedy' : 'pets'" 
+          />
+        }
+    </section>
+
+    <section class="daily-stats-map-grid">
+      <div class="dashboard-card daily-stat-card">
+        <span>{{ eventData.dailyVisitorsLabel }} seu Evento teve</span>
+        <strong>{{ eventData.dailyVisitors }}</strong>
+        <span>visitantes</span>
+      </div>
+      <div class="dashboard-card map-card">
+        
+        @if(mapUrl()) { 
+          <app-google-map-iframe [mapSrcUrl]="mapUrl()" height="100%"></app-google-map-iframe>
+        }
+      </div>
+    </section>
+
+    <section class="dashboard-card visitors-card">
+      <div class="card-header">
+        <h4>Visitantes</h4>
+        <button mat-flat-button class="filter-button">Hoje</button>
+      </div>
+      <div class="graph-placeholder">
+        <canvas #visitorsChart></canvas>
+      </div>
+      <div class="chart-summary">
+        <span>Dia 2</span>
+        <span>{{ eventData.dailyVisitors }} visitantes</span>
+      </div>
+    </section>
+
+  </main>
+  } @else {
+    <main class="details-content loading-state">
+      <p>Evento não encontrado.</p>
+    </main>
+  }
+
+  <app-bottom-menu></app-bottom-menu>
+
+</div>

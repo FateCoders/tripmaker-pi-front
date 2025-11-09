@@ -27,14 +27,16 @@ import { RouteSaveComponent } from './pages/route-save/route-save';
 import { Profile } from './pages/profile/profile.component';
 import { EntrepreneurCommerce } from './pages/users/entrepreneur/entrepreneur-commerce/entrepreneur-commerce';
 import { EntrepreneurNewCommerce } from './pages/users/entrepreneur/entrepreneur-new-commerce/entrepreneur-new-commerce';
-import { AdministratorCommerce } from './pages/users/administrator/commerce/commerce';
-import { AdministratorEvents } from './pages/users/administrator/events/events';
-import { AdministratorUsers } from './pages/users/administrator/users/users';
-import { AdministratorUserForm } from './pages/users/administrator/user-form/user-form';
-import { AdministradorNewCommerce } from './pages/users/administrator/new-commerce/new-commerce';
+import { TourismPromoterEventDetails } from './pages/users/tourism-promoter/tourism-promoter-event-details/tourism-promoter-event-details';
+import { TourismPromoterRouteDetais } from './pages/users/tourism-promoter/tourism-promoter-route-detais/tourism-promoter-route-detais';
 import { FavoritesComponent } from './pages/favorities/favorities';
 import { TermsComponent } from './pages/terms/terms';
+import { AdministratorUserForm } from './pages/users/administrator/user-form/user-form';
+import { AdministratorCommerce } from './pages/users/administrator/commerce/commerce';
 import { AdministratorCommerceDetail } from './pages/users/administrator/administrator-commerce-detail/administrator-commerce-detail';
+import { AdministradorNewCommerce } from './pages/users/administrator/new-commerce/new-commerce';
+import { AdministratorEvents } from './pages/users/administrator/events/events';
+import { AdministratorUsers } from './pages/users/administrator/users/users';
 
 export const routes: Routes = [
   // ROTAS GERAIS
@@ -209,39 +211,40 @@ export const routes: Routes = [
 
   // ROTAS DE PROMOTOR TURÍSTICO
   {
-    path: 'promotor-turistico/inicio',
+    path: 'promotor_turistico/inicio',
     component: TourismPromoterHome,
     title: 'Início do Promotor Turístico',
-    canActivate: [authGuard, roleGuard('promotor-turistico')],
+    canActivate: [authGuard, roleGuard('promotor_turistico')],
     data: { animation: 'PromotorTuristicoHomePage' },
   },
   {
-    path: 'promotor-turistico/perfil',
+    path: 'promotor_turistico/evento/:id',
+    component: TourismPromoterEventDetails,
+    title: 'Detalhes do Evento',
+    canActivate: [authGuard, roleGuard('promotor_turistico')],
+    data: { animation: 'PromotorEventoDetalhesPage' },
+  },
+  {
+    path: 'promotor_turistico/rota/:id',
+    component: TourismPromoterRouteDetais,
+    title: 'Detalhes do Roteiro',
+    canActivate: [authGuard, roleGuard('promotor_turistico')],
+    data: { animation: 'PromotorRotasDetalhesPage' },
+  },
+  {
+    path: 'promotor_turistico/perfil',
     component: Profile,
     title: 'Perfil do Promotor Turístico',
-    canActivate: [authGuard, roleGuard('promotor-turistico')],
+    canActivate: [authGuard, roleGuard('promotor_turistico')],
     data: { animation: 'ProfilePage' },
   },
   {
-    path: 'promotor-turistico/permissoes',
-    component: UserPermissions,
-    title: 'Permissões do Promotor Turistico',
-    canActivate: [authGuard, roleGuard('promotor-turistico')],
-    data: { animation: 'UserPermissionsPage' },
-  },
-  {
-    path: 'promotor-turistico/termos',
-    component: TermsComponent,
-    title: 'Termos do Promotor Turístico',
-    canActivate: [authGuard, roleGuard('promotor-turistico')],
-    data: { animation: 'UserTermsPage' },
-  },
-  {
-    path: 'mapa',
+    path: 'promotor_turistico/mapa',
     component: MapViewComponent,
-    title: 'Mapa de Eventos',
+    title: 'Mapa do Promotor Turístico',
+    canActivate: [authGuard, roleGuard('promotor_turistico')],
+    data: { animation: 'MapPage' },
   },
-
   // ROTAS DE ADMINISTRADOR
   {
     path: 'administrador/inicio',

@@ -55,7 +55,7 @@ export class Cadastro implements OnInit {
     const roleMap = {
       traveler: 'viajante',
       entrepreneur: 'empreendedor',
-      promoter: 'promotor-turistico',
+      promoter: 'promotor_turistico',
     };
 
     const userToRegister = {
