@@ -37,6 +37,7 @@ import { AdministratorCommerceDetail } from './pages/users/administrator/adminis
 import { AdministradorNewCommerce } from './pages/users/administrator/new-commerce/new-commerce';
 import { AdministratorEvents } from './pages/users/administrator/events/events';
 import { AdministratorUsers } from './pages/users/administrator/users/users';
+import { Reviews } from './pages/reviews/reviews';
 
 export const routes: Routes = [
   // ROTAS GERAIS
@@ -208,6 +209,12 @@ export const routes: Routes = [
     canActivate: [authGuard, roleGuard('empreendedor')],
     data: { animation: 'UserPermissionsPage' },
   },
+  {
+    path: 'empreendedor/avaliacoes/:id',
+    component: Reviews,
+    title: 'Avaliações do Comércio',
+    canActivate: [authGuard, roleGuard('empreendedor')],
+  },
 
   // ROTAS DE PROMOTOR TURÍSTICO
   {
@@ -245,6 +252,13 @@ export const routes: Routes = [
     canActivate: [authGuard, roleGuard('promotor_turistico')],
     data: { animation: 'MapPage' },
   },
+  {
+    path: 'promotor_turistico/avaliacoes/:type/:id',
+    component: Reviews,
+    title: 'Avaliações',
+    canActivate: [authGuard, roleGuard('promotor_turistico')],
+  },
+
   // ROTAS DE ADMINISTRADOR
   {
     path: 'administrador/inicio',
@@ -308,6 +322,12 @@ export const routes: Routes = [
     title: 'Termos do Administrador',
     canActivate: [authGuard, roleGuard('administrador')],
     data: { animation: 'UserTermsPage' },
+  },
+  {
+    path: 'administrador/avaliacoes/:type/:id',
+    component: Reviews,
+    title: 'Avaliações',
+    canActivate: [authGuard, roleGuard('administrador')],
   },
 
   // PÁGINA NÃO ENCONTRADA

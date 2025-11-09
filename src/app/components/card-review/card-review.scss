@@ -1,0 +1,47 @@
+.review-card {
+  box-shadow: none !important;
+  background-color: transparent !important;
+  padding-bottom: 1rem;
+}
+
+.review-user-image {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+}
+
+.review-user-name {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-color-dark);
+}
+
+.review-date {
+  font-size: 0.8rem;
+  color: var(--text-color-light);
+}
+
+.review-content {
+  padding-top: 12px;
+
+  .review-rating {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-bottom: 8px;
+
+    mat-icon {
+      font-size: 18px;
+      height: 18px;
+      width: 18px;
+      color: var(--secondary-color-dark, #ff8f27);
+    }
+  }
+
+  .review-comment {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--text-color-light-middle);
+    white-space: pre-wrap;
+  }
+}

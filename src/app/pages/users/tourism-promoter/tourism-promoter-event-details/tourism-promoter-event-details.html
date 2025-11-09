@@ -1,9 +1,6 @@
 <div class="details-container">
-  
-  <app-header-title 
-    title="Evento" 
-    subtitle="Visualização de informações importantes"
-    [showBackButton]="true"
+
+  <app-header-title title="Evento" subtitle="Visualização de informações importantes" [showBackButton]="true"
     (backClick)="goBack()">
   </app-header-title>
 
@@ -13,7 +10,7 @@
   </main>
   } @else if (eventData) {
   <main class="details-content">
-    
+
     <section class="dashboard-card event-summary-card">
       <div class="business-info">
         <img src="assets/images/png/tourism-promoter.png" alt="Logo do Evento" class="business-logo" />
@@ -22,7 +19,7 @@
           <p>{{ eventData.address }}</p>
         </div>
       </div>
-      
+
       <div class="business-stats-card">
         <div class="stat-item">
           <span>Visitantes</span>
@@ -40,13 +37,10 @@
     </section>
 
     <section class="business-tags-card">
-        <app-chip [label]="eventData.hours" icon="schedule" />
-        @for (tag of eventData.tags; track $index) {
-        <app-chip 
-          [label]="tag" 
-          [icon]="tag === 'Cultural' ? 'theater_comedy' : 'pets'" 
-          />
-        }
+      <app-chip [label]="eventData.hours" icon="schedule" />
+      @for (tag of eventData.tags; track $index) {
+      <app-chip [label]="tag" [icon]="tag === 'Cultural' ? 'theater_comedy' : 'pets'" />
+      }
     </section>
 
     <section class="daily-stats-map-grid">
@@ -56,9 +50,9 @@
         <span>visitantes</span>
       </div>
       <div class="dashboard-card map-card">
-        
-        @if(mapUrl()) { 
-          <app-google-map-iframe [mapSrcUrl]="mapUrl()" height="100%"></app-google-map-iframe>
+
+        @if(mapUrl()) {
+        <app-google-map-iframe [mapSrcUrl]="mapUrl()" height="100%"></app-google-map-iframe>
         }
       </div>
     </section>
@@ -77,11 +71,23 @@
       </div>
     </section>
 
+    <section class="daily-stats-map-grid">
+    </section>
+
+    <section class="dashboard-card reviews-card" (click)="navigateToReviews()">
+      <div class="reviews-icon"><mat-icon>reviews</mat-icon></div>
+      <div class="reviews-text">
+        <strong>Ver Avaliações</strong>
+        <p>Veja o que os viajantes falaram deste evento.</p>
+      </div>
+      <mat-icon class="reviews-arrow">chevron_right</mat-icon>
+    </section>
+
   </main>
   } @else {
-    <main class="details-content loading-state">
-      <p>Evento não encontrado.</p>
-    </main>
+  <main class="details-content loading-state">
+    <p>Evento não encontrado.</p>
+  </main>
   }
 
   <app-bottom-menu></app-bottom-menu>

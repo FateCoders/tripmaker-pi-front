@@ -1,1 +1,16 @@
-<p>card-review works!</p>
+<mat-card class="review-card">
+  <mat-card-header>
+    <img mat-card-avatar class="review-user-image" [src]="review.userImageUrl" [alt]="review.userName">
+    <mat-card-title class="review-user-name">{{ review.userName }}</mat-card-title>
+    <mat-card-subtitle class="review-date">{{ review.date | date:'dd/MM/yyyy' }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content class="review-content">
+    <div class="review-rating" [attr.aria-label]="'Avaliação: ' + review.rating + ' de 5 estrelas'">
+      @for (starIcon of stars; track $index) {
+      <mat-icon>{{ starIcon }}</mat-icon>
+      }
+    </div>
+    <p class="review-comment">{{ review.comment }}</p>
+  </mat-card-content>
+</mat-card>

@@ -59,12 +59,14 @@ app-bottom-menu {
 
     .business-name {
       flex-grow: 1;
+
       h3 {
         font-size: 1rem; // "Nome do Evento/Rota"
         font-weight: 500;
         color: var(--text-color-dark);
         margin: 0;
       }
+
       p {
         font-size: 0.75rem; // "Endereço"
         color: var(--text-color-light);
@@ -97,15 +99,18 @@ app-bottom-menu {
         margin-bottom: 0.25rem;
         white-space: nowrap; // Impede quebra de linha
       }
+
       strong {
         font-size: 1rem;
         font-weight: 600;
         color: var(--text-color-dark);
         line-height: 1;
       }
+
       .star-rating {
         display: flex;
         gap: 2px;
+
         mat-icon {
           color: var(--secondary-color-dark); // Cor amarela
           font-size: 1rem; // Tamanho da estrela
@@ -121,23 +126,27 @@ app-bottom-menu {
 .business-tags-card {
   display: flex;
   flex-wrap: nowrap; // Linha única
-  overflow-x: auto;   // Scroll horizontal
+  overflow-x: auto; // Scroll horizontal
   gap: 0.75rem;
   padding: 0; // Sem padding no container
   background: transparent;
   box-shadow: none;
 
   // Esconde a barra de rolagem
-  &::-webkit-scrollbar { display: none; }
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
   -ms-overflow-style: none;
   scrollbar-width: none;
 
   // Estilo do chip-button (baseado na print)
   app-chip-button {
     flex-shrink: 0; // Impede encolhimento
-    
+
     ::ng-deep mat-chip-option {
-      &.mat-mdc-chip-disabled { // Usamos disabled para simular a tag estática
+      &.mat-mdc-chip-disabled {
+        // Usamos disabled para simular a tag estática
         background-color: var(--white-color) !important;
         border: 1px solid var(--background-color-dark) !important;
         color: var(--text-color-light) !important;
@@ -145,7 +154,7 @@ app-bottom-menu {
         opacity: 1 !important;
         border-radius: 8px !important; // Bordas mais retas
       }
-      
+
       .mdc-evolution-chip__text-label {
         color: var(--text-color-light) !important;
         font-size: 0.8rem;
@@ -182,6 +191,7 @@ app-bottom-menu {
       font-size: 0.85rem;
       color: var(--text-color-light);
     }
+
     strong {
       font-size: 2.2rem;
       font-weight: 700;
@@ -232,11 +242,48 @@ app-bottom-menu {
     position: relative;
   }
 
-  .chart-summary { // Footer do gráfico
+  .chart-summary {
+    // Footer do gráfico
     display: flex;
     justify-content: space-between;
     font-size: 0.85rem;
     color: var(--text-color-light);
     padding: 0 0.25rem;
+  }
+}
+
+.reviews-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+
+  .reviews-icon mat-icon {
+    font-size: 2.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    color: var(--text-color-light-light);
+  }
+
+  S .reviews-text {
+    flex-grow: 1;
+
+    strong {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-color-dark);
+      display: block;
+    }
+
+    p {
+      font-size: 0.875rem;
+      color: var(--text-color-light);
+      margin: 0;
+      line-height: 1.4;
+    }
+  }
+
+  .reviews-arrow {
+    color: var(--text-color-light-light);
   }
 }
