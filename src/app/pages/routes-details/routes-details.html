@@ -13,7 +13,7 @@
       <div class="header-content">
         <h1 class="route-title">{{ routeDetails.title }}</h1>
         
-        <div class="chips-bar">
+        <div class="chips-bar" style="margin-bottom: 2%;">
           <app-chip [label]="routeDetails.duration" icon="schedule"></app-chip>
           <app-chip [label]="routeDetails.price" icon="attach_money"></app-chip>
           @for (tag of routeDetails.tags; track tag.label) {
@@ -35,8 +35,14 @@
           <h2>Pontos da Rota</h2>
           <mat-icon>arrow_forward</mat-icon>
         </div>
-        
-        <app-card-carousel [items]="routePoints"></app-card-carousel>
+
+        @if(isEvent && !isRoute){
+          <app-card-carousel [items]="routePoints" />
+        } @else if (isRoute && !isEvent){
+            
+        }
+
+
       </section>
       
     </main>

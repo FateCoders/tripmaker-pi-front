@@ -29,6 +29,8 @@ import { RouteCardItem } from '../../interfaces/route-card-item';
   styleUrl: './routes-details.scss',
 })
 export class RoutesDetailsComponents {
+  @Input() isEvent:boolean = false;
+  @Input() isRoute:boolean = false;
   private location = inject(Location);
   private router = inject(Router);
 
