@@ -10,7 +10,7 @@
     @if (activeTab === 'Rotas') {
     <mat-list>
       @for(route of availableRoutes; track route.id) {
-        
+
       <mat-card class="route-card" (click)="onRouteClick(route)">
         <mat-card-header>
           <mat-card-title>{{ route.title }}</mat-card-title>
@@ -43,7 +43,7 @@
       [enableSearch]="false"
       [enableFilter]="false"
       (itemClick)="onEventClick($event)"
-    ></app-list-view>
+    />
     }
   </main>
 

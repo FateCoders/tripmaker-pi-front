@@ -14,7 +14,7 @@ import { RouteCardItem } from '../../interfaces/route-card-item';
 // 2. AuthService removido
 
 @Component({
-  selector: 'app-routes-detais',
+  selector: 'app-routes-details',
   standalone: true,
   imports: [
     CommonModule,
@@ -25,10 +25,10 @@ import { RouteCardItem } from '../../interfaces/route-card-item';
     Chip,
     CardCarouselComponent,
   ],
-  templateUrl: './routes-detais.html',
-  styleUrl: './routes-detais.scss',
+  templateUrl: './routes-details.html',
+  styleUrl: './routes-details.scss',
 })
-export class RoutesDatais {
+export class RoutesDetailsComponents {
   private location = inject(Location);
   private router = inject(Router);
 

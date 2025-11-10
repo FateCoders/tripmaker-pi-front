@@ -119,7 +119,7 @@ export class TourismPromoterHome implements OnInit {
     this.router.navigate(['/promotor_turistico/evento', event.id]);
   }
 
-  // NOVO MÉTODO: Navega para os DETALHES DA ROTA (RoutesDatais)
+  // NOVO MÉTODO: Navega para os DETALHES DA ROTA (RoutesDetailsComponents)
   onRouteClick(route: any) {
     this.router.navigate(['/promotor_turistico/rota', route.id]);
   }

@@ -32,28 +32,34 @@ export class RoutesService {
       { path: '/administrador/comercios', label: 'Comércios', icon: 'store' },
       { path: '/administrador/usuarios', label: 'Usuários', icon: 'group' },
       { path: '/administrador/perfil', label: 'Perfil', icon: 'person' },
+      // { path: '/administrador/eventos/nova-rota', label: 'Nova Rota', icon: 'map' },
+      // { path: '/administrador/eventos/novo-evento', label: 'Novo EVento', icon: 'event' },
     ],
+
     empreendedor: [
       { path: '/empreendedor/inicio', label: 'Início', icon: 'home' },
       { path: '/empreendedor/comercios', label: 'Comércios', icon: 'store' },
       { path: '/empreendedor/perfil', label: 'Perfil', icon: 'person' },
     ],
+
     promotor_turistico: [
       {path: '/promotor_turistico/inicio', label: 'Início', icon: 'home'},
-      // {path: '/promotor_turistico/eventos', label: 'Eventos', icon: 'event'},
       {path: '/promotor_turistico/mapa', label: 'Mapa', icon: 'map'},
       {path: '/promotor_turistico/perfil', label: 'Perfil', icon: 'person'},
+      // { path: '/promotor_turistico/eventos/nova-rota', label: 'Nova Rota', icon: 'map' },
+      // { path: '/promotor_turistico/eventos/novo-evento', label: 'Novo EVento', icon: 'event' },
     ],
+
     viajante: [
       { path: '/viajante/inicio', label: 'Início', icon: 'home' },
       { path: '/viajante/eventos', label: 'Eventos', icon: 'event' },
       { path: '/viajante/roteiros', label: 'Roteiros', icon: 'map' },
       { path: '/viajante/perfil', label: 'Perfil', icon: 'person' },
     ],
+    
   };
 
-  // Mocks para Rotas Visíveis (Usadas na tela do Viajante e Admin)
-  private allRoutes: Route[] = [ // <-- USAR A INTERFACE
+  private allRoutes: Route[] = [
     {
       id: '1',
       title: 'Rota Histórica (Tatuí)',
