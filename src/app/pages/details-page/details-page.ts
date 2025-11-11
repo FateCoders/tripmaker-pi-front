@@ -1,13 +1,13 @@
 import { Component, Input } from '@angular/core';
-import { RoutesDetailsComponents } from "../routes-details/routes-details";
+import { DetailsComponent } from '../details-component/details-component';
 
 @Component({
   selector: 'app-details-page',
-  imports: [RoutesDetailsComponents],
+  imports: [DetailsComponent],
   templateUrl: './details-page.html',
-  styleUrl: './details-page.scss'
+  styleUrl: './details-page.scss',
 })
 export class DetailsPage {
-  @Input() isEvent:boolean = false;
-  @Input() isRoute:boolean = false;
+  @Input() isEvent: boolean = false;
+  @Input() isRoute: boolean = false;
 }

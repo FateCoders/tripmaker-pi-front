@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { LandingComponent } from './pages/landing/landing.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 
-// GUARD 
+// GUARD
 import { authGuard } from './guards/auth-guard-guard';
 import { roleGuard } from './guards/role-guard-guard';
 import { loginGuard } from './guards/login-guard-guard';
@@ -20,7 +20,7 @@ import { RouteSaveComponent } from './pages/route-save/route-save';
 import { SelectProfile } from './pages/select-profile/select-profile';
 import { RoutesChatComponent } from './pages/routes-chat/routes-chat';
 import { EventDetailsComponent } from './pages/event-details/event-details';
-import { RoutesDetailsComponents } from './pages/routes-details/routes-details';
+import { DetailsComponent } from './pages/details-component/details-component';
 import { PreferencesComponent } from './pages/users/traveler/preferences/preferences';
 
 // TRAVELER
@@ -45,7 +45,6 @@ import { AdministratorUserForm } from './pages/users/administrator/user-form/use
 import { AdministradorNewCommerce } from './pages/users/administrator/new-commerce/new-commerce';
 import { AdministratorHome } from './pages/users/administrator/administrator-home/administrator-home.component';
 import { AdministratorCommerceDetail } from './pages/users/administrator/administrator-commerce-detail/administrator-commerce-detail';
-
 
 export const routes: Routes = [
   // ROTAS GERAIS
@@ -228,14 +227,14 @@ export const routes: Routes = [
   },
   {
     path: 'promotor_turistico/evento/:id',
-    component: EventDetailsComponent,
+    component: DetailsComponent,
     title: 'Detalhes do Evento',
     canActivate: [authGuard, roleGuard('promotor_turistico')],
     data: { animation: 'PromotorEventoDetalhesPage' },
   },
   {
     path: 'promotor_turistico/rota/:id',
-    component: RoutesDetailsComponents,
+    component: DetailsComponent,
     title: 'Detalhes do Roteiro',
     canActivate: [authGuard, roleGuard('promotor_turistico')],
     data: { animation: 'PromotorRotasDetalhesPage' },

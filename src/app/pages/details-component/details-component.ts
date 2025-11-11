@@ -1,6 +1,3 @@
-// app/pages/routes-datais/routes-datais.ts
-// [CONTEÚDO COMPLETO E MODIFICADO]
-
 import { Component, inject, Input } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { Router } from '@angular/router';
@@ -11,10 +8,9 @@ import { FooterUsercomumComponent } from '../../components/public/bottom-menu/bo
 import { Chip } from '../../components/chip/chip';
 import { CardCarouselComponent } from '../../components/card-carousel/card-carousel';
 import { RouteCardItem } from '../../interfaces/route-card-item';
-// 2. AuthService removido
 
 @Component({
-  selector: 'app-routes-details',
+  selector: 'app-details-component',
   standalone: true,
   imports: [
     CommonModule,
@@ -25,12 +21,13 @@ import { RouteCardItem } from '../../interfaces/route-card-item';
     Chip,
     CardCarouselComponent,
   ],
-  templateUrl: './routes-details.html',
-  styleUrl: './routes-details.scss',
+  templateUrl: './details-component.html',
+  styleUrl: './details-component.scss',
 })
-export class RoutesDetailsComponents {
-  @Input() isEvent:boolean = false;
-  @Input() isRoute:boolean = false;
+  
+export class DetailsComponent {
+  @Input() isEvent: boolean = false;
+  @Input() isRoute: boolean = false;
   private location = inject(Location);
   private router = inject(Router);
 
