@@ -1,6 +1,6 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule, Location } from '@angular/common';
-import { Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -8,6 +8,7 @@ import { FooterUsercomumComponent } from '../../components/public/bottom-menu/bo
 import { Chip } from '../../components/chip/chip';
 import { CardCarouselComponent } from '../../components/card-carousel/card-carousel';
 import { RouteCardItem } from '../../interfaces/route-card-item';
+import { ImageCarouselComponent } from '../../components/image-carousel/image-carousel';
 
 @Component({
   selector: 'app-details-component',
@@ -20,68 +21,99 @@ import { RouteCardItem } from '../../interfaces/route-card-item';
     FooterUsercomumComponent,
     Chip,
     CardCarouselComponent,
+    ImageCarouselComponent,
   ],
   templateUrl: './details-component.html',
   styleUrl: './details-component.scss',
 })
-  
-export class DetailsComponent {
-  @Input() isEvent: boolean = false;
-  @Input() isRoute: boolean = false;
+export class DetailsComponent implements OnInit {
+  @Input() isEvent = false;
+  @Input() isRoute = false;
+  @Input() showActionButtons = false;
+
   private location = inject(Location);
   private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
 
-  @Input() showActionButtons: boolean = false;
+  contentId: string | null = null;
 
   routeDetails = {
-    title: 'Passeio Cultural pela Capital da Música.',
     headerImage: 'assets/images/jpg/fundo-landing.jpg',
+    title: 'Rota Cultural',
+    duration: '3 dias',
+    price: 'R$ 450',
     description:
-      'Descubra os encantos de Tatuí, conhecida como a Capital da Música, neste roteiro cultural imersivo. Visite museus, teatros e sinta a atmosfera artística da cidade.',
-    duration: '7h ~ 7h30m',
-    price: '$ - $$',
+      'Experiência completa pelos principais pontos turísticos, com guias especializados e atividades exclusivas.',
     tags: [
-      { label: 'Hospedaria', icon: 'hotel' },
-      { label: 'Comércio', icon: 'store' },
-      { label: 'Restaurante', icon: 'restaurant' },
+      { label: 'Família', icon: 'family_restroom' },
+      { label: 'Cultura', icon: 'museum' },
+      { label: 'Gastronomia', icon: 'restaurant' },
     ],
   };
 
   routePoints: RouteCardItem[] = [
     {
-      id: 'ponto-1',
-      image: 'assets/images/png/conservatorio.png',
-      title: 'Museu Paulo Setúbal',
-      category: 'Tatuí-SP',
-      duration: '1h30m',
-      details: 'Exposição gratuita sobre elementos históricos da ci...',
-      icons: ['accessible'],
-      rating: 4.8,
-      distance: '$ - $$',
+      id: '1',
+      title: 'Centro Histórico',
+      image: 'assets/images/jpg/centro-historico.jpg',
+      details: 'Tour guiado pelas ruas coloniais e museus interativos.',
     },
     {
-      id: 'ponto-2',
-      image: 'assets/images/jpg/teatro.jpeg',
-      title: 'Teatro Procopio Ferreira',
-      category: 'Tatuí-SP',
-      duration: '1h30m',
-      details: 'Restaurante espaçoso e informal serve churrasco d...',
-      icons: ['accessible', 'restaurant', 'wc'],
-      rating: 4.5,
-      distance: '$$ - $$$',
+      id: '2',
+      title: 'Mercado Municipal',
+      image: 'assets/images/jpg/mercado-municipal.jpg',
+      details: 'Degustação de pratos típicos e artesanato local.',
     },
     {
-      id: 'ponto-3',
-      image: 'assets/images/jpg/exposicao-arte.jpg',
-      title: 'Centro Cultural',
-      category: 'Tatuí-SP',
-      duration: '2h00m',
-      details: 'Eventos e exposições de arte locais.',
-      icons: ['accessible', 'palette'],
-      rating: 4.6,
-      distance: '$$',
+      id: '3',
+      title: 'Mirante da Serra',
+      image: 'assets/images/jpg/mirante-serra.jpg',
+      details: 'Vista panorâmica da cidade com pôr do sol inesquecível.',
     },
   ];
+
+  eventImages = [
+    {
+      image: 'assets/images/jpg/festa-junina.jpg',
+      title: 'Festival de Cultura Popular',
+      subtitle: 'Música, dança e gastronomia típica.',
+    },
+    {
+      image: 'assets/images/jpg/show-ao-vivo.jpg',
+      title: 'Concerto ao ar livre',
+      subtitle: 'Orquestra sinfônica com participação especial.',
+    },
+    {
+      image: 'assets/images/jpg/exposicao-arte.jpg',
+      title: 'Mostra de Arte Urbana',
+      subtitle: 'Instalações interativas e oficinas criativas.',
+    },
+  ];
+
+  eventImagesUrls = this.eventImages.map((img) => img.image);
+
+  ngOnInit(): void {
+    this.activatedRoute.paramMap.subscribe((params) => {
+      this.contentId = params.get('id');
+    });
+
+    const secondSegment = this.activatedRoute.snapshot.url[1]?.path ?? '';
+    if (secondSegment === 'evento') {
+      this.isEvent = true;
+      this.isRoute = false;
+    } else if (secondSegment === 'rota') {
+      this.isRoute = true;
+      this.isEvent = false;
+    }
+
+    console.log('DetailsComponent initialized');
+
+    console.log('Activated Route Snapshot:', this.activatedRoute.snapshot);
+
+    console.log('Content ID:', this.contentId);
+    console.log('isEvent:', this.isEvent);
+    console.log('isRoute:', this.isRoute);
+  }
 
   goBack(): void {
     this.location.back();

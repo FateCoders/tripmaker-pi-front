@@ -10,4 +10,5 @@ export interface RouteCardItem {
   details?: string;
   rating?: number;
   distance?: string;
+  description?: string;
 }

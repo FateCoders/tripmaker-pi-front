@@ -261,4 +261,13 @@ export class RoutesService {
     }
     return false; 
   }
+
+  getRouteById(routeId: string) {
+    const savedRoutes = this.getSavedRoutes();
+    return (
+      savedRoutes.find((route) => route.id === routeId) ??
+      this.allRoutes.find((route) => route.id === routeId) ??
+      null
+    );
+  }
 }
