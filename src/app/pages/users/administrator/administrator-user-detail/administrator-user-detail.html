@@ -1,0 +1,71 @@
+<div class="page-container">
+  <app-header-title title="Detalhes do Usuário" subtitle="Gerencie as informações e itens deste usuário"
+    [showBackButton]="true" (backClick)="goBack()">
+  </app-header-title>
+
+  @if (isLoading()) {
+  <div class="loading-state">
+    <p>Carregando informações...</p>
+  </div>
+  } @else if (user(); as u) {
+  <main class="content-scroll">
+
+    <section class="profile-header-card mat-elevation-z1">
+      <div class="profile-avatar-wrapper">
+        <img src="assets/images/png/commom-user.png" alt="Avatar" class="avatar-img">
+        <span class="role-badge" [class]="u.role">{{ getRoleLabel(u.role) }}</span>
+      </div>
+
+      <div class="profile-info">
+        <h2>{{ u.name || u.businessName }}</h2>
+        <p class="email"><mat-icon>email</mat-icon> {{ u.email }}</p>
+
+        @if (u.phone) {
+        <p class="meta"><mat-icon>phone</mat-icon> {{ u.phone }}</p>
+        }
+        @if (u.region) {
+        <p class="meta"><mat-icon>location_on</mat-icon> Região de {{ u.region }}</p>
+        }
+
+        <p class="meta date">
+          <mat-icon>calendar_today</mat-icon>
+          Membro desde {{ u.creationDate | date:'dd/MM/yyyy' }}
+        </p>
+      </div>
+
+      <div class="actions-bar">
+        <button mat-stroked-button color="primary" (click)="editUser()">
+          <mat-icon>edit</mat-icon> Editar Dados
+        </button>
+        <button mat-button color="warn" (click)="deleteUser()">
+          <mat-icon>delete</mat-icon> Excluir
+        </button>
+      </div>
+    </section>
+
+    <mat-divider></mat-divider>
+
+    <section class="related-content">
+      <h3>{{ relatedItemsLabel() }} ({{ relatedItems().length }})</h3>
+
+      @if (relatedItems().length > 0) {
+      <app-list-view [items]="relatedItems()" [cardType]="'default'" [enableSearch]="false" [enableFilter]="false">
+      </app-list-view>
+      } @else {
+      <div class="empty-state">
+        <mat-icon>folder_open</mat-icon>
+        <p>Este usuário ainda não possui itens cadastrados ou vinculados.</p>
+      </div>
+      }
+    </section>
+
+  </main>
+  } @else {
+  <div class="error-state">
+    <p>Usuário não encontrado.</p>
+    <button mat-button (click)="goBack()">Voltar</button>
+  </div>
+  }
+
+  <app-bottom-menu></app-bottom-menu>
+</div>

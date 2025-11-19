@@ -1,0 +1,158 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: var(--background-color-light);
+}
+
+.page-container {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100%;
+}
+
+.content-scroll {
+  overflow-y: auto;
+  padding: 1rem;
+  padding-bottom: 2rem;
+}
+
+// Card do Usuário
+.profile-header-card {
+  background: var(--white-color);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+
+  @media (min-width: 600px) {
+    flex-direction: row;
+    text-align: left;
+    align-items: flex-start;
+  }
+}
+
+.profile-avatar-wrapper {
+  position: relative;
+
+  .avatar-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--background-color-light);
+  }
+
+  .role-badge {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--primary-color-dark);
+    color: white;
+    font-size: 0.7rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+    text-transform: uppercase;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+    &.empreendedor {
+      background-color: var(--secondary-color-dark);
+    }
+
+    &.viajante {
+      background-color: var(--primary-color);
+    }
+
+    &.administrador {
+      background-color: #333;
+    }
+  }
+}
+
+.profile-info {
+  flex-grow: 1;
+
+  h2 {
+    margin: 0 0 0.5rem 0;
+    color: var(--text-color-dark);
+    font-size: 1.5rem;
+  }
+
+  p {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 4px 0;
+    color: var(--text-color-light);
+    font-size: 0.9rem;
+    justify-content: center; // Mobile center
+
+    @media (min-width: 600px) {
+      justify-content: flex-start;
+    }
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      color: var(--text-color-light-middle);
+    }
+  }
+}
+
+.actions-bar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 1rem;
+
+  @media (min-width: 600px) {
+    flex-direction: column;
+    margin-top: 0;
+  }
+}
+
+// Seção Relacionada
+.related-content {
+  margin-top: 1.5rem;
+
+  h3 {
+    font-size: 1.1rem;
+    color: var(--text-color-dark);
+    margin-bottom: 1rem;
+    padding-left: 0.5rem;
+    border-left: 4px solid var(--primary-color);
+  }
+}
+
+.empty-state,
+.loading-state,
+.error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  color: var(--text-color-light-middle);
+  text-align: center;
+  gap: 1rem;
+
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    opacity: 0.5;
+  }
+}
+
+mat-divider {
+  margin: 0 1rem;
+}
