@@ -45,6 +45,7 @@ import { AdministratorUserForm } from './pages/users/administrator/user-form/use
 import { AdministradorNewCommerce } from './pages/users/administrator/new-commerce/new-commerce';
 import { AdministratorHome } from './pages/users/administrator/administrator-home/administrator-home.component';
 import { AdministratorCommerceDetail } from './pages/users/administrator/administrator-commerce-detail/administrator-commerce-detail';
+import { TourismPromoterMapComponent } from './pages/users/tourism-promoter/map/map';
 
 export const routes: Routes = [
   // ROTAS GERAIS
@@ -262,7 +263,7 @@ export const routes: Routes = [
   },
   {
     path: 'promotor_turistico/mapa',
-    component: MapViewComponent,
+    component: TourismPromoterMapComponent,
     title: 'Mapa do Promotor Turístico',
     canActivate: [authGuard, roleGuard('promotor_turistico')],
     data: { animation: 'MapPage' },
