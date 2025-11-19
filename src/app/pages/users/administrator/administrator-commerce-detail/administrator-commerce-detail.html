@@ -17,7 +17,7 @@
         <div class="business-info">
           <img [src]="business.logoUrl" alt="Logo do Comércio" class="business-logo" />
           <div class="business-name">
-            <h3>{{ business.name }}</h3>
+            <h3>{{ business.name }} - {{ business.id }}</h3>
             <p>{{ business.address }}</p>
           </div>
           <button mat-icon-button (click)="refreshData()" class="refresh-button">

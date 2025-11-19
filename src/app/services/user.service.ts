@@ -116,7 +116,7 @@ export class UserService {
       id: 'promo-1',
       name: 'Promotor Teste',
       email: 'promotor@eventos.com',
-      role: 'promotor',
+      role: 'promotor_turistico',
       region: 'tatui',
       creationDate: dateDaysAgo(3), // 3 dias atrás
     },
@@ -124,13 +124,13 @@ export class UserService {
       id: 'promo-2',
       name: 'Promotor 2',
       email: 'promotor2@eventos.com',
-      role: 'promotor',
+      role: 'promotor_turistico',
       region: 'sorocaba',
       creationDate: dateDaysAgo(90), // 90 dias atrás
     },
   ];
 
-  constructor() {}
+  constructor() { }
 
   getAllUsersMock(): User[] {
     // Retornamos uma cópia para garantir que os filtros em outros
@@ -154,6 +154,12 @@ export class UserService {
         )
       )
     );
+  }
+
+  getUserById(id: string): Observable<User | undefined> {
+    const user = this.allUsers.find((u) => u.id === id);
+    // Retorna undefined se não encontrar, simulando um delay de rede
+    return of(user).pipe(delay(300));
   }
 
   addUser(userData: Omit<User, 'id'>): Observable<User> {

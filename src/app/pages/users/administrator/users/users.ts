@@ -42,7 +42,7 @@ export class AdministratorUsers implements OnInit {
     { label: 'Promotor', content: [] },
   ];
 
-  private tabTypes: UserRole[] = ['administrador', 'viajante', 'empreendedor', 'promotor'];
+  private tabTypes: UserRole[] = ['administrador', 'viajante', 'empreendedor', 'promotor_turistico'];
 
   ngOnInit(): void {
     this.onTabChanged(0);
@@ -56,6 +56,10 @@ export class AdministratorUsers implements OnInit {
       this.currentItems.set(this.transformUsersToCards(users));
       this.isLoading.set(false);
     });
+  }
+
+  navigateToDetails(item: TabsListCard): void {
+    this.router.navigate(['/administrador/usuarios/detalhe', item.id]);
   }
 
   onTabChanged(index: number): void {
@@ -82,7 +86,7 @@ export class AdministratorUsers implements OnInit {
     switch (role) {
       case 'empreendedor':
         return 'assets/images/png/local-entrepreneur.png';
-      case 'promotor':
+      case 'promotor_turistico':
         return 'assets/images/png/tourism-promoter.png';
       case 'viajante':
         return 'assets/images/png/commom-user.png';

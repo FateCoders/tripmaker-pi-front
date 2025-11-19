@@ -1,5 +1,6 @@
 export interface Commerce {
   id: string;
+  ownerId: string;
   name: string;
   address: string;
   logoUrl: string;

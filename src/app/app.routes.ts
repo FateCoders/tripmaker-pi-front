@@ -38,6 +38,7 @@ import { AdministradorNewCommerce } from './pages/users/administrator/new-commer
 import { AdministratorEvents } from './pages/users/administrator/events/events';
 import { AdministratorUsers } from './pages/users/administrator/users/users';
 import { Reviews } from './pages/reviews/reviews';
+import { AdministratorUserDetail } from './pages/users/administrator/administrator-user-detail/administrator-user-detail';
 
 export const routes: Routes = [
   // ROTAS GERAIS
@@ -301,6 +302,13 @@ export const routes: Routes = [
     title: 'Usuários do Administrador',
     canActivate: [authGuard, roleGuard('administrador')],
     data: { animation: 'AdministradorUsersPage' },
+  },
+  {
+    path: 'administrador/usuarios/detalhe/:id',
+    component: AdministratorUserDetail,
+    title: 'Detalhes do Usuário',
+    canActivate: [authGuard, roleGuard('administrador')],
+    data: { animation: 'AdminUserDetailPage' },
   },
   {
     path: 'administrador/perfil',

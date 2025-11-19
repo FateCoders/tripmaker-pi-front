@@ -14,8 +14,9 @@ import { MatMenuModule } from "@angular/material/menu";
   styleUrl: './card-user.scss'
 })
 export class CardUser {
-@Input() item!: TabsListCard;
+  @Input() item!: TabsListCard;
   @Output() userDeleted = new EventEmitter<string>();
+  @Output() cardClick = new EventEmitter<void>();
 
   private dialog = inject(MatDialog);
   private userService = inject(UserService);
@@ -23,6 +24,10 @@ export class CardUser {
   onEditClick(event: Event): void {
     event.stopPropagation();
     console.log('Editar usuário (não implementado):', this.item.id);
+  }
+
+  onCardClick(): void {
+    this.cardClick.emit();
   }
 
   onDeleteClick(event: Event): void {

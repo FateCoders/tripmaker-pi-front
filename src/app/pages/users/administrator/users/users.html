@@ -7,7 +7,7 @@
 
     @if (!isLoading()) {
     <app-list-view [items]="currentItems()" [enableSearch]="true" [enableFilter]="false" [cardType]="'user'"
-      (listChanged)="refreshData()"></app-list-view>
+      (listChanged)="refreshData()" (itemClick)="navigateToDetails($event)"> </app-list-view>
     } @else {
     <div class="loading-state">
       <p>Carregando usuários...</p>

@@ -5,9 +5,12 @@
 
   @if (isLoading()) {
   <div class="loading-state">
+    <mat-spinner diameter="50"></mat-spinner>
     <p>Carregando informações...</p>
   </div>
-  } @else if (user(); as u) {
+  }
+  @else {
+  @if (user(); as u) {
   <main class="content-scroll">
 
     <section class="profile-header-card mat-elevation-z1">
@@ -17,20 +20,30 @@
       </div>
 
       <div class="profile-info">
-        <h2>{{ u.name || u.businessName }}</h2>
-        <p class="email"><mat-icon>email</mat-icon> {{ u.email }}</p>
+        <h2>{{ u.name || u.businessName || 'Nome não informado' }}</h2>
+
+        <p class="email">
+          <mat-icon>email</mat-icon> {{ u.email }}
+        </p>
 
         @if (u.phone) {
-        <p class="meta"><mat-icon>phone</mat-icon> {{ u.phone }}</p>
-        }
-        @if (u.region) {
-        <p class="meta"><mat-icon>location_on</mat-icon> Região de {{ u.region }}</p>
+        <p class="meta">
+          <mat-icon>phone</mat-icon> {{ u.phone }}
+        </p>
         }
 
+        @if (u.region) {
+        <p class="meta">
+          <mat-icon>location_on</mat-icon> Região de {{ u.region }}
+        </p>
+        }
+
+        @if (u.creationDate) {
         <p class="meta date">
           <mat-icon>calendar_today</mat-icon>
           Membro desde {{ u.creationDate | date:'dd/MM/yyyy' }}
         </p>
+        }
       </div>
 
       <div class="actions-bar">
@@ -60,11 +73,15 @@
     </section>
 
   </main>
-  } @else {
+  }
+  @else {
   <div class="error-state">
-    <p>Usuário não encontrado.</p>
-    <button mat-button (click)="goBack()">Voltar</button>
+    <mat-icon>error_outline</mat-icon>
+    <h3>Usuário não encontrado</h3>
+    <p>Não foi possível carregar os dados deste usuário.</p>
+    <button mat-button color="primary" (click)="goBack()">Voltar</button>
   </div>
+  }
   }
 
   <app-bottom-menu></app-bottom-menu>

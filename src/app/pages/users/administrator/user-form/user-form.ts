@@ -78,7 +78,7 @@ export class AdministratorUserForm implements OnInit {
         this.pageTitle.set('Novo Empreendedor');
         this.dynamicFormFields.set(this.businessFields);
         break;
-      case 'promotor':
+      case 'promotor_turistico':
         this.pageTitle.set('Novo Promotor');
         this.dynamicFormFields.set(this.businessFields); // Usa os mesmos campos de Empreendedor
         break;

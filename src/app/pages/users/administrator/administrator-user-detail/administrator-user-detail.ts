@@ -16,6 +16,7 @@ import { RoutesService } from '../../../../services/routes.service';
 import { User } from '../../../../interfaces/user';
 import { TabsListCard } from '../../../../models/tabs-list-card';
 import { MatListModule } from "@angular/material/list";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 
 @Component({
   selector: 'app-administrator-user-detail',
@@ -30,7 +31,8 @@ import { MatListModule } from "@angular/material/list";
     MatTabsModule,
     MatChipsModule,
     ListView,
-    MatListModule
+    MatListModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './administrator-user-detail.html',
   styleUrls: ['./administrator-user-detail.scss']
@@ -71,9 +73,11 @@ export class AdministratorUserDetail implements OnInit {
   }
 
   loadRelatedData(user: User) {
+    // 1. EMPREENDEDOR: Busca comércios filtrados pelo ID do dono
     if (user.role === 'empreendedor') {
       this.relatedItemsLabel.set('Comércios Cadastrados');
-      this.commerceService.getAllCommercesForUser().subscribe(commerces => {
+
+      this.commerceService.getCommercesByOwnerId(user.id).subscribe(commerces => {
         const cards = commerces.map(c => ({
           id: c.id,
           title: c.name,
@@ -85,16 +89,28 @@ export class AdministratorUserDetail implements OnInit {
         this.isLoading.set(false);
       });
 
+      // 2. VIAJANTE: Exibe roteiros (atualmente mockado ou do localStorage)
     } else if (user.role === 'viajante') {
       this.relatedItemsLabel.set('Roteiros Salvos');
+
+      // Lógica atual mantida (pode ser expandida para buscar do backend futuramente)
       const routes = this.routesService.loadCurrentRoute();
       this.relatedItems.set([
-        { id: 'r1', title: 'Fim de semana em Tatuí', description: '4 locais', img: 'assets/images/jpg/teatro.jpeg', category: 'Roteiro' }
+        {
+          id: 'r1',
+          title: 'Fim de semana em Tatuí',
+          description: '4 locais',
+          img: 'assets/images/jpg/teatro.jpeg',
+          category: 'Roteiro'
+        }
       ]);
       this.isLoading.set(false);
 
+      // 3. PROMOTOR: Exibe rotas e eventos criados
     } else if (user.role === 'promotor_turistico') {
       this.relatedItemsLabel.set('Eventos e Rotas Criadas');
+
+      // Nota: Futuramente, implementar filtro por ownerId no RoutesService também
       const routes = this.routesService.getAllRoutes();
       const cards = routes.map(r => ({
         id: r.id,
@@ -105,7 +121,10 @@ export class AdministratorUserDetail implements OnInit {
       }));
       this.relatedItems.set(cards);
       this.isLoading.set(false);
+
     } else {
+      // Outros perfis (Admin, etc)
+      this.relatedItems.set([]);
       this.isLoading.set(false);
     }
   }

@@ -142,7 +142,6 @@ export class Profile implements OnInit {
         this.menuItems = this.entrepreneurMenuItems;
         break;
       case 'promotor_turistico':
-      case 'promotor':
         this.menuItems = this.promoterMenuItems;
         break;
       case 'administrador':
