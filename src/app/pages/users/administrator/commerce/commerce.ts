@@ -48,7 +48,9 @@ export class AdministratorCommerce {
     this.router.navigate(['/administrador/comercios/detalhe/', commerce.id]);
   }
 
-  registerNewCommerce(): void {
-    this.router.navigate(['/administrador/comercios/cadastro']);
+  goToEntrepreneurs(): void {
+    this.router.navigate(['/administrador/usuarios'], {
+      queryParams: { role: 'empreendedor' }
+    });
   }
 }

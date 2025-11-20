@@ -132,6 +132,13 @@
       <h3 class="section-title">
         {{ relatedItemsLabel() }}
         <span class="badge">{{ relatedItems().length }}</span>
+
+        @if (user()?.role === 'empreendedor' && !isEditing()) {
+        <button mat-flat-button color="accent" class="add-commerce-btn" (click)="goToRegisterCommerce(user()?.id)">
+          <mat-icon>add_business</mat-icon>
+          Cadastrar Comércio
+        </button>
+        }
       </h3>
 
       @if (relatedItems().length > 0) {

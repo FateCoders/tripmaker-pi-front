@@ -2,7 +2,7 @@
   <app-header-title [title]="'Usuários'" [subtitle]="'Visualização e Cadastro de Usuários'"></app-header-title>
 
   <main class="list-content">
-    <app-tabs-list [tabs]="tabs" (tabChanged)="onTabChanged($event)">
+    <app-tabs-list [tabs]="tabs" [selectedIndex]="activeTabIndex()" (tabChanged)="onTabChanged($event)">
     </app-tabs-list>
 
     @if (!isLoading()) {

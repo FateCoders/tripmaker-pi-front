@@ -190,5 +190,12 @@ export class AdministratorUserDetail implements OnInit {
     }
   }
 
-  // DELETAR: O método deleteUser não será mais chamado por aqui
+  goToRegisterCommerce(ownerId: string | undefined): void {
+    if (ownerId) {
+      this.router.navigate(['/administrador/comercios/cadastro'], {
+        queryParams: { ownerId: ownerId }
+      });
+    }
+  }
+
 }

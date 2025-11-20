@@ -18,23 +18,21 @@
   padding: 0 1rem 100px 1rem;
 }
 
-// Botão de editar no HeaderTitle
 app-header-title {
-  position: relative; // Para posicionar o botão absoluto dentro
+  position: relative;
 }
 
 .edit-header-button {
   position: absolute;
   top: 50%;
-  right: 16px; // Ajuste conforme padding do header
+  right: 16px;
   transform: translateY(-50%);
   color: var(--text-color-light);
   background-color: transparent;
-  z-index: 20; // Garante que fique acima de outros elementos
+  z-index: 20;
 }
 
 
-// --- Header e Avatar ---
 .profile-header {
   display: flex;
   flex-direction: column;
@@ -42,15 +40,15 @@ app-header-title {
   justify-content: center;
   margin-top: 1.5rem;
   margin-bottom: 2rem;
-  position: relative; // Para o botão de edição sutil
+  position: relative;
 
   .avatar-container {
     width: 120px;
     height: 120px;
     border-radius: 50%;
-    // Removido o padding e borda para ter apenas a imagem
-    background: none; // Sem fundo
-    box-shadow: none; // Sem sombra
+
+    background: none;
+    box-shadow: none;
     margin-bottom: 1rem;
 
     .avatar-img {
@@ -59,7 +57,7 @@ app-header-title {
       border-radius: 50%;
       object-fit: cover;
       display: block;
-      // Removida a borda para se adequar ao design
+
       border: none;
     }
   }
@@ -73,7 +71,6 @@ app-header-title {
   }
 }
 
-// --- Grid de Cards de Informação (Modo Visualização) ---
 .info-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -142,32 +139,31 @@ app-header-title {
   }
 }
 
-// --- Formulário de Edição (Modo Edição) ---
 .info-form.editing-mode {
-  padding: 0 1rem; // Padding lateral para inputs
+  padding: 0 1rem;
   display: flex;
   flex-direction: column;
-  gap: 12px; // Espaçamento entre form fields
+  gap: 12px;
   margin-bottom: 2rem;
 
   mat-form-field {
     width: 100%;
   }
 
-  // Estilos para fazer os form-fields parecerem cards no modo edição
+
   ::ng-deep .mat-mdc-text-field-wrapper {
     background-color: var(--white-color, #ffffff);
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     border: 1px solid rgba(0, 0, 0, 0.03);
-    padding: 0 16px; // Ajuste interno para ficar parecido com o info-card
+    padding: 0 16px;
 
     .mat-mdc-form-field-flex {
-      padding: 8px 0; // Ajuste o padding interno para centralizar o texto
+      padding: 8px 0;
     }
 
     .mat-mdc-form-field-infix {
-      min-height: 48px; // Garante altura mínima
+      min-height: 48px;
     }
   }
 }
@@ -181,12 +177,11 @@ app-header-title {
   margin-right: auto;
 }
 
-// --- Seção Relacionada ---
 .related-section {
   max-width: 900px;
   margin: 0 auto;
 
-  h3 {
+  .section-title {
     font-size: 1.1rem;
     font-weight: 600;
     color: var(--text-color-dark);
@@ -194,6 +189,7 @@ app-header-title {
     display: flex;
     align-items: center;
     gap: 8px;
+    flex-wrap: wrap;
 
     .badge {
       background-color: var(--primary-color-light);
@@ -201,6 +197,26 @@ app-header-title {
       font-size: 0.75rem;
       padding: 2px 10px;
       border-radius: 12px;
+    }
+
+    .add-commerce-btn {
+
+      margin-left: auto;
+      font-size: 0.85rem;
+      padding: 6px 24px;
+      height: auto;
+      min-width: unset;
+      border-radius: 20px;
+
+      .mat-icon {
+        margin-right: 4px;
+      }
+
+      @media (max-width: 600px) {
+        margin-left: 0;
+        margin-top: 8px;
+        width: 100%;
+      }
     }
   }
 }
@@ -229,10 +245,9 @@ app-header-title {
   height: 80px;
 }
 
-// --- Footer de Ação (Salvar) ---
 .action-footer {
-  position: fixed; // Alterado para fixed
-  bottom: 60px; // Acima do bottom-menu, ajuste se tiver um footer fixo abaixo
+  position: fixed;
+  bottom: 60px;
   left: 0;
   right: 0;
   padding: 1rem;
