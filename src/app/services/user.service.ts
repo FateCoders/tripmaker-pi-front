@@ -180,6 +180,14 @@ export class UserService {
     return of(newUser).pipe(delay(500));
   }
 
+  updateUser(updatedUser: User): Observable<boolean> {
+    const index = this.allUsers.findIndex(u => u.id === updatedUser.id);
+    this.allUsers[index] = updatedUser;
+    console.log('Usuário atualizado (mock):', this.allUsers[index]);
+    return of(true).pipe(delay(300));
+
+  }
+
   deleteUser(id: string): Observable<boolean> {
     const initialLength = this.allUsers.length;
     this.allUsers = this.allUsers.filter((user) => user.id !== id);

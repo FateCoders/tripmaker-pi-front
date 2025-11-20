@@ -1,158 +1,271 @@
 :host {
-  display: flex;
-  flex-direction: column;
+  display: block;
   height: 100vh;
-  background-color: var(--background-color-light);
+  background-color: var(--background-color-light, #fbfdff);
 }
 
 .page-container {
-  display: grid;
-  grid-template-rows: auto 1fr auto;
+  display: flex;
+  flex-direction: column;
   height: 100%;
+  position: relative;
 }
 
 .content-scroll {
+  flex: 1;
   overflow-y: auto;
-  padding: 1rem;
-  padding-bottom: 2rem;
+  overflow-x: hidden;
+  padding: 0 1rem 100px 1rem;
 }
 
-// Card do Usuário
-.profile-header-card {
-  background: var(--white-color);
-  border-radius: 16px;
-  padding: 1.5rem;
+// Botão de editar no HeaderTitle
+app-header-title {
+  position: relative; // Para posicionar o botão absoluto dentro
+}
+
+.edit-header-button {
+  position: absolute;
+  top: 50%;
+  right: 16px; // Ajuste conforme padding do header
+  transform: translateY(-50%);
+  color: var(--text-color-light);
+  background-color: transparent;
+  z-index: 20; // Garante que fique acima de outros elementos
+}
+
+
+// --- Header e Avatar ---
+.profile-header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-  text-align: center;
+  justify-content: center;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+  position: relative; // Para o botão de edição sutil
 
-  @media (min-width: 600px) {
-    flex-direction: row;
-    text-align: left;
-    align-items: flex-start;
-  }
-}
-
-.profile-avatar-wrapper {
-  position: relative;
-
-  .avatar-img {
-    width: 100px;
-    height: 100px;
+  .avatar-container {
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
-    object-fit: cover;
-    border: 4px solid var(--background-color-light);
+    // Removido o padding e borda para ter apenas a imagem
+    background: none; // Sem fundo
+    box-shadow: none; // Sem sombra
+    margin-bottom: 1rem;
+
+    .avatar-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      // Removida a borda para se adequar ao design
+      border: none;
+    }
   }
 
-  .role-badge {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: var(--primary-color-dark);
-    color: white;
-    font-size: 0.7rem;
-    padding: 4px 12px;
-    border-radius: 20px;
-    white-space: nowrap;
-    text-transform: uppercase;
-    font-weight: bold;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-
-    &.empreendedor {
-      background-color: var(--secondary-color-dark);
-    }
-
-    &.viajante {
-      background-color: var(--primary-color);
-    }
-
-    &.administrador {
-      background-color: #333;
-    }
+  .profile-role {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-color-dark);
+    margin: 0;
+    text-transform: capitalize;
   }
 }
 
-.profile-info {
-  flex-grow: 1;
+// --- Grid de Cards de Informação (Modo Visualização) ---
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 2rem;
 
-  h2 {
-    margin: 0 0 0.5rem 0;
-    color: var(--text-color-dark);
-    font-size: 1.5rem;
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.info-card {
+  background-color: var(--white-color, #ffffff);
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   }
 
-  p {
+  .card-icon {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin: 4px 0;
-    color: var(--text-color-light);
-    font-size: 0.9rem;
-    justify-content: center; // Mobile center
-
-    @media (min-width: 600px) {
-      justify-content: flex-start;
-    }
+    justify-content: center;
+    color: var(--text-color-light-light, #a5a3a9);
 
     mat-icon {
-      font-size: 18px;
-      width: 18px;
-      height: 18px;
-      color: var(--text-color-light-middle);
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+
+    .label {
+      font-size: 0.75rem;
+      color: var(--text-color-light, #6c757d);
+      margin-bottom: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .value {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-color-dark, #1b1b20);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 }
 
-.actions-bar {
+// --- Formulário de Edição (Modo Edição) ---
+.info-form.editing-mode {
+  padding: 0 1rem; // Padding lateral para inputs
   display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 1rem;
+  flex-direction: column;
+  gap: 12px; // Espaçamento entre form fields
+  margin-bottom: 2rem;
 
-  @media (min-width: 600px) {
-    flex-direction: column;
-    margin-top: 0;
+  mat-form-field {
+    width: 100%;
+  }
+
+  // Estilos para fazer os form-fields parecerem cards no modo edição
+  ::ng-deep .mat-mdc-text-field-wrapper {
+    background-color: var(--white-color, #ffffff);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    padding: 0 16px; // Ajuste interno para ficar parecido com o info-card
+
+    .mat-mdc-form-field-flex {
+      padding: 8px 0; // Ajuste o padding interno para centralizar o texto
+    }
+
+    .mat-mdc-form-field-infix {
+      min-height: 48px; // Garante altura mínima
+    }
   }
 }
 
-// Seção Relacionada
-.related-content {
-  margin-top: 1.5rem;
+
+.section-divider {
+  margin: 1.5rem 0;
+  border-top-color: rgba(0, 0, 0, 0.05);
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// --- Seção Relacionada ---
+.related-section {
+  max-width: 900px;
+  margin: 0 auto;
 
   h3 {
     font-size: 1.1rem;
+    font-weight: 600;
     color: var(--text-color-dark);
     margin-bottom: 1rem;
-    padding-left: 0.5rem;
-    border-left: 4px solid var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .badge {
+      background-color: var(--primary-color-light);
+      color: var(--primary-color-dark);
+      font-size: 0.75rem;
+      padding: 2px 10px;
+      border-radius: 12px;
+    }
   }
 }
 
-.empty-state,
+.empty-state-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  background-color: rgba(0, 0, 0, 0.02);
+  border-radius: 12px;
+  border: 1px dashed #ccc;
+  color: var(--text-color-light-light);
+  text-align: center;
+
+  mat-icon {
+    font-size: 32px;
+    height: 32px;
+    width: 32px;
+    margin-bottom: 8px;
+    opacity: 0.5;
+  }
+}
+
+.bottom-spacer {
+  height: 80px;
+}
+
+// --- Footer de Ação (Salvar) ---
+.action-footer {
+  position: fixed; // Alterado para fixed
+  bottom: 60px; // Acima do bottom-menu, ajuste se tiver um footer fixo abaixo
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  box-sizing: border-box;
+  background: linear-gradient(to top, var(--white-color) 70%, transparent);
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+  pointer-events: none;
+
+  .save-button {
+    pointer-events: auto;
+    width: 100%;
+    max-width: 350px;
+    height: 48px;
+    border-radius: 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    box-shadow: 0 4px 14px rgba(var(--primary-color-rgb, 3, 94, 208), 0.3);
+
+    mat-icon {
+      margin-right: 8px;
+    }
+  }
+}
+
 .loading-state,
 .error-state {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 3rem;
-  color: var(--text-color-light-middle);
-  text-align: center;
+  height: 100%;
+  color: var(--text-color-light);
   gap: 1rem;
-
-  mat-icon {
-    font-size: 48px;
-    width: 48px;
-    height: 48px;
-    opacity: 0.5;
-  }
-}
-
-mat-divider {
-  margin: 0 1rem;
 }
