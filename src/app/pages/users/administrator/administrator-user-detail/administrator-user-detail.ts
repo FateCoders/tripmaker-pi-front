@@ -190,6 +190,18 @@ export class AdministratorUserDetail implements OnInit {
     }
   }
 
+  onRelatedItemClick(item: TabsListCard): void {
+    const currentUser = this.user();
+
+    if (!currentUser) return;
+
+    if (currentUser.role === 'empreendedor') {
+      this.router.navigate(['/administrador/comercios/detalhe', item.id]);
+    } else if (currentUser.role === 'promotor_turistico') {
+      // TODO: Navegar para detalhes da rota ou evento do promotor turístico, quando pronto.
+    }
+  }
+
   goToRegisterCommerce(ownerId: string | undefined): void {
     if (ownerId) {
       this.router.navigate(['/administrador/comercios/cadastro'], {
