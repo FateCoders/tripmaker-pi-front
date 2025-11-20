@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { FooterUsercomumComponent } from '../../components/public/bottom-menu/bottom-menu.component';
 import { ProfileImg } from '../../components/profile-img/profile-img';
-import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
+
 import { Imagem } from '../../interfaces/imagem';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -25,7 +25,7 @@ interface MenuItem {
     CommonModule,
     FooterUsercomumComponent,
     ProfileImg,
-    SearchBarComponent,
+
     MatListModule,
     MatIconModule,
     MatDividerModule,
@@ -43,7 +43,7 @@ export class Profile implements OnInit {
   };
 
   userName: string = 'Usuário';
-  searchTerm: string = '';
+  userRoleLabel: string = '';
 
   menuItems: MenuItem[] = [];
 
@@ -73,7 +73,7 @@ export class Profile implements OnInit {
       icon: 'description',
       title: 'Termos e Condições',
       description: 'Ler termos e condições para uso.',
-      route: '/viajante/termos',
+      route: '/termos',
     },
     this.commonMenuItems.logout,
   ];
@@ -89,7 +89,7 @@ export class Profile implements OnInit {
       icon: 'description',
       title: 'Termos e Condições',
       description: 'Ler termos e condições para uso.',
-      route: '/empreendedor/termos',
+      route: '/termos',
     },
     this.commonMenuItems.logout,
   ];
@@ -99,13 +99,13 @@ export class Profile implements OnInit {
       icon: 'verified_user',
       title: 'Permissões',
       description: 'Configurar as permissões de uso.',
-      route: '/promotor/permissoes',
+      route: '/promotor_turistico/permissoes',
     },
     {
       icon: 'description',
       title: 'Termos e Condições',
       description: 'Ler termos e condições para uso.',
-      route: '/promotor/termos',
+      route: '/termos',
     },
     this.commonMenuItems.logout,
   ];
@@ -121,7 +121,7 @@ export class Profile implements OnInit {
       icon: 'description',
       title: 'Termos e Condições',
       description: 'Ler termos e condições para uso.',
-      route: '/administrador/termos',
+      route: '/termos',
     },
     this.commonMenuItems.logout,
   ];
@@ -136,19 +136,26 @@ export class Profile implements OnInit {
 
     switch (role) {
       case 'viajante':
+        this.userRoleLabel = 'Viajante';
         this.menuItems = this.travelerMenuItems;
         break;
       case 'empreendedor':
+        this.userRoleLabel = 'Empreendedor Local';
+        this.profileImage.url = 'assets/images/png/local-entrepreneur.png';
         this.menuItems = this.entrepreneurMenuItems;
         break;
       case 'promotor_turistico':
+        this.userRoleLabel = 'Promotor Turístico';
+        this.profileImage.url = 'assets/images/png/tourism-promoter.png';
         this.menuItems = this.promoterMenuItems;
         break;
       case 'administrador':
       case 'admin':
+        this.userRoleLabel = 'Administrador';
         this.menuItems = this.adminMenuItems;
         break;
       default:
+        this.userRoleLabel = 'Visitante';
         this.menuItems = [this.commonMenuItems.logout];
     }
   }

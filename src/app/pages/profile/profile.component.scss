@@ -19,20 +19,27 @@
 
   h2 {
     font-size: 1.25rem;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--text-color-dark);
     margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
   }
 }
 
-.search-container {
-  padding: 0 0.5rem;
-  margin-bottom: 1.5rem;
 
-  ::ng-deep app-search-bar .search-container {
-    background-color: var(--white-color) !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+.role-badge-container {
+  margin-bottom: 1rem;
+
+  .role-badge {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 20px;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
   }
 }
 
@@ -46,7 +53,7 @@
 
   .menu-link {
     text-decoration: none;
-    cursor: pointer; // Adicionado para links de ação
+    cursor: pointer;
   }
 
   .menu-item {
@@ -57,6 +64,11 @@
     padding: 0.85rem 1rem !important;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
     cursor: pointer;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
 
     .menu-icon-container {
       width: 44px;

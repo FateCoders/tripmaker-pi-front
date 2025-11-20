@@ -71,6 +71,14 @@ export const routes: Routes = [
     canDeactivate: [canDeactivateGuard],
     data: { animation: 'CadastroPage' },
   },
+  // [ALTERAÇÃO] Rota global para Termos, acessível a todos
+  {
+    path: 'termos',
+    component: TermsComponent,
+    title: 'Termos e Condições',
+    // Sem guards para permitir acesso público
+    data: { animation: 'UserTermsPage' },
+  },
   {
     path: 'administrador/usuarios/novo/:role',
     component: AdministratorUserForm,
@@ -108,13 +116,7 @@ export const routes: Routes = [
     canActivate: [authGuard, roleGuard('viajante')],
     data: { animation: 'UserPermissionsPage' },
   },
-  {
-    path: 'viajante/termos',
-    component: TermsComponent,
-    title: 'Termos do Viajante',
-    canActivate: [authGuard, roleGuard('viajante')],
-    data: { animation: 'UserTermsPage' },
-  },
+  // [REMOVIDO] Rota de termos específica do viajante
   {
     path: 'viajante/roteiros',
     component: TravelerRoutes,
@@ -196,13 +198,7 @@ export const routes: Routes = [
     canActivate: [authGuard, roleGuard('empreendedor')],
     data: { animation: 'ProfilePage' },
   },
-  {
-    path: 'empreendedor/termos',
-    component: TermsComponent,
-    title: 'Termos do Empreendedor',
-    canActivate: [authGuard, roleGuard('empreendedor')],
-    data: { animation: 'UserTermsPage' },
-  },
+  // [REMOVIDO] Rota de termos específica do empreendedor
   {
     path: 'empreendedor/permissoes',
     component: UserPermissions,
@@ -324,13 +320,7 @@ export const routes: Routes = [
     canActivate: [authGuard, roleGuard('administrador')],
     data: { animation: 'UserPermissionsPage' },
   },
-  {
-    path: 'administrador/termos',
-    component: TermsComponent,
-    title: 'Termos do Administrador',
-    canActivate: [authGuard, roleGuard('administrador')],
-    data: { animation: 'UserTermsPage' },
-  },
+  // [REMOVIDO] Rota de termos específica do administrador
   {
     path: 'administrador/avaliacoes/:type/:id',
     component: Reviews,
