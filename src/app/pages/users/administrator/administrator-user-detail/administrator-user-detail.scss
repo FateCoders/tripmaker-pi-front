@@ -247,12 +247,12 @@ app-header-title {
 
 .action-footer {
   position: fixed;
-  bottom: 60px;
+  bottom: 80px;
   left: 0;
   right: 0;
   padding: 1rem;
   box-sizing: border-box;
-  background: linear-gradient(to top, var(--white-color) 70%, transparent);
+  background: var(--background-color);
   display: flex;
   justify-content: center;
   z-index: 10;
