@@ -1,10 +1,6 @@
 <div class="terms-container">
-  <app-header-title
-    [title]="pageTitle"
-    [subtitle]="pageSubtitle"
-    [showBackButton]="true"
-    (backClick)="goBack()"
-  ></app-header-title>
+  <app-header-title [title]="pageTitle" [subtitle]="pageSubtitle" [showBackButton]="true"
+    (backClick)="goBack()"></app-header-title>
 
   <main class="terms-content">
     @for (block of termsContent; track $index) { @switch (block.type) { @case ('heading') { @if
@@ -45,6 +41,4 @@
     </div>
     } } } }
   </main>
-
-  <app-bottom-menu></app-bottom-menu>
 </div>

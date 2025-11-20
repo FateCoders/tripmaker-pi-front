@@ -3,11 +3,10 @@
     <section class="profile-header">
       <app-profile-img [imagem]="profileImage"></app-profile-img>
       <h2>Olá, {{ userName }}</h2>
-    </section>
 
-    <section class="search-container">
-      <app-search-bar [(value)]="searchTerm" placeholder="Buscar uma configuração">
-      </app-search-bar>
+      <div class="role-badge-container">
+        <span class="role-badge">{{ userRoleLabel }}</span>
+      </div>
     </section>
 
     <section class="profile-menu">
