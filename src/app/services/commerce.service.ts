@@ -1,9 +1,8 @@
 // src/app/services/commerce.service.ts
 
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { delay, map, switchMap } from 'rxjs/operators';
-import { AuthService } from './auth.service';
 import { Commerce } from '../interfaces/commerce';
 
 // Helper para datas (hoje - N dias)
@@ -20,6 +19,7 @@ export class CommerceService {
   private allBusinesses: Commerce[] = [
     {
       id: 'b-1',
+      ownerId: 'emp-3', // Associado ao Saul Goodman
       name: 'Conservatório de Tatuí',
       address: 'Praça da Matriz, Tatuí - SP',
       logoUrl: 'assets/images/png/local-entrepreneur.png',
@@ -40,6 +40,7 @@ export class CommerceService {
     },
     {
       id: 'b-2',
+      ownerId: 'emp-1', // Associado ao Walter
       name: 'Floricultura Ternura',
       address: 'Rua das Flores, 123 - Tatuí - SP',
       logoUrl: 'assets/images/png/commom-user.png',
@@ -60,6 +61,7 @@ export class CommerceService {
     },
     {
       id: 'b-3',
+      ownerId: 'emp-2', // Associado ao Pikman
       name: 'Shopping Iguatemi',
       address: 'Av. Gisele Constantino, Sorocaba - SP',
       logoUrl: 'assets/images/png/commom-user.png',
@@ -80,6 +82,7 @@ export class CommerceService {
     },
     {
       id: 'b-4',
+      ownerId: 'emp-2', // Associado ao Pikman
       name: 'Parque Dom Pedro',
       address: 'Av. Guilherme Campos, Campinas - SP',
       logoUrl: 'assets/images/png/local-entrepreneur.png',
@@ -110,6 +113,12 @@ export class CommerceService {
 
   getAllCommercesForUser(): Observable<Commerce[]> {
     return of(this.getAllCommercesForUserMock()).pipe(delay(500));
+  }
+
+  // NOVO MÉTODO: Filtra comércios pelo ID do dono
+  getCommercesByOwnerId(ownerId: string): Observable<Commerce[]> {
+    const userCommerces = this.allBusinesses.filter(c => c.ownerId === ownerId);
+    return of(userCommerces).pipe(delay(300));
   }
 
   selectCommerce(id: string): void {
@@ -149,10 +158,8 @@ export class CommerceService {
     const newCommerce = {
       ...commerceData,
       creationDate: new Date(),
-      // @ts-ignore
-      region: 'tatui', // Adiciona região padrão
+      region: 'tatui',
     };
-    // @ts-ignore
     this.allBusinesses.push(newCommerce);
     return of(true).pipe(delay(500));
   }

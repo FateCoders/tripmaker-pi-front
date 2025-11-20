@@ -268,7 +268,7 @@ export class DashboardService {
         },
         {
           label: 'Promotores',
-          data: this.bucketizeData(filteredUsers.filter(u => u.role === 'promotor'), period),
+          data: this.bucketizeData(filteredUsers.filter(u => u.role === 'promotor_turistico'), period),
           color: this.colors.secondary,
         },
       ],
@@ -280,7 +280,7 @@ export class DashboardService {
     const allUsers = this.userService.getAllUsersMock();
     const filteredUsers = this.filterByRegion(this.filterByPeriod(allUsers, period), region);
     
-    const roles: UserRole[] = ['viajante', 'empreendedor', 'promotor', 'administrador'];
+    const roles: UserRole[] = ['viajante', 'empreendedor', 'promotor_turistico', 'administrador'];
     const roleCounts = roles.map(
       (role) => filteredUsers.filter((u) => u.role === role).length // 'u' é User
     );

@@ -10,7 +10,8 @@
 
   @case ('user') {
   @for (item of filteredItems; track item.id) {
-  <app-card-user [item]="item" (userDeleted)="handleUserDeleted($event)"> </app-card-user>
+  <app-card-user [item]="item" (userDeleted)="handleUserDeleted($event)" (cardClick)="onItemClicked(item)">
+  </app-card-user>
   <mat-divider></mat-divider>
   }
   }

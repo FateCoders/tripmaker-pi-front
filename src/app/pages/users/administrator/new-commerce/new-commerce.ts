@@ -1,12 +1,11 @@
 import { Component, OnInit, inject, ViewChild, OnDestroy, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { Router, ActivatedRoute } from '@angular/router';
+import { CommonModule, Location } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
-// Imports do Angular Material e NGX-Mask
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -16,14 +15,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { NgxMaskDirective } from 'ngx-mask';
 
-// Services e Interfaces
 import { CommerceService } from '../../../../services/commerce.service';
 import { AuthService } from '../../../../services/auth.service';
+import { UserService } from '../../../../services/user.service';
 import { Commerce } from '../../../../interfaces/commerce';
 import { ChipButtonComponent } from '../../../../components/buttons/chip-button/chip-button';
 
 @Component({
   selector: 'app-new-commerce',
+  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -43,9 +43,12 @@ import { ChipButtonComponent } from '../../../../components/buttons/chip-button/
 export class AdministradorNewCommerce implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private commerceService = inject(CommerceService);
   private authService = inject(AuthService);
+  private userService = inject(UserService);
   private sanitizer = inject(DomSanitizer);
+  private location = inject(Location);
 
   @ViewChild('stepper') stepper!: MatStepper;
 
@@ -54,6 +57,7 @@ export class AdministradorNewCommerce implements OnInit, OnDestroy {
   step3Media!: FormGroup;
 
   currentUser: any = null;
+  targetOwnerId: string | null = null;
 
   mapUrl = signal<SafeResourceUrl>(this.getSanitizedMapUrl(null));
   private addressSub!: Subscription;
@@ -73,7 +77,20 @@ export class AdministradorNewCommerce implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.currentUser = this.authService.getCurrentUser();
+    this.route.queryParams.subscribe(params => {
+      const ownerId = params['ownerId'];
+
+      if (ownerId) {
+        this.targetOwnerId = ownerId;
+        this.userService.getUserById(ownerId).subscribe(user => {
+          if (user) {
+            this.currentUser = user;
+          }
+        });
+      } else {
+        this.currentUser = this.authService.getCurrentUser();
+      }
+    });
 
     this.addressSub = this.step2Location
       .get('address')!
@@ -95,7 +112,6 @@ export class AdministradorNewCommerce implements OnInit, OnDestroy {
     this.step1Details = this.fb.group({
       name: ['', Validators.required],
       description: [''],
-
       horarioAbertura: ['', Validators.required],
       horarioFechamento: ['', Validators.required],
     });
@@ -120,7 +136,6 @@ export class AdministradorNewCommerce implements OnInit, OnDestroy {
     let url: string;
     if (address && address.trim() !== '') {
       const encodedAddress = encodeURIComponent(address);
-
       url = `https://maps.google.com/maps?q=${encodedAddress}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
     } else {
       url = `https://maps.google.com/maps?q=Brasil&t=&z=4&ie=UTF8&iwloc=&output=embed`;
@@ -156,8 +171,11 @@ export class AdministradorNewCommerce implements OnInit, OnDestroy {
       .filter((key) => step2.caracteristicas[key])
       .map((key) => this.caracteristicasControls.find((c) => c.key === key)?.label || key);
 
+    const finalOwnerId = this.targetOwnerId || this.authService.getCurrentUser()?.id || 'unknown';
+
     const newCommerce: Commerce = {
       id: `b-${Math.floor(Math.random() * 1000)}`,
+      ownerId: finalOwnerId,
       name: step1.name,
       description: step1.description,
       address: step2.address,
@@ -168,7 +186,6 @@ export class AdministradorNewCommerce implements OnInit, OnDestroy {
         ? `assets/images/mocks/${step3.logotipo}`
         : 'assets/images/png/commom-user.png',
       imagesUrl: step3.imagens || [],
-
       visitors: '0',
       rating: 0,
       routesCount: 0,
@@ -177,7 +194,11 @@ export class AdministradorNewCommerce implements OnInit, OnDestroy {
 
     this.commerceService.registerCommerce(newCommerce).subscribe((success) => {
       if (success) {
-        this.router.navigate(['/administrador/comercios']);
+        if (this.targetOwnerId) {
+          this.router.navigate(['/administrador/usuarios/detalhe', this.targetOwnerId]);
+        } else {
+          this.router.navigate(['/administrador/comercios']);
+        }
       } else {
         console.error('Falha ao cadastrar comércio.');
       }
@@ -185,6 +206,6 @@ export class AdministradorNewCommerce implements OnInit, OnDestroy {
   }
 
   goBack(): void {
-    this.router.navigate(['/administrador/comercios']);
+    this.location.back();
   }
 }

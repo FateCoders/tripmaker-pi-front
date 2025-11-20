@@ -1,0 +1,183 @@
+<div class="page-container">
+  <app-header-title title="Detalhes do Usuário" subtitle="Gerencie as informações e itens deste usuário"
+    [showBackButton]="true" (backClick)="goBack()">
+  </app-header-title>
+
+  @if (isLoading()) {
+  <div class="loading-state">
+    <p>Carregando informações...</p>
+  </div>
+  }
+  @else {
+  @if (user(); as u) {
+  <main class="content-scroll">
+
+    <div class="profile-header">
+      <div class="avatar-container">
+        <img src="assets/images/png/commom-user.png" alt="Foto de Perfil" class="avatar-img">
+      </div>
+
+      <h2 class="profile-role">{{ getRoleLabel(u.role) }}</h2>
+
+      <button mat-button class="subtle-edit-btn" (click)="toggleEditMode()">
+        <mat-icon>{{ isEditing() ? 'close' : 'edit' }}</mat-icon>
+        <span>{{ isEditing() ? 'Cancelar' : 'Editar' }}</span>
+      </button>
+    </div>
+
+    @if (isEditing()) {
+    <form [formGroup]="userForm" class="info-grid">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Nome Completo / Razão Social</mat-label>
+        <input matInput formControlName="name">
+        <mat-icon matSuffix>person</mat-icon>
+        @if (userForm.get('name')?.hasError('required')) {
+        <mat-error>Nome é obrigatório</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>E-mail</mat-label>
+        <input matInput formControlName="email">
+        <mat-icon matSuffix>email</mat-icon>
+        @if (userForm.get('email')?.hasError('email')) {
+        <mat-error>E-mail inválido</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Telefone</mat-label>
+        <input matInput formControlName="phone" mask="(00) 00000-0000">
+        <mat-icon matSuffix>phone</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Região</mat-label>
+        <input matInput formControlName="region">
+        <mat-icon matSuffix>location_on</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="readonly-field">
+        <mat-label>Membro Desde</mat-label>
+        <input matInput [value]="u.creationDate | date:'dd/MM/yyyy'" readonly>
+        <mat-icon matSuffix>calendar_today</mat-icon>
+      </mat-form-field>
+
+    </form>
+    }
+    @else {
+    <div class="info-grid view-mode">
+
+      <div class="info-card">
+        <div class="card-icon">
+          <mat-icon>person</mat-icon>
+        </div>
+        <div class="card-content">
+          <span class="label">Nome Completo</span>
+          <span class="value">{{ u.name || u.businessName || '-' }}</span>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="card-icon">
+          <mat-icon>email</mat-icon>
+        </div>
+        <div class="card-content">
+          <span class="label">E-mail</span>
+          <span class="value">{{ u.email || '-' }}</span>
+        </div>
+      </div>
+
+      @if (u.phone) {
+      <div class="info-card">
+        <div class="card-icon">
+          <mat-icon>phone</mat-icon>
+        </div>
+        <div class="card-content">
+          <span class="label">Telefone</span>
+          <span class="value">{{ u.phone }}</span>
+        </div>
+      </div>
+      }
+
+      @if (u.region) {
+      <div class="info-card">
+        <div class="card-icon">
+          <mat-icon>location_on</mat-icon>
+        </div>
+        <div class="card-content">
+          <span class="label">Região</span>
+          <span class="value">{{ u.region }}</span>
+        </div>
+      </div>
+      }
+
+      <div class="info-card">
+        <div class="card-icon">
+          <mat-icon>calendar_today</mat-icon>
+        </div>
+        <div class="card-content">
+          <span class="label">Membro Desde</span>
+          <span class="value">{{ u.creationDate | date:'dd/MM/yyyy' }}</span>
+        </div>
+      </div>
+
+    </div>
+    }
+
+    <mat-divider class="section-divider"></mat-divider>
+
+    <section class="related-section">
+      <h3 class="section-title">
+        {{ relatedItemsLabel() }}
+        <span class="badge">{{ relatedItems().length }}</span>
+
+        @if (user()?.role === 'empreendedor' && !isEditing()) {
+        <button mat-flat-button color="accent" class="add-commerce-btn" (click)="goToRegisterCommerce(user()?.id)">
+          <mat-icon>add_business</mat-icon>
+          Cadastrar Comércio
+        </button>
+        }
+      </h3>
+
+      @if (relatedItems().length > 0) {
+      <div class="related-list-wrapper">
+        <app-list-view [items]="relatedItems()" [cardType]="'default'" [enableSearch]="false" [enableFilter]="false"
+          (itemClick)="onRelatedItemClick($event)">
+        </app-list-view>
+      </div>
+      } @else {
+      <div class="empty-state-card">
+        <mat-icon>folder_off</mat-icon>
+        <p>Nenhum item vinculado.</p>
+      </div>
+      }
+    </section>
+
+    <div class="bottom-spacer"></div>
+
+  </main>
+
+  @if (isEditing()) {
+  <footer class="action-footer">
+    <button mat-flat-button color="primary" class="save-button" (click)="saveChanges()" [disabled]="userForm.invalid">
+      <mat-icon>save</mat-icon>
+      Salvar Alterações
+    </button>
+  </footer>
+  }
+
+  }
+  @else {
+  <div class="error-state">
+    <mat-icon>error_outline</mat-icon>
+    <h3>Usuário não encontrado</h3>
+    <p>Não foi possível carregar os dados deste usuário.</p>
+    <button mat-button color="primary" (click)="goBack()">Voltar</button>
+  </div>
+  }
+  }
+
+  <app-bottom-menu></app-bottom-menu>
+</div>
