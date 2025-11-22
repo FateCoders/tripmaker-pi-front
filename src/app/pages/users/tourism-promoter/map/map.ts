@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
@@ -6,6 +6,7 @@ import { FooterUsercomumComponent } from '../../../../components/public/bottom-m
 import { SearchBarComponent } from '../../../../components/search-bar/search-bar.component';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { environment } from '../../../../../environments/environment';
+import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-tourism-promoter-map',
@@ -14,18 +15,35 @@ import { environment } from '../../../../../environments/environment';
   templateUrl: './map.html',
   styleUrl: './map.scss',
 })
-export class TourismPromoterMapComponent {
-  searchTerm = '';
-  mapUrl: SafeResourceUrl;
+export class TourismPromoterMapComponent implements OnDestroy {
+  private readonly DEFAULT_LOCATION = 'Tatuí, SP';
   private readonly GOOGLE_MAPS_API_KEY = environment.googleMapsApiKey;
 
+  searchTerm = '';
+  mapUrl: SafeResourceUrl;
+  private searchSubject = new Subject<string>();
+  private destroy$ = new Subject<void>();
+
   constructor(private router: Router, private sanitizer: DomSanitizer) {
-    this.mapUrl = this.buildMapUrl('Tatuí, SP');
+    this.mapUrl = this.buildMapUrl(this.DEFAULT_LOCATION);
+
+    this.searchSubject
+      .pipe(debounceTime(3000), distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe((term) => {
+        const query = term?.trim() ? term : this.DEFAULT_LOCATION;
+        this.mapUrl = this.buildMapUrl(query);
+      });
   }
 
   onSearch(term: string) {
     this.searchTerm = term;
-    this.mapUrl = this.buildMapUrl(term || 'Tatuí, SP');
+    this.searchSubject.next(term);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.searchSubject.complete();
   }
 
   private buildMapUrl(query: string): SafeResourceUrl {
