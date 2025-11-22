@@ -1,0 +1,49 @@
+<app-header-title [title]="pageTitle()" subtitle="Veja o que os viajantes estão dizendo" [showBackButton]="true"
+  (backClick)="goBack()"></app-header-title>
+
+<main class="reviews-container">
+  <div class="filter-controls">
+    <mat-chip-listbox aria-label="Filtrar por estrelas">
+      @for (opt of filterOptions; track opt.value) {
+      <mat-chip-option [value]="opt.value" [selected]="filterControl.value === opt.value"
+        (click)="toggleFilter(opt.value)">
+        {{ opt.label }}
+        <mat-icon matChipTrailingIcon>star</mat-icon>
+      </mat-chip-option>
+      }
+    </mat-chip-listbox>
+  </div>
+
+  <div class="reviews-list-content">
+
+    @if (filteredReviews$ | async; as reviews) {
+
+    @if (!isLoading()) {
+    @if (reviews.length > 0) {
+    <div class="reviews-list">
+      @for (review of reviews; track review.id) {
+      <app-card-review [review]="review"></app-card-review>
+      @if (!$last) {
+      <mat-divider></mat-divider>
+      }
+      }
+    </div>
+    } @else {
+    <div class="empty-state">
+      <mat-icon>rate_review_outline</mat-icon>
+      <h3>Nenhuma avaliação encontrada</h3>
+      <p>Não há avaliações para este filtro ou este item ainda não foi avaliado.</p>
+    </div>
+    }
+    }
+    }
+
+    @if (isLoading()) {
+    <div class="loading-state">
+      <mat-spinner diameter="50"></mat-spinner>
+      <p>Carregando avaliações...</p>
+    </div>
+    }
+
+  </div>
+</main>

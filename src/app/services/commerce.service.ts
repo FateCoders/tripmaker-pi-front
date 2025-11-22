@@ -1,12 +1,8 @@
-// src/app/services/commerce.service.ts
-
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { delay, map, switchMap } from 'rxjs/operators';
-import { AuthService } from './auth.service';
 import { Commerce } from '../interfaces/commerce';
 
-// Helper para datas (hoje - N dias)
 const dateDaysAgo = (days: number): Date => {
   const date = new Date();
   date.setDate(date.getDate() - days);
@@ -20,19 +16,18 @@ export class CommerceService {
   private allBusinesses: Commerce[] = [
     {
       id: 'b-1',
+      ownerId: 'emp-3',
       name: 'Conservatório de Tatuí',
       address: 'Praça da Matriz, Tatuí - SP',
       logoUrl: 'assets/images/png/local-entrepreneur.png',
       visitors: '2.5K',
       rating: 5,
       priceRange: '$$ - $$$',
-      hours: '00h00 - 00h00',
+      hours: '08h00 - 18h00',
       category: 'Comércio',
       routesCount: 13,
       monthlyVisitors: 235,
-      location: {
-        query: 'Conservatório de Tatuí, Tatuí - SP',
-      },
+      location: { query: 'Conservatório de Tatuí, Tatuí - SP' },
       description: '',
       caracteristicas: ['Wi-Fi', 'Estacionamento', 'Acessível'],
       region: 'tatui',
@@ -40,6 +35,7 @@ export class CommerceService {
     },
     {
       id: 'b-2',
+      ownerId: 'emp-1',
       name: 'Floricultura Ternura',
       address: 'Rua das Flores, 123 - Tatuí - SP',
       logoUrl: 'assets/images/png/commom-user.png',
@@ -50,9 +46,7 @@ export class CommerceService {
       category: 'Loja',
       routesCount: 5,
       monthlyVisitors: 120,
-      location: {
-        query: 'Rua das Flores, 123, Tatuí - SP',
-      },
+      location: { query: 'Rua das Flores, 123, Tatuí - SP' },
       description: '',
       caracteristicas: [],
       region: 'tatui',
@@ -60,6 +54,7 @@ export class CommerceService {
     },
     {
       id: 'b-3',
+      ownerId: 'emp-2',
       name: 'Shopping Iguatemi',
       address: 'Av. Gisele Constantino, Sorocaba - SP',
       logoUrl: 'assets/images/png/commom-user.png',
@@ -70,9 +65,7 @@ export class CommerceService {
       category: 'Shopping',
       routesCount: 2,
       monthlyVisitors: 1500,
-      location: {
-        query: 'Iguatemi Esplanada, Sorocaba - SP',
-      },
+      location: { query: 'Iguatemi Esplanada, Sorocaba - SP' },
       description: '',
       caracteristicas: ['Wi-Fi', 'Estacionamento', 'Acessível', 'Pet Friendly'],
       region: 'sorocaba',
@@ -80,6 +73,7 @@ export class CommerceService {
     },
     {
       id: 'b-4',
+      ownerId: 'emp-2',
       name: 'Parque Dom Pedro',
       address: 'Av. Guilherme Campos, Campinas - SP',
       logoUrl: 'assets/images/png/local-entrepreneur.png',
@@ -90,9 +84,7 @@ export class CommerceService {
       category: 'Shopping',
       routesCount: 1,
       monthlyVisitors: 1800,
-      location: {
-        query: 'Parque Dom Pedro, Campinas - SP',
-      },
+      location: { query: 'Parque Dom Pedro, Campinas - SP' },
       description: '',
       caracteristicas: ['Wi-Fi', 'Estacionamento', 'Acessível', 'Pet Friendly'],
       region: 'campinas',
@@ -100,44 +92,17 @@ export class CommerceService {
     },
   ];
 
-  private activeCommerceId = new BehaviorSubject<string | null>(null);
+  private activeCommerceIdSubject = new BehaviorSubject<string | null>(null);
 
-  getAllCommercesForUserMock(): Commerce[] {
-    // Retornamos uma cópia para garantir que os filtros em outros
-    // lugares não modifiquem a fonte original
-    return JSON.parse(JSON.stringify(this.allBusinesses));
+
+  getAllCommerces(): Observable<Commerce[]> {
+    return of(JSON.parse(JSON.stringify(this.allBusinesses))).pipe(delay(300));
   }
 
-  getAllCommercesForUser(): Observable<Commerce[]> {
-    return of(this.getAllCommercesForUserMock()).pipe(delay(500));
-  }
 
-  selectCommerce(id: string): void {
-    this.activeCommerceId.next(id);
-  }
-
-  getActiveCommerce(): Observable<Commerce | null> {
-    return this.activeCommerceId.pipe(
-      switchMap((activeId) => {
-        return this.getAllCommercesForUser().pipe(
-          map((commerces) => {
-            if (commerces.length === 0) {
-              return null;
-            }
-
-            if (activeId) {
-              const found = commerces.find((c) => c.id === activeId);
-              if (found) {
-                return found;
-              }
-            }
-
-            this.activeCommerceId.next(commerces[0].id);
-            return commerces[0];
-          })
-        );
-      })
-    );
+  getCommercesByOwnerId(ownerId: string): Observable<Commerce[]> {
+    const userCommerces = this.allBusinesses.filter(c => c.ownerId === ownerId);
+    return of(userCommerces).pipe(delay(300));
   }
 
   getCommerceById(id: string): Observable<Commerce | null> {
@@ -145,14 +110,41 @@ export class CommerceService {
     return of(foundCommerce || null).pipe(delay(300));
   }
 
+  selectCommerce(id: string): void {
+    this.activeCommerceIdSubject.next(id);
+  }
+
+
+  getActiveCommerce(ownerId: string): Observable<Commerce | null> {
+    return this.activeCommerceIdSubject.pipe(
+      switchMap((activeId) => {
+        if (activeId) {
+
+          return this.getCommerceById(activeId).pipe(
+            map(commerce => (commerce && commerce.ownerId === ownerId) ? commerce : null)
+          );
+        }
+
+
+        return this.getCommercesByOwnerId(ownerId).pipe(
+          map((commerces) => {
+            if (commerces.length > 0) {
+              this.selectCommerce(commerces[0].id);
+              return commerces[0];
+            }
+            return null;
+          })
+        );
+      })
+    );
+  }
+
   registerCommerce(commerceData: Commerce): Observable<boolean> {
     const newCommerce = {
       ...commerceData,
       creationDate: new Date(),
-      // @ts-ignore
-      region: 'tatui', // Adiciona região padrão
+      region: commerceData.region || 'tatui',
     };
-    // @ts-ignore
     this.allBusinesses.push(newCommerce);
     return of(true).pipe(delay(500));
   }

@@ -10,6 +10,7 @@ import { TabsSection } from '../../models/tabs-section';
 })
 export class TabsList {
   @Input() tabs: TabsSection[] = [];
+  @Input() selectedIndex: number = 0;
   @Output() tabChanged = new EventEmitter<number>();
 
   onTabChange(index: number) {

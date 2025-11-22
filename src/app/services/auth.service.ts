@@ -1,10 +1,8 @@
-// app/services/auth.service.ts
-// [CONTEÚDO COMPLETO E MODIFICADO]
-
 import { Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { User } from '../interfaces/user';
+import { UserService } from './user.service'; // 1. Importar a classe
 
 const USER_STORAGE_KEY = 'loggedInUser';
 
@@ -15,36 +13,11 @@ export class AuthService {
   private router = inject(Router);
   private platformId = inject(PLATFORM_ID);
 
-  private users: any[] = [
-    {
-      id: '3',
-      email: 'promotor@gmail.com',
-      password: 'password',
-      role: 'promotor_turistico',
-      name: 'Promotor Turístico Teste',
-    },
-        {
-      id: '1',
-      email: 'viajante@gmail.com',
-      password: 'password',
-      role: 'viajante',
-      name: 'Viajante Teste',
-    },
-    {
-      id: '2',
-      email: 'empreendedor@gmail.com',
-      password: 'password',
-      role: 'empreendedor',
-      name: 'Empreendedor Teste',
-    },
-    {
-      id: '4',
-      email: 'administrador@gmail.com',
-      password: 'password',
-      role: 'administrador',
-      name: 'Administrador Teste',
-    },
-  ];
+  // 2. Injetar o serviço corretamente
+  private userService = inject(UserService);
+
+  // REMOVIDO: private users = UserService.getAllUsers(); 
+  // Motivo: Isso causava o erro e criava dados duplicados/desatualizados.
 
   private loggedInUser: User | null = null;
   private isBrowser = isPlatformBrowser(this.platformId);
@@ -79,13 +52,11 @@ export class AuthService {
     }
   }
 
-  /**
-   * Tenta logar o usuário.
-   * @param credentials Email e senha.
-   * @returns O objeto 'User' em caso de sucesso, ou 'null' em caso de falha.
-   */
   login(credentials: any): User | null {
-    const user = this.users.find(
+    // 3. Buscar a lista atualizada do serviço injetado
+    const allUsers = this.userService.getAllUsers();
+
+    const user = allUsers.find(
       (u) => u.email === credentials.email && u.password === credentials.password
     );
 
@@ -96,10 +67,10 @@ export class AuthService {
       this.loggedInUser = userToStore;
       this.saveUserToStorage(userToStore);
 
-      return userToStore; // Retorna o usuário em caso de sucesso
+      return userToStore;
     }
-    
-    return null; // Retorna null em caso de falha
+
+    return null;
   }
 
   logout(): void {
@@ -108,23 +79,17 @@ export class AuthService {
     this.router.navigate(['/']);
   }
 
-  /**
-   * Registra um novo usuário (mock).
-   * @param user Dados do usuário.
-   * @returns 'true' se o registro foi bem-sucedido (neste mock, sempre é).
-   */
   register(user: any): boolean {
     try {
-      const newUser: User = {
-        id: (this.users.length + 1).toString(),
-        ...user,
-      };
-      this.users.push(newUser);
-      console.log('Usuários registrados:', this.users);
-      return true; // Retorna sucesso
+      this.userService.addUser(user).subscribe({
+        next: (newUser) => console.log('Usuário registrado:', newUser),
+        error: (err) => console.error(err)
+      });
+
+      return true;
     } catch (e) {
       console.error('Erro ao registrar:', e);
-      return false; // Retorna falha
+      return false;
     }
   }
 

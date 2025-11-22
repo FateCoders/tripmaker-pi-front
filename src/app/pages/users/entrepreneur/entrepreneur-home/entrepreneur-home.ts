@@ -20,10 +20,9 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { FooterUsercomumComponent } from '../../../../components/public/bottom-menu/bottom-menu.component';
 import { HeaderTitle } from '../../../../components/header-title/header-title';
 import { CommerceService } from '../../../../services/commerce.service';
+import { AuthService } from '../../../../services/auth.service'; // Importar AuthService
 import { Commerce } from '../../../../interfaces/commerce';
 import { ChipButtonComponent } from '../../../../components/buttons/chip-button/chip-button';
-
-
 
 @Component({
   selector: 'app-entrepreneur-home',
@@ -42,6 +41,7 @@ import { ChipButtonComponent } from '../../../../components/buttons/chip-button/
 })
 export class EntrepreneurHome implements OnInit, OnDestroy {
   private commerceService = inject(CommerceService);
+  private authService = inject(AuthService); // Injetar
   private router = inject(Router);
   private cdr = inject(ChangeDetectorRef);
   private sanitizer = inject(DomSanitizer);
@@ -74,12 +74,21 @@ export class EntrepreneurHome implements OnInit, OnDestroy {
   }
 
   loadBusinessData(): void {
+    const user = this.authService.getCurrentUser();
+
+    if (!user || !user.id) {
+      console.error('Usuário não autenticado');
+      this.isLoading = false;
+      return;
+    }
+
     this.isLoading = true;
     this.chartInstance?.destroy();
     this.chartInstance = undefined;
     this.mapUrl.set(null);
 
-    this.businessSub = this.commerceService.getActiveCommerce().subscribe(
+    // Passamos o ID do usuário para garantir que pegamos um comércio DELE
+    this.businessSub = this.commerceService.getActiveCommerce(user.id).subscribe(
       (data) => {
         if (data) {
           this.businessData = data;
@@ -116,13 +125,15 @@ export class EntrepreneurHome implements OnInit, OnDestroy {
   }
 
   navigateToRegisterCommerce(): void {
-    this.router.navigate(['/empreendedor/comercios']);
+    this.router.navigate(['/empreendedor/comercios/cadastro']);
   }
 
   refreshData(): void {
     console.log('Atualizando dados do comércio...');
     this.loadBusinessData();
   }
+
+  // ... (createChartIfReady, createVisitorsChart e navigateToReviews permanecem iguais)
 
   private createChartIfReady(): void {
     if (typeof window !== 'undefined' && this.hasBusiness && this.chartRef && this.businessData) {
@@ -131,11 +142,9 @@ export class EntrepreneurHome implements OnInit, OnDestroy {
   }
 
   private createVisitorsChart(canvas: HTMLCanvasElement, data: Commerce): void {
+    // ... (mesmo código do anterior)
     const ctx = canvas.getContext('2d');
-    if (!ctx) {
-      console.error('Falha ao obter o contexto 2D do canvas.');
-      return;
-    }
+    if (!ctx) return;
 
     this.chartInstance?.destroy();
 
@@ -147,73 +156,33 @@ export class EntrepreneurHome implements OnInit, OnDestroy {
       type: 'line',
       data: {
         labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom'],
-        datasets: [
-          {
-            label: 'Visitantes',
-            data: [12, 19, 3, 5, 2, 3, 7], // Dados de exemplo
-            fill: true,
-            backgroundColor: gradient,
-            borderColor: 'var(--primary-color-dark)',
-            borderWidth: 2.5,
-            tension: 0.4,
-            pointBackgroundColor: 'var(--primary-color-dark)',
-            pointRadius: 0,
-            pointBorderWidth: 0,
-            pointHoverRadius: 6,
-            pointHoverBackgroundColor: 'var(--primary-color-dark)',
-            pointHoverBorderColor: 'var(--white-color)',
-            pointHoverBorderWidth: 2,
-          },
-        ],
+        datasets: [{
+          label: 'Visitantes',
+          data: [12, 19, 3, 5, 2, 3, 7],
+          fill: true,
+          backgroundColor: gradient,
+          borderColor: 'var(--primary-color-dark)',
+          borderWidth: 2.5,
+          tension: 0.4,
+          pointBackgroundColor: 'var(--primary-color-dark)',
+          pointRadius: 0,
+          pointBorderWidth: 0,
+          pointHoverRadius: 6
+        }]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        interaction: {
-          mode: 'index',
-          intersect: false,
-        },
-        plugins: {
-          legend: {
-            display: false,
-          },
-          tooltip: {
-            enabled: true,
-            backgroundColor: 'var(--text-color-dark)',
-            titleFont: { size: 14, weight: 'bold' },
-            bodyFont: { size: 12 },
-            padding: 10,
-            caretPadding: 10,
-            cornerRadius: 8,
-            displayColors: false,
-            callbacks: {
-              label: (context: TooltipItem<'line'>) => {
-                return `${context.parsed.y} visitantes`;
-              },
-            },
-          },
-        },
-        scales: {
-          x: {
-            grid: {
-              display: false,
-            },
-            ticks: {
-              color: 'var(--text-color-light)',
-            },
-          },
-          y: {
-            beginAtZero: true,
-            grid: {
-              color: 'rgba(0, 0, 0, 0.05)',
-            },
-            ticks: {
-              color: 'var(--text-color-light)',
-              padding: 10,
-            },
-          },
-        },
-      },
+        interaction: { mode: 'index', intersect: false },
+        plugins: { legend: { display: false }, tooltip: { enabled: true } },
+        scales: { x: { grid: { display: false } }, y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' } } }
+      }
     });
+  }
+
+  navigateToReviews(): void {
+    if (this.businessData) {
+      this.router.navigate(['/empreendedor/avaliacoes', this.businessData.id]);
+    }
   }
 }

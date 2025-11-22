@@ -49,6 +49,8 @@ import { TourismPromoterMapComponent } from './pages/users/tourism-promoter/map/
 import { PromoterEventDetails } from './pages/users/tourism-promoter/promoter-event-details/promoter-event-details';
 import { PromoterNewEvent } from './pages/users/tourism-promoter/promoter-new-event/promoter-new-event';
 import { PromoterNewRoute } from './pages/users/tourism-promoter/promoter-new-route/promoter-new-route';
+import { Reviews } from './pages/reviews/reviews';
+import { AdministratorUserDetail } from './pages/users/administrator/administrator-user-detail/administrator-user-detail';
 
 export const routes: Routes = [
   // ROTAS GERAIS
@@ -80,6 +82,14 @@ export const routes: Routes = [
     canActivate: [loginGuard],
     canDeactivate: [canDeactivateGuard],
     data: { animation: 'CadastroPage' },
+  },
+  // [ALTERAÇÃO] Rota global para Termos, acessível a todos
+  {
+    path: 'termos',
+    component: TermsComponent,
+    title: 'Termos e Condições',
+    // Sem guards para permitir acesso público
+    data: { animation: 'UserTermsPage' },
   },
   {
     path: 'administrador/usuarios/novo/:role',
@@ -118,13 +128,7 @@ export const routes: Routes = [
     canActivate: [authGuard, roleGuard('viajante')],
     data: { animation: 'UserPermissionsPage' },
   },
-  {
-    path: 'viajante/termos',
-    component: TermsComponent,
-    title: 'Termos do Viajante',
-    canActivate: [authGuard, roleGuard('viajante')],
-    data: { animation: 'UserTermsPage' },
-  },
+  // [REMOVIDO] Rota de termos específica do viajante
   {
     path: 'viajante/roteiros',
     component: TravelerRoutes,
@@ -206,19 +210,19 @@ export const routes: Routes = [
     canActivate: [authGuard, roleGuard('empreendedor')],
     data: { animation: 'ProfilePage' },
   },
-  {
-    path: 'empreendedor/termos',
-    component: TermsComponent,
-    title: 'Termos do Empreendedor',
-    canActivate: [authGuard, roleGuard('empreendedor')],
-    data: { animation: 'UserTermsPage' },
-  },
+  // [REMOVIDO] Rota de termos específica do empreendedor
   {
     path: 'empreendedor/permissoes',
     component: UserPermissions,
     title: 'Permissões do Empreendedor',
     canActivate: [authGuard, roleGuard('empreendedor')],
     data: { animation: 'UserPermissionsPage' },
+  },
+  {
+    path: 'empreendedor/avaliacoes/:id',
+    component: Reviews,
+    title: 'Avaliações do Comércio',
+    canActivate: [authGuard, roleGuard('empreendedor')],
   },
 
   // ROTAS DE PROMOTOR TURÍSTICO
@@ -285,6 +289,13 @@ export const routes: Routes = [
     canActivate: [authGuard, roleGuard('promotor_turistico')],
     data: { animation: 'MapPage' },
   },
+  {
+    path: 'promotor_turistico/avaliacoes/:type/:id',
+    component: Reviews,
+    title: 'Avaliações',
+    canActivate: [authGuard, roleGuard('promotor_turistico')],
+  },
+
   // ROTAS DE ADMINISTRADOR
   {
     path: 'administrador/inicio',
@@ -329,6 +340,13 @@ export const routes: Routes = [
     data: { animation: 'AdministradorUsersPage' },
   },
   {
+    path: 'administrador/usuarios/detalhe/:id',
+    component: AdministratorUserDetail,
+    title: 'Detalhes do Usuário',
+    canActivate: [authGuard, roleGuard('administrador')],
+    data: { animation: 'AdminUserDetailPage' },
+  },
+  {
     path: 'administrador/perfil',
     component: Profile,
     title: 'Perfil do Administrador',
@@ -342,12 +360,12 @@ export const routes: Routes = [
     canActivate: [authGuard, roleGuard('administrador')],
     data: { animation: 'UserPermissionsPage' },
   },
+  // [REMOVIDO] Rota de termos específica do administrador
   {
-    path: 'administrador/termos',
-    component: TermsComponent,
-    title: 'Termos do Administrador',
+    path: 'administrador/avaliacoes/:type/:id',
+    component: Reviews,
+    title: 'Avaliações',
     canActivate: [authGuard, roleGuard('administrador')],
-    data: { animation: 'UserTermsPage' },
   },
 
   // PÁGINA NÃO ENCONTRADA

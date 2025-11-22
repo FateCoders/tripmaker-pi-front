@@ -159,8 +159,12 @@ export class EntrepreneurNewCommerce implements OnInit, OnDestroy {
       .filter((key) => step2.caracteristicas[key])
       .map((key) => this.caracteristicasControls.find((c) => c.key === key)?.label || key);
 
+    const currentUser = this.authService.getCurrentUser();
+    const ownerId = currentUser ? currentUser.id : 'unknown';
+
     const newCommerce: Commerce = {
       id: `b-${Math.floor(Math.random() * 1000)}`,
+      ownerId: ownerId,
       name: step1.name,
       description: step1.description,
       address: step2.address,
