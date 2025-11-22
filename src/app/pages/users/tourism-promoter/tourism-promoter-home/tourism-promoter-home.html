@@ -1,54 +1,88 @@
 <div class="home-container">
   <app-header-title
     [title]="'Minhas Atividades'"
-    [subtitle]="'Roteiros, rotas e eventos a serem realizados por você'"
-  />
+    [subtitle]="'Gerencie seus roteiros, rotas e eventos'"
+  ></app-header-title>
 
   <main class="home-content">
     <app-tabs-list [tabs]="tabs" (tabChanged)="onTabChanged($event)"></app-tabs-list>
 
-    @if (activeTab === 'Rotas') {
-    <mat-list>
-      @for(route of availableRoutes; track route.id) {
+    <div class="list-wrapper">
+      
+      @if (activeTab === 'Rotas') {
+        <div class="routes-grid">
+          @for(route of displayItems; track route.id) {
+            <mat-card class="route-card" (click)="onCardClick(route)">
+              <mat-card-header>
+                <mat-card-title>{{ route.title }}</mat-card-title>
+                
+                <button mat-icon-button class="menu-button" [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item (click)="onEdit(route)"> <mat-icon>edit</mat-icon>
+                    <span>Editar</span>
+                  </button>
+                  <button mat-menu-item (click)="onDelete(route)">
+                    <mat-icon color="warn">delete</mat-icon>
+                    <span class="text-warn">Excluir</span>
+                  </button>
+                </mat-menu>
 
-      <mat-card class="route-card" (click)="onRouteClick(route)">
-        <mat-card-header>
-          <mat-card-title>{{ route.title }}</mat-card-title>
-          <button mat-icon-button class="favorite-button">
-            <mat-icon>favorite_border</mat-icon>
-          </button>
-        </mat-card-header>
-
-        <mat-card-content>
-          <div class="chips-container">
-            <app-chip [label]="route.priceRange" icon="attach_money"></app-chip>
-            <app-chip [label]="route.duration" icon="schedule"></app-chip>
-          </div>
-          <div class="icons-container">
-            @for(icon of route.transportIcons; track $index) {
-            <mat-icon>{{ icon }}</mat-icon>
-            }
-          </div>
-        </mat-card-content>
-      </mat-card>
-      } @empty {
-      <div class="empty-state" style="text-align: center; padding: 20px">
-        Nenhuma rota encontrada.
-      </div>
+              </mat-card-header>
+      
+              <mat-card-content>
+                <div class="chips-container">
+                  <app-chip-button [label]="route.priceRange" icon="attach_money" [isDisabled]="true"></app-chip-button>
+                  <app-chip-button [label]="route.duration" icon="schedule" [isDisabled]="true"></app-chip-button>
+                </div>
+                <div class="icons-container">
+                  @for(icon of route.transportIcons; track $index) {
+                    <mat-icon>{{ icon }}</mat-icon>
+                  }
+                </div>
+              </mat-card-content>
+            </mat-card>
+          } @empty {
+            <div class="empty-state">Nenhuma rota encontrada.</div>
+          }
+        </div>
+      } 
+      
+      @else {
+        <div class="events-list">
+          @for(item of displayItems; track item.id) {
+            <app-card-default 
+              [item]="item" 
+              (cardClick)="onCardClick(item)"
+              (editClick)="onEdit(item)"
+              (deleteClick)="onDelete(item)">
+            </app-card-default>
+          } @empty {
+            <div class="empty-state">Nenhum evento encontrado.</div>
+          }
+        </div>
       }
-    </mat-list>
-    } @else {
-    <app-list-view
-      [items]="currentItems"
-      [enableSearch]="false"
-      [enableFilter]="false"
-      (itemClick)="onEventClick($event)"
-    />
-    }
+
+    </div>
   </main>
 
-  <button mat-fab class="fab-add">
-    <mat-icon>add</mat-icon>
-  </button>
+  <div class="fab-container">
+    <button mat-fab class="fab-add" [matMenuTriggerFor]="createMenu">
+      <mat-icon>add</mat-icon>
+    </button>
+    <mat-menu #createMenu="matMenu" yPosition="above">
+      <button mat-menu-item (click)="createNewRoute()">
+        <mat-icon>map</mat-icon>
+        <span>Criar Nova Rota</span>
+      </button>
+      <button mat-menu-item (click)="createNewEvent()">
+        <mat-icon>event</mat-icon>
+        <span>Criar Novo Evento</span>
+      </button>
+    </mat-menu>
+  </div>
+
   <app-bottom-menu />
 </div>

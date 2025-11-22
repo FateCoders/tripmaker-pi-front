@@ -46,6 +46,8 @@ import { AdministradorNewCommerce } from './pages/users/administrator/new-commer
 import { AdministratorHome } from './pages/users/administrator/administrator-home/administrator-home.component';
 import { AdministratorCommerceDetail } from './pages/users/administrator/administrator-commerce-detail/administrator-commerce-detail';
 import { TourismPromoterMapComponent } from './pages/users/tourism-promoter/map/map';
+import { PromoterEventDetails } from './pages/users/tourism-promoter/promoter-event-details/promoter-event-details';
+import { PromoterNewEvent } from './pages/users/tourism-promoter/promoter-new-event/promoter-new-event';
 
 export const routes: Routes = [
   // ROTAS GERAIS
@@ -228,17 +230,24 @@ export const routes: Routes = [
   },
   {
     path: 'promotor_turistico/evento/:id',
-    component: DetailsComponent,
-    title: 'Detalhes do Evento',
+    component: PromoterEventDetails,
+    title: 'Dashboard do Evento',
     canActivate: [authGuard, roleGuard('promotor_turistico')],
-    data: { animation: 'PromotorEventoDetalhesPage' },
+    data: { animation: 'PromotorEventoDashboardPage' },
+  },
+  {
+    path: 'promotor_turistico/eventos/novo-evento',
+    component: PromoterNewEvent,
+    title: 'Criar Novo Evento',
+    canActivate: [authGuard, roleGuard('promotor_turistico')],
+    data: { animation: 'PromotorNewEventPage' },
   },
   {
     path: 'promotor_turistico/rota/:id',
-    component: DetailsComponent,
-    title: 'Detalhes do Roteiro',
+    component: PromoterEventDetails,
+    title: 'Dashboard da Rota',
     canActivate: [authGuard, roleGuard('promotor_turistico')],
-    data: { animation: 'PromotorRotasDetalhesPage' },
+    data: { animation: 'PromotorRotaDashboardPage' },
   },
   {
     path: 'promotor_turistico/perfil',

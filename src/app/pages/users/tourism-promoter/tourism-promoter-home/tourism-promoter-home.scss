@@ -1,95 +1,116 @@
-mat-card {
-  mat-card-title {
-    margin: 0.3%;
-  }
-  mat-card-subtitle {
-    margin: 0.3%;
-  }
-  mat-card-content {
-    margin: 0.3%;
-  }
+.home-container {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100dvh;
+  background: var(--background-color-light);
 }
 
-.home-container {
+.home-content {
+  overflow-y: auto;
+  padding-bottom: 100px;
+}
+
+.list-wrapper {
+  padding: 1rem;
   display: flex;
   flex-direction: column;
-  min-height: 100dvh;
-  height: 100dvh;
-  overflow: hidden;
+  gap: 1rem;
+}
 
-  .home-content {
+// --- ESTILO ESPECÍFICO PARA CARD DE ROTA (ANTIGO) ---
+.route-card {
+  margin-bottom: 12px;
+  padding: 16px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); // Sombra suave
+  background: var(--white-color);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  mat-card-header {
     display: flex;
-    overflow: auto;
-    flex-direction: column;
-    padding-bottom: 120px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    margin-bottom: 12px;
 
-    height: calc(100dvh - 191.4px - 104px);
+    mat-card-title {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+      line-height: 1.4;
+      color: var(--text-color-dark);
+    }
 
-    .route-card {
-      margin: 12px 8px;
-      padding: 16px;
-      border-radius: 16px;
-      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-      background: var(--background-color);
-
-      mat-card-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0;
-        width: 100%;
-        margin-bottom: 12px;
-        mat-card-title {
-          margin: 0;
-          font-size: 1.1rem;
-          font-weight: 500;
-          line-height: 1.4;
-        }
-      }
-
-      mat-card-content {
-        margin: 0;
-        padding: 0;
-      }
-      .chips-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-bottom: 16px;
-      }
-
-      .icons-container {
-        display: flex;
-        justify-content: flex-end;
-        gap: 12px;
-        color: rgba(0, 0, 0, 0.6);
-        mat-icon {
-          font-size: 20px;
-          height: 20px;
-          width: 20px;
-        }
-      }
+    .menu-button {
+      margin-right: -8px; // Ajuste fino para alinhar à direita
+      color: var(--text-color-light-middle);
     }
   }
 
-  app-bottom-menu {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    z-index: 100;
+  mat-card-content {
+    margin: 0;
+    padding: 0;
+  }
+
+  .chips-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+
+    // Ajuste para os chips ficarem compactos neste card
+    ::ng-deep app-chip-button mat-chip-option {
+      min-height: 28px;
+      font-size: 0.8rem;
+    }
+  }
+
+  .icons-container {
+    display: flex;
+    justify-content: flex-end; // Ícones alinhados à direita
+    gap: 12px;
+    color: var(--text-color-light);
+    
+    mat-icon {
+      font-size: 20px;
+      height: 20px;
+      width: 20px;
+    }
   }
 }
 
-.fab-add {
+// --- Empty State e FAB ---
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-color-light);
+}
+
+.fab-container {
   position: fixed;
   bottom: 80px;
   right: 16px;
-  background-color: var(--primary-color);
-  color: var(--white-color);
   z-index: 102;
+
+  .fab-add {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+  }
 }
 
-::ng-deep .mat-mdc.fab{
-  box-shadow: none;
+.text-warn {
+  color: #f44336;
+}
+
+app-bottom-menu {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
 }

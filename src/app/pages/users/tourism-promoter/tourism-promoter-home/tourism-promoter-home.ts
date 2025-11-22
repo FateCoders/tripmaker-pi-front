@@ -1,134 +1,145 @@
-// app/pages/users/tourism-promoter/tourism-promoter-home/tourism-promoter-home.ts
-// [CONTEÚDO COMPLETO E MODIFICADO]
-
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { MatListModule } from '@angular/material/list';
-import { RoutesService } from '../../../../services/routes.service';
-import { ListView } from '../../../../components/list-view/list-view';
-import { TabsList } from '../../../../components/tabs-list/tabs-list';
-import { HeaderTitle } from '../../../../components/header-title/header-title';
-import { FooterUsercomumComponent } from '../../../../components/public/bottom-menu/bottom-menu.component';
-import { TabsListCard } from '../../../../models/tabs-list-card';
-import { TabsSection } from '../../../../models/tabs-section';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { Chip } from '../../../../components/chip/chip';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDialog } from '@angular/material/dialog';
+
+import { TabsList } from '../../../../components/tabs-list/tabs-list';
+import { HeaderTitle } from '../../../../components/header-title/header-title';
+import { FooterUsercomumComponent } from '../../../../components/public/bottom-menu/bottom-menu.component';
+import { ListCard } from '../../../../components/card-default/card-default';
+import { ConfirmDialog } from '../../../../components/confirm-dialog/confirm-dialog';
+import { TabsSection } from '../../../../models/tabs-section';
+import { ChipButtonComponent } from '../../../../components/buttons/chip-button/chip-button';
 
 @Component({
   selector: 'app-tourism-promoter-home',
+  standalone: true,
   imports: [
     CommonModule,
     FooterUsercomumComponent,
-    ListView,
     HeaderTitle,
     TabsList,
-    MatListModule,
+    ListCard, // Para Eventos
     MatIconModule,
-    MatCardModule,
+    MatCardModule, // Para o Card de Rotas (Antigo)
     MatButtonModule,
-    Chip,
+    MatMenuModule,
+    ChipButtonComponent // Para os chips dentro do Card de Rotas
   ],
   templateUrl: './tourism-promoter-home.html',
-  styleUrl: './tourism-promoter-home.scss',
+  styleUrls: ['./tourism-promoter-home.scss'],
 })
 export class TourismPromoterHome implements OnInit {
-  private routesService = inject(RoutesService);
   private router = inject(Router);
+  private dialog = inject(MatDialog);
 
   activeTab: string = 'Eventos';
-  availableRoutes: any[] = [];
-  currentItems: TabsListCard[] = [];
+  
+  eventItems: any[] = [];
+  routeItems: any[] = [];
+  displayItems: any[] = [];
 
   tabs: TabsSection[] = [
-    {
-      label: 'Eventos',
-      content: [
-        {
-          id: '1',
-          img: 'assets/images/jpg/teatro.jpeg',
-          title: 'Festival de Teatro de Tatuí',
-          description: 'Espetáculos gratuitos e pagos com...',
-          category: 'A',
-        },
-        {
-          id: '2',
-          img: 'assets/images/png/conservatorio.png',
-          title: 'Concerto no Conservatório',
-          description: 'Apresentação da orquestra jovem do...',
-          category: 'B',
-        },
-      ],
-    },
-    {
-      label: 'Rotas',
-      content: [
-        {
-          id: '1',
-          img: 'assets/images/jpg/teatro.jpeg',
-          title: 'Festival de Teatro de Tatuí',
-          description: 'Espetáculos gratuitos e pagos com...',
-          category: 'A',
-        },
-        {
-          id: '2',
-          img: 'assets/images/png/conservatorio.png',
-          title: 'Concerto no Conservatório',
-          description: 'Apresentação da orquestra jovem do...',
-          category: 'B',
-        },
-      ],
-    },
+    { label: 'Eventos', content: [] },
+    { label: 'Rotas', content: [] },
   ];
 
   ngOnInit(): void {
-    this.currentItems = this.tabs[0].content;
-    this.loadRoutes();
+    this.loadData();
+    this.onTabChanged(0);
   }
 
-  loadRoutes() {
-    this.availableRoutes = [
+  loadData() {
+    this.eventItems = [
       {
         id: '1',
-        title: 'Passeio pela Capital da Música',
-        priceRange: '$ - $$',
-        duration: '4h ~ 4h40m',
-        transportIcons: ['accessible', 'rocket', 'directions_bus', 'hotel'],
+        title: 'Festival de Teatro',
+        description: 'Cultural • 24/02/2025',
+        img: 'assets/images/jpg/teatro.jpeg',
+        category: 'Eventos'
       },
       {
         id: '2',
+        title: 'Concerto Jovem',
+        description: 'Música • 25/02/2025',
+        img: 'assets/images/png/conservatorio.png',
+        category: 'Eventos'
+      },
+    ];
+
+    // Mock de Rotas com as propriedades do layout antigo
+    this.routeItems = [
+      {
+        id: 'rot-1',
+        title: 'Passeio pela Capital da Música',
+        priceRange: '$ - $$',
+        duration: '4h',
+        transportIcons: ['directions_bus', 'accessible', 'restaurant'],
+        // Propriedades extras caso precise
+        description: 'Um tour completo.' 
+      },
+      {
+        id: 'rot-2',
         title: 'Adrenalina em Boituva-SP',
         priceRange: '$$-$$$',
-        duration: '4h ~ 4h40m',
-        transportIcons: ['accessible', 'rocket', 'directions_bus', 'hotel'],
+        duration: '6h',
+        transportIcons: ['rocket', 'hotel', 'hiking'],
+        description: 'Paraquedismo e Balonismo.'
       },
     ];
   }
 
   onTabChanged(index: number): void {
     this.activeTab = this.tabs[index].label;
-    if (this.tabs[index].label !== 'Rotas') {
-      this.currentItems = this.tabs[index].content;
-    }
+    this.displayItems = this.activeTab === 'Eventos' ? this.eventItems : this.routeItems;
   }
 
-  // Este método navega para os DETALHES DO EVENTO (existente)
-  onEventClick(event: any) {
-    this.router.navigate(['/promotor_turistico/evento', event.id]);
-  }
-
-  // NOVO MÉTODO: Navega para os DETALHES DA ROTA (DetailsComponent)
-  onRouteClick(route: any) {
-    this.router.navigate(['/promotor_turistico/rota', route.id]);
-  }
-
-  subscribeToRoute(routeId: string) {
-    if (this.routesService.registerUserToRoute(routeId)) {
-      console.log('Inscrição realizada com sucesso na rota!');
+  // Navegação
+  onCardClick(item: any) {
+    if (this.activeTab === 'Rotas') {
+      this.router.navigate(['/promotor_turistico/rota', item.id]);
     } else {
-      console.log('Inscrição falhou: você já está inscrito nesta rota.');
+      this.router.navigate(['/promotor_turistico/evento', item.id]);
     }
+  }
+
+  // Ações do Menu
+  onEdit(item: any) {
+    console.log('Editar:', item.title);
+  }
+
+  onDelete(item: any) {
+    const dialogRef = this.dialog.open(ConfirmDialog, {
+      data: {
+        title: 'Excluir Item',
+        message: `Deseja excluir "${item.title}"?`,
+        confirmText: 'Excluir'
+      },
+      width: '300px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        if (this.activeTab === 'Eventos') {
+          this.eventItems = this.eventItems.filter(i => i.id !== item.id);
+          this.displayItems = this.eventItems;
+        } else {
+          this.routeItems = this.routeItems.filter(i => i.id !== item.id);
+          this.displayItems = this.routeItems;
+        }
+      }
+    });
+  }
+
+  createNewRoute() {
+    this.router.navigate(['/promotor_turistico/mapa']);
+  }
+
+  createNewEvent() {
+    this.router.navigate(['/promotor_turistico/eventos/novo-evento']);
   }
 }
