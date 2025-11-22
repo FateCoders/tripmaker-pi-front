@@ -21,6 +21,7 @@ import { Chart, registerables, TooltipItem } from 'chart.js';
 import { HeaderTitle } from '../../../../components/header-title/header-title';
 import { FooterUsercomumComponent } from '../../../../components/public/bottom-menu/bottom-menu.component';
 import { ChipButtonComponent } from '../../../../components/buttons/chip-button/chip-button';
+import { RoutesService } from '../../../../services/routes.service'; // 1. Importar Service
 
 Chart.register(...registerables);
 
@@ -43,6 +44,7 @@ export class PromoterEventDetails implements OnInit, OnDestroy {
   private router = inject(Router);
   private sanitizer = inject(DomSanitizer);
   private cdr = inject(ChangeDetectorRef);
+  private routesService = inject(RoutesService); // 2. Injetar Service
 
   @ViewChild('visitorsChart') set visitorsChart(
     elRef: ElementRef<HTMLCanvasElement> | undefined
@@ -59,48 +61,95 @@ export class PromoterEventDetails implements OnInit, OnDestroy {
   // Estado para controlar o tipo de conteúdo
   isRoute = signal(false);
 
-  // Textos Dinâmicos baseados no tipo
+  // Textos Dinâmicos
   pageTitle = computed(() => this.isRoute() ? 'Rota' : 'Evento');
   entityNameLabel = computed(() => this.isRoute() ? 'Nome da Rota' : 'Nome do Evento');
   statCardText = computed(() => this.isRoute() ? 'sua Rota' : 'seu Evento');
 
-  // Dados Mockados
-  eventData = {
-    id: '1',
-    title: 'Festival de Verão / Rota do Sol', // Título genérico para exemplo
-    address: 'Centro de Tatuí - SP',
-    image: 'assets/images/jpg/teatro.jpeg',
-    visitorsTotal: 355,
-    rating: 5,
-    hours: '09h00 - 18h00',
-    category: 'Cultural',
-    features: ['Pet Friendly', 'Acessível'],
-    dayStat: {
-      day: '2º',
-      count: 144
-    },
-    locationQuery: 'Tatuí, SP' 
+  // Dados Padrão (Inicializado vazio ou com mock de fallback)
+  eventData: any = {
+    id: '',
+    title: '',
+    address: '',
+    image: '',
+    visitorsTotal: 0,
+    rating: 0,
+    hours: '',
+    category: '',
+    features: [],
+    dayStat: { day: '', count: 0 },
+    locationQuery: '' 
   };
 
   ngOnInit(): void {
-    // 1. Detectar se é Rota ou Evento baseado na URL
-    // A URL é do tipo /promotor_turistico/rota/:id ou /promotor_turistico/evento/:id
+    const id = this.route.snapshot.paramMap.get('id');
     const pathSegment = this.route.snapshot.url[1]?.path; 
     this.isRoute.set(pathSegment === 'rota');
 
-    // Simula carregamento
-    setTimeout(() => {
-      // Ajusta dados mockados dependendo do tipo (opcional)
-      if (this.isRoute()) {
-        this.eventData.title = "Rota Histórica de Tatuí";
-      } else {
-        this.eventData.title = "Festival de Jazz";
-      }
+    this.isLoading.set(true);
 
+    setTimeout(() => {
+      if (this.isRoute() && id) {
+        this.loadRouteData(id);
+      } else {
+        this.loadEventMock(id);
+      }
+      
+      // Carrega o mapa com base no endereço ou região
       this.mapUrl.set(this.getSanitizedMapUrl(this.eventData.locationQuery));
       this.isLoading.set(false);
       this.cdr.detectChanges();
     }, 500);
+  }
+
+  // 3. Método para carregar Rota do Serviço
+  private loadRouteData(id: string) {
+    const route = this.routesService.getRouteById(id);
+
+    if (route) {
+      // Mapear dados reais da rota + dados simulados de analytics
+      this.eventData = {
+        id: route.id,
+        title: route.title,
+        address: route.region ? `Região de ${this.capitalize(route.region)}` : 'Vários locais',
+        image: route.img || 'assets/images/png/placeholder.png',
+        
+        // Dados simulados (Analytics ainda não existem no backend)
+        visitorsTotal: Math.floor(Math.random() * 500) + 100, // 100 a 600
+        rating: 4.8,
+        hours: '24h',
+        category: 'Turismo',
+        features: ['Guiado', 'Transporte', 'Seguro'],
+        dayStat: {
+          day: '2º',
+          count: Math.floor(Math.random() * 100) + 50
+        },
+        locationQuery: route.region || 'São Paulo'
+      };
+    } else {
+      // Fallback se não achar (ex: refresh e perdeu estado mockado)
+      this.eventData.title = 'Rota não encontrada';
+    }
+  }
+
+  // 4. Método Mock para Eventos (Mantido como estava)
+  private loadEventMock(id: string | null) {
+    this.eventData = {
+      id: id || '1',
+      title: 'Festival de Jazz de Tatuí',
+      address: 'Centro de Tatuí - SP',
+      image: 'assets/images/jpg/teatro.jpeg',
+      visitorsTotal: 355,
+      rating: 5,
+      hours: '09h00 - 18h00',
+      category: 'Cultural',
+      features: ['Pet Friendly', 'Acessível'],
+      dayStat: {
+        day: '2º',
+        count: 144
+      },
+      locationQuery: 'Tatuí, SP' 
+    };
   }
 
   ngOnDestroy(): void {
@@ -118,7 +167,11 @@ export class PromoterEventDetails implements OnInit, OnDestroy {
   }
 
   getRatingStars(rating: number): boolean[] {
-    return Array(5).fill(false).map((_, i) => i < rating);
+    return Array(5).fill(false).map((_, i) => i < Math.floor(rating));
+  }
+
+  private capitalize(s: string) {
+    return s && s[0].toUpperCase() + s.slice(1);
   }
 
   private createVisitorsChart(canvas: HTMLCanvasElement): void {
@@ -131,6 +184,9 @@ export class PromoterEventDetails implements OnInit, OnDestroy {
     gradient.addColorStop(0, 'rgba(0, 180, 255, 0.2)');
     gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
 
+    // Dados aleatórios para parecer dinâmico
+    const dataPoints = Array.from({length: 7}, () => Math.floor(Math.random() * 100) + 50);
+
     this.chartInstance = new Chart(ctx, {
       type: 'line',
       data: {
@@ -138,7 +194,7 @@ export class PromoterEventDetails implements OnInit, OnDestroy {
         datasets: [
           {
             label: 'Visitantes',
-            data: [50, 80, 60, 90, 120, 144, 130],
+            data: dataPoints,
             fill: true,
             backgroundColor: gradient,
             borderColor: '#00B4D8',

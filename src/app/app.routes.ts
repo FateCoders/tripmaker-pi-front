@@ -48,6 +48,7 @@ import { AdministratorCommerceDetail } from './pages/users/administrator/adminis
 import { TourismPromoterMapComponent } from './pages/users/tourism-promoter/map/map';
 import { PromoterEventDetails } from './pages/users/tourism-promoter/promoter-event-details/promoter-event-details';
 import { PromoterNewEvent } from './pages/users/tourism-promoter/promoter-new-event/promoter-new-event';
+import { PromoterNewRoute } from './pages/users/tourism-promoter/promoter-new-route/promoter-new-route';
 
 export const routes: Routes = [
   // ROTAS GERAIS
@@ -248,6 +249,13 @@ export const routes: Routes = [
     title: 'Dashboard da Rota',
     canActivate: [authGuard, roleGuard('promotor_turistico')],
     data: { animation: 'PromotorRotaDashboardPage' },
+  },
+  {
+    path: 'promotor_turistico/rotas/nova-rota',
+    component: PromoterNewRoute,
+    title: 'Criar Nova Rota',
+    canActivate: [authGuard, roleGuard('promotor_turistico')],
+    data: { animation: 'PromotorNewRoutePage' },
   },
   {
     path: 'promotor_turistico/perfil',

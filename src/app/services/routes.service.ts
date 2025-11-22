@@ -24,7 +24,6 @@ export class RoutesService {
   private platformId = inject(PLATFORM_ID);
   private isBrowser = isPlatformBrowser(this.platformId);
 
-  // ... (código 'routes' do menu omitido) ...
   private readonly routes = {
     admin: [
       { path: '/administrador/inicio', label: 'Início', icon: 'home' },
@@ -32,8 +31,6 @@ export class RoutesService {
       { path: '/administrador/comercios', label: 'Comércios', icon: 'store' },
       { path: '/administrador/usuarios', label: 'Usuários', icon: 'group' },
       { path: '/administrador/perfil', label: 'Perfil', icon: 'person' },
-      // { path: '/administrador/eventos/nova-rota', label: 'Nova Rota', icon: 'map' },
-      // { path: '/administrador/eventos/novo-evento', label: 'Novo EVento', icon: 'event' },
     ],
 
     empreendedor: [
@@ -46,8 +43,6 @@ export class RoutesService {
       {path: '/promotor_turistico/inicio', label: 'Início', icon: 'home'},
       {path: '/promotor_turistico/mapa', label: 'Mapa', icon: 'map'},
       {path: '/promotor_turistico/perfil', label: 'Perfil', icon: 'person'},
-      // { path: '/promotor_turistico/eventos/nova-rota', label: 'Nova Rota', icon: 'map' },
-      // { path: '/promotor_turistico/eventos/novo-evento', label: 'Novo EVento', icon: 'event' },
     ],
 
     viajante: [
@@ -117,7 +112,7 @@ export class RoutesService {
     },
   ];
 
-  // ... (resto do service, initialMockRoutes, saveCurrentRoute, etc.) ...
+  // Mock de roteiros salvos (Viajante)
   private initialMockRoutes = [
     {
       id: 'roteiro-1',
@@ -165,7 +160,7 @@ export class RoutesService {
     return [];
   }
   
-  // --- MÉTODOS DE ROTEIRO (USANDO LOCALSTORAGE) ---
+  // --- MÉTODOS DE ROTEIRO VIAJANTE (USANDO LOCALSTORAGE) ---
   saveCurrentRoute(items: RouteCardItem[]): void {
     if (this.isBrowser) {
       try {
@@ -176,6 +171,7 @@ export class RoutesService {
       }
     }
   }
+
   loadCurrentRoute(): RouteCardItem[] {
     if (this.isBrowser) {
       try {
@@ -188,12 +184,14 @@ export class RoutesService {
     }
     return [];
   }
+
   clearCurrentRoute(): void {
     if (this.isBrowser) {
       localStorage.removeItem(CURRENT_ROUTE_KEY);
       console.log('Roteiro atual limpo do localStorage.');
     }
   }
+
   saveFinalRoute(routeData: any, items: RouteCardItem[]): boolean {
     if (this.isBrowser) {
       try {
@@ -201,7 +199,7 @@ export class RoutesService {
         
         const newRoute = {
           ...routeData,
-          id: `roteiro-${savedRoutes.length + 1}`,
+          id: `roteiro-${Date.now()}`,
           items: items,
           date: new Date().toLocaleDateString('pt-BR'), 
           image: items[0]?.image || 'assets/images/jpg/teatro.jpeg',
@@ -213,7 +211,7 @@ export class RoutesService {
         localStorage.setItem(SAVED_ROUTES_KEY, JSON.stringify(updatedRoutes));
         
         this.clearCurrentRoute();
-        console.log('Roteiro finalizado e salvo:', newRoute);
+        console.log('Roteiro finalizado e salvo (Viajante):', newRoute);
         return true;
       } catch (e) {
         console.error('Erro ao salvar roteiro final', e);
@@ -222,6 +220,7 @@ export class RoutesService {
     }
     return false;
   }
+
   getSavedRoutes(): any[] {
     if (this.isBrowser) {
       const saved = localStorage.getItem(SAVED_ROUTES_KEY);
@@ -230,14 +229,32 @@ export class RoutesService {
     return this.initialMockRoutes;
   }
   
-  // --- MÉTODOS EXISTENTES ABAIXO (Mocks de Rotas) ---
+  // --- MÉTODOS DE GESTÃO DE ROTAS (PROMOTOR / ADMIN) ---
 
-  getAllRoutes(): Route[] { // <-- RETORNA Route[]
+  getAllRoutes(): Route[] {
     return JSON.parse(JSON.stringify(this.allRoutes));
   }
 
-  getVisibleRoutes(): Route[] { // <-- RETORNA Route[]
+  getVisibleRoutes(): Route[] {
     return this.getAllRoutes().filter((route: Route) => route.isActive);
+  }
+
+  // NOVO MÉTODO: Criação de Rota pelo Promotor
+  createPromoterRoute(data: { title: string, description: string, isPrivate: boolean }, items: any[]): void {
+    const newRoute: Route = {
+      id: `route-${Date.now()}`,
+      title: data.title,
+      description: data.description || 'Sem descrição',
+      isActive: !data.isPrivate, // Se for privado, não está "ativo" publicamente no momento
+      registeredUsers: [],
+      region: 'tatui', // Padrão para o mock
+      creationDate: new Date(),
+      img: items.length > 0 ? items[0].image : 'assets/images/png/placeholder.png' 
+    };
+    
+    // Adiciona ao início da lista em memória
+    this.allRoutes.unshift(newRoute);
+    console.log('Rota de promotor criada e adicionada à lista global:', newRoute);
   }
 
   toggleRouteStatus(routeId: string) {
@@ -253,7 +270,7 @@ export class RoutesService {
 
     if (route && currentUser) {
       const userEmail = currentUser.email;
-      if (userEmail && !route.registeredUsers.includes(userEmail)) { // Verifica se email existe
+      if (userEmail && !route.registeredUsers.includes(userEmail)) {
         route.registeredUsers.push(userEmail);
         console.log('Usuários na rota:', route.registeredUsers);
         return true; 

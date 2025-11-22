@@ -14,6 +14,7 @@ import { ListCard } from '../../../../components/card-default/card-default';
 import { ConfirmDialog } from '../../../../components/confirm-dialog/confirm-dialog';
 import { TabsSection } from '../../../../models/tabs-section';
 import { ChipButtonComponent } from '../../../../components/buttons/chip-button/chip-button';
+import { RoutesService } from '../../../../services/routes.service'; // Importar o Service
 
 @Component({
   selector: 'app-tourism-promoter-home',
@@ -23,12 +24,12 @@ import { ChipButtonComponent } from '../../../../components/buttons/chip-button/
     FooterUsercomumComponent,
     HeaderTitle,
     TabsList,
-    ListCard, // Para Eventos
+    ListCard,
     MatIconModule,
-    MatCardModule, // Para o Card de Rotas (Antigo)
+    MatCardModule,
     MatButtonModule,
     MatMenuModule,
-    ChipButtonComponent // Para os chips dentro do Card de Rotas
+    ChipButtonComponent,
   ],
   templateUrl: './tourism-promoter-home.html',
   styleUrls: ['./tourism-promoter-home.scss'],
@@ -36,9 +37,10 @@ import { ChipButtonComponent } from '../../../../components/buttons/chip-button/
 export class TourismPromoterHome implements OnInit {
   private router = inject(Router);
   private dialog = inject(MatDialog);
+  private routesService = inject(RoutesService); // Injetar o Service
 
   activeTab: string = 'Eventos';
-  
+
   eventItems: any[] = [];
   routeItems: any[] = [];
   displayItems: any[] = [];
@@ -54,48 +56,49 @@ export class TourismPromoterHome implements OnInit {
   }
 
   loadData() {
+    // 1. Carregar Eventos (Mantendo Mock local por enquanto, ou poderia vir de um EventsService)
     this.eventItems = [
       {
         id: '1',
         title: 'Festival de Teatro',
         description: 'Cultural • 24/02/2025',
         img: 'assets/images/jpg/teatro.jpeg',
-        category: 'Eventos'
+        category: 'Eventos',
       },
       {
         id: '2',
         title: 'Concerto Jovem',
         description: 'Música • 25/02/2025',
         img: 'assets/images/png/conservatorio.png',
-        category: 'Eventos'
+        category: 'Eventos',
       },
     ];
 
-    // Mock de Rotas com as propriedades do layout antigo
-    this.routeItems = [
-      {
-        id: 'rot-1',
-        title: 'Passeio pela Capital da Música',
-        priceRange: '$ - $$',
-        duration: '4h',
-        transportIcons: ['directions_bus', 'accessible', 'restaurant'],
-        // Propriedades extras caso precise
-        description: 'Um tour completo.' 
-      },
-      {
-        id: 'rot-2',
-        title: 'Adrenalina em Boituva-SP',
-        priceRange: '$$-$$$',
-        duration: '6h',
-        transportIcons: ['rocket', 'hotel', 'hiking'],
-        description: 'Paraquedismo e Balonismo.'
-      },
-    ];
+    // 2. Carregar Rotas do Service (Integração Realizada)
+    // Pegamos todas as rotas globais como exemplo. Em um app real, filtraria pelo ID do criador.
+    const allRoutes = this.routesService.getAllRoutes();
+
+    this.routeItems = allRoutes.map((route) => ({
+      id: route.id,
+      title: route.title,
+      description: route.description, // Usado como subtítulo
+      priceRange: '$$ - $$$', // Mockado pois a interface Route ainda não tem preço
+      duration: '4h', // Mockado
+      transportIcons: ['directions_bus', 'accessible'], // Mockado
+      img: route.img || 'assets/images/png/placeholder.png',
+      category: 'Rotas',
+    }));
   }
 
   onTabChanged(index: number): void {
     this.activeTab = this.tabs[index].label;
-    this.displayItems = this.activeTab === 'Eventos' ? this.eventItems : this.routeItems;
+    // Recarrega os dados sempre que troca de aba para garantir frescor (opcional)
+    if (this.activeTab === 'Rotas') {
+      this.loadData(); // Atualiza a lista caso tenha sido criada uma nova rota recentemente
+      this.displayItems = this.routeItems;
+    } else {
+      this.displayItems = this.eventItems;
+    }
   }
 
   // Navegação
@@ -117,18 +120,19 @@ export class TourismPromoterHome implements OnInit {
       data: {
         title: 'Excluir Item',
         message: `Deseja excluir "${item.title}"?`,
-        confirmText: 'Excluir'
+        confirmText: 'Excluir',
       },
-      width: '300px'
+      width: '300px',
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         if (this.activeTab === 'Eventos') {
-          this.eventItems = this.eventItems.filter(i => i.id !== item.id);
+          this.eventItems = this.eventItems.filter((i) => i.id !== item.id);
           this.displayItems = this.eventItems;
         } else {
-          this.routeItems = this.routeItems.filter(i => i.id !== item.id);
+          // Aqui idealmente chamaria routesService.deleteRoute(item.id)
+          this.routeItems = this.routeItems.filter((i) => i.id !== item.id);
           this.displayItems = this.routeItems;
         }
       }
@@ -136,7 +140,8 @@ export class TourismPromoterHome implements OnInit {
   }
 
   createNewRoute() {
-    this.router.navigate(['/promotor_turistico/mapa']);
+    // Rota atualizada para o novo fluxo de chat
+    this.router.navigate(['/promotor_turistico/rotas/nova-rota']);
   }
 
   createNewEvent() {

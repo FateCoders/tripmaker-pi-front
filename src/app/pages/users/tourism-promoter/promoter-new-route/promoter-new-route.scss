@@ -1,0 +1,174 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: var(--white-color);
+}
+
+.page-content {
+  flex-grow: 1;
+  position: relative;
+  overflow: hidden; // Importante para conter os scrollbars internos
+  display: flex;
+  flex-direction: column;
+}
+
+// --- ESTILOS DO CHAT ---
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.chat-scroll-area {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.chat-footer {
+  flex-shrink: 0;
+  background-color: var(--background-color-light);
+  border-top: 1px solid rgba(0,0,0,0.05);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.suggestions {
+  overflow-x: auto;
+  padding: 10px 12px 4px;
+  scrollbar-width: none; // Firefox
+  &::-webkit-scrollbar { display: none; } // Chrome
+
+  ::ng-deep mat-chip-listbox {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+  
+  ::ng-deep mat-chip-option {
+    border-radius: 20px;
+    background-color: var(--white-color);
+    border: 1px solid #ddd;
+    .mdc-evolution-chip__text-label { font-size: 0.85rem; }
+  }
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px 16px;
+  gap: 8px;
+  position: relative;
+
+  .chat-input {
+    flex-grow: 1;
+    ::ng-deep .mat-mdc-form-field-flex {
+      background-color: var(--white-color);
+      border-radius: 24px;
+      padding: 0 16px;
+      align-items: center;
+    }
+    ::ng-deep .mdc-notched-outline { display: none; }
+    ::ng-deep .mat-mdc-form-field-subscript-wrapper { display: none; }
+  }
+
+  .action-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    &.save-btn {
+      background-color: var(--white-color);
+      color: var(--primary-color-dark);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      
+      &:disabled { opacity: 0.5; box-shadow: none; }
+    }
+
+    &.send-btn {
+      background-color: var(--primary-color);
+      color: white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      
+      &:disabled { background-color: #ccc; box-shadow: none; }
+    }
+  }
+}
+
+// --- ESTILOS DO FORMULÁRIO DE DETALHES ---
+.details-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--background-color-light);
+}
+
+.details-form {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.full-width {
+  width: 100%;
+  ::ng-deep .mdc-text-field--filled {
+    background-color: var(--white-color);
+    border-radius: 8px;
+  }
+}
+
+.textarea-field textarea {
+  resize: none;
+}
+
+.toggle-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--white-color);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  
+  span {
+    font-size: 1rem;
+    color: var(--text-color-dark);
+  }
+}
+
+.points-review {
+  margin-top: 0.5rem;
+  
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 1rem;
+    h3 { margin: 0; font-size: 1.1rem; color: var(--text-color-dark); }
+    mat-icon { color: var(--text-color-light); }
+  }
+}
+
+.details-footer {
+  flex-shrink: 0;
+  padding: 1rem 1.5rem;
+  background-color: var(--white-color);
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+  display: flex;
+  justify-content: center;
+
+  .finish-btn {
+    width: 100%;
+    max-width: 400px;
+    height: 48px;
+    border-radius: 24px;
+    font-size: 1rem;
+  }
+}

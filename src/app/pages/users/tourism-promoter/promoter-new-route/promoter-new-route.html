@@ -1,0 +1,91 @@
+<app-header-title
+  [title]="currentStep() === 'chat' ? 'Assistente de Rotas' : 'Finalizar Rota'"
+  [subtitle]="currentStep() === 'chat' ? 'Crie rotas com IA' : 'Cadastrando uma Rota'"
+  [showBackButton]="true"
+  [showResetButton]="currentStep() === 'chat'"
+  (backClick)="goBackMain()"
+  (resetClick)="resetChat()"
+></app-header-title>
+
+<div class="page-content">
+  
+  @if (currentStep() === 'chat') {
+    <div class="chat-container">
+      <div class="chat-scroll-area" #chatContent>
+        @for(msg of messages; track $index) { 
+          @switch (msg.type) { 
+            @case ('text') { <app-chat-bubble [message]="msg"></app-chat-bubble> } 
+            @case ('loading') { <app-chat-bubble [message]="msg"></app-chat-bubble> } 
+            @case ('image-carousel') { <app-image-carousel [images]="msg.images!"></app-image-carousel> } 
+            @case ('card-carousel') { <app-card-carousel [items]="msg.items!"></app-card-carousel> } 
+          } 
+        }
+      </div>
+
+      <div class="chat-footer">
+        <div class="suggestions">
+          <mat-chip-listbox>
+            @for(tip of suggestions; track tip) {
+              <mat-chip-option (click)="sendSuggestion(tip)">{{ tip }}</mat-chip-option>
+            }
+          </mat-chip-listbox>
+        </div>
+
+        <div class="input-wrapper">
+          <mat-form-field appearance="outline" class="chat-input">
+            <input matInput [(ngModel)]="currentMessage" (keyup.enter)="sendMessage()" placeholder="Descreva sua rota..." autocomplete="off" />
+          </mat-form-field>
+
+          <button mat-icon-button class="action-btn save-btn" (click)="goToDetails()" [disabled]="currentRouteItems.length === 0">
+            <mat-icon>save</mat-icon>
+          </button>
+
+          <button mat-icon-button class="action-btn send-btn" (click)="sendMessage()" [disabled]="!currentMessage.trim() || isLoadingAiResponse">
+            <mat-icon>send</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (currentStep() === 'details') {
+    <div class="details-container">
+      <form [formGroup]="detailsForm" class="details-form">
+        
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Título da Rota</mat-label>
+          <input matInput formControlName="title" placeholder="Ex: Rota Gastronômica" />
+          @if (detailsForm.get('title')?.hasError('required')) {
+            <mat-error>Título é obrigatório</mat-error>
+          }
+        </mat-form-field>
+
+        <div class="toggle-row">
+          <span>Rota privada</span>
+          <mat-slide-toggle formControlName="isPrivate" color="primary"></mat-slide-toggle>
+        </div>
+
+        <mat-form-field appearance="fill" class="full-width textarea-field">
+          <mat-label>Detalhes da rota</mat-label>
+          <textarea matInput formControlName="description" rows="4" placeholder="Descreva os detalhes..."></textarea>
+        </mat-form-field>
+
+        <div class="points-review">
+          <div class="section-label">
+            <h3>Pontos da Rota ({{ currentRouteItems.length }})</h3>
+            <mat-icon>arrow_forward</mat-icon>
+          </div>
+          <app-card-carousel [items]="currentRouteItems"></app-card-carousel>
+        </div>
+
+      </form>
+
+      <div class="details-footer">
+        <button mat-flat-button color="primary" class="finish-btn" (click)="finishRoute()">
+          Concluir <mat-icon>check</mat-icon>
+        </button>
+      </div>
+    </div>
+  }
+
+</div>
