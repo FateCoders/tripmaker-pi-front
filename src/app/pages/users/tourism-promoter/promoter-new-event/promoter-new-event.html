@@ -1,0 +1,119 @@
+<div class="form-container" [class.map-fullscreen-active]="isMapExpanded()">
+  
+  @if (!isMapExpanded()) {
+    <header class="form-header">
+      <button mat-icon-button (click)="goBack()" class="back-button">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <div class="header-text">
+        <h1>Evento</h1>
+        <p>Cadastrando um Evento</p>
+      </div>
+    </header>
+  }
+
+  <mat-stepper [linear]="true" #stepper class="form-stepper">
+    
+    <mat-step [formGroup]="step1Location">
+      <div class="form-step-content">
+        
+        <div class="map-wrapper" [class.expanded]="isMapExpanded()">
+          <iframe [src]="mapUrl()" class="map-iframe" loading="lazy" allowfullscreen></iframe>
+          
+          <button mat-flat-button class="map-toggle-btn {{ isMapExpanded() ? 'expanded' : '' }}" (click)="toggleMapExpansion()">
+            <mat-icon>{{ isMapExpanded() ? 'fullscreen_exit' : 'fullscreen' }}</mat-icon>
+            {{ isMapExpanded() ? 'Reduzir' : 'Expandir' }}
+          </button>
+
+          @if (isMapExpanded()) {
+            <div class="map-search-overlay">
+              <div class="handle-bar"></div>
+              <app-search-bar 
+                [value]="step1Location.get('address')?.value" 
+                (valueChange)="onMapSearch($event)"
+                placeholder="Pesquise um endereço">
+              </app-search-bar>
+            </div>
+          }
+        </div>
+
+        @if (!isMapExpanded()) {
+          <div class="input-section">
+            <mat-form-field appearance="fill">
+              <mat-label>Endereço</mat-label>
+              <input matInput formControlName="address" placeholder="Digite o endereço do evento" />
+            </mat-form-field>
+
+            <h3 class="section-title">Características</h3>
+            <div class="characteristics-grid" [formGroup]="caracteristicasFormGroup">
+              @for (control of caracteristicasControls; track control.key) {
+                <app-chip-button 
+                  [label]="control.label" 
+                  [icon]="control.icon"
+                  [formControlName]="control.key">
+                </app-chip-button>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </mat-step>
+
+    <mat-step [formGroup]="step2Details">
+      <div class="form-step-content">
+        
+        <mat-form-field appearance="fill">
+          <mat-label>Título</mat-label>
+          <input matInput formControlName="title" placeholder="Digite o título do evento" />
+        </mat-form-field>
+
+        <div class="toggle-row">
+          <span>Evento privado</span>
+          <mat-slide-toggle formControlName="isPrivate" color="primary"></mat-slide-toggle>
+        </div>
+
+        <mat-form-field appearance="fill" class="textarea-field">
+          <mat-label>Detalhes do Evento</mat-label>
+          <textarea matInput formControlName="description" rows="5" placeholder="Descreva os detalhes do evento"></textarea>
+        </mat-form-field>
+
+        <div class="upload-section">
+          <h3 class="section-title">Imagens do evento <mat-icon>arrow_forward</mat-icon></h3>
+          
+          <div class="custom-upload-area">
+            <div class="upload-icons-bg">
+              <mat-icon class="icon-bg icon-1">cloud_upload</mat-icon>
+              <mat-icon class="icon-bg icon-2">image</mat-icon>
+              <mat-icon class="icon-bg icon-3">photo_camera</mat-icon>
+            </div>
+
+            <div class="upload-box-dashed">
+              <button mat-flat-button color="primary" class="upload-btn" (click)="fileInput.click()">
+                Procurar <mat-icon>download</mat-icon>
+              </button>
+              <p>ou arraste e solte</p>
+              <input #fileInput type="file" (change)="onFileSelect($event)" multiple hidden accept="image/*">
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </mat-step>
+  </mat-stepper>
+
+  @if (!isMapExpanded()) {
+    <footer class="stepper-footer">
+      @if (stepper.selectedIndex === 0) {
+        <button mat-flat-button color="primary" class="action-btn" (click)="stepper.next()">
+          Avançar <mat-icon>arrow_forward</mat-icon>
+        </button>
+      } @else {
+        <div class="footer-row">
+          <button mat-flat-button color="primary" class="action-btn" (click)="onSubmit()">
+            Concluir <mat-icon>check</mat-icon>
+          </button>
+        </div>
+      }
+    </footer>
+  }
+</div>

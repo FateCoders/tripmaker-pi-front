@@ -1,0 +1,109 @@
+<div class="page-container">
+  <app-header-title
+    [title]="pageTitle()"
+    [subtitle]="'Visualização de informações importantes'"
+    [showBackButton]="true"
+    (backClick)="goBack()"
+  ></app-header-title>
+
+  @if (isLoading()) {
+  <main class="content-loading">
+    <p>Carregando dados...</p>
+  </main>
+  } @else {
+  <main class="content-scrollable">
+    <div class="dashboard-content">
+      <section class="card info-card">
+        <div class="info-header">
+          <img
+            [src]="eventData.image"
+            [alt]="pageTitle()"
+            class="event-avatar"
+          />
+          <div class="event-text">
+            <h3>{{ eventData.title }}</h3>
+            <p>{{ eventData.address }}</p>
+          </div>
+        </div>
+        <div class="info-stats">
+          <div class="stat-box">
+            <span>Visitantes</span>
+            <strong>{{ eventData.visitorsTotal }}</strong>
+          </div>
+          <div class="stat-box">
+            <span>Avaliações</span>
+            <div class="stars">
+              @for (star of getRatingStars(eventData.rating); track $index) {
+              <mat-icon>{{ star ? 'star' : 'star_border' }}</mat-icon>
+              }
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="chips-row">
+        <app-chip-button
+          [label]="eventData.hours"
+          icon="schedule"
+          [isDisabled]="true"
+        >
+        </app-chip-button>
+        <app-chip-button
+          [label]="eventData.category"
+          icon="theater_comedy"
+          [isDisabled]="true"
+        >
+        </app-chip-button>
+        @for (feat of eventData.features; track $index) {
+        <app-chip-button
+          [label]="feat"
+          icon="pets"
+          [isDisabled]="true"
+        ></app-chip-button>
+        }
+      </section>
+
+      <section class="middle-grid">
+        <div class="card day-stat-card">
+          <p>No {{ eventData.dayStat.day }} Dia {{ statCardText() }}<br />teve</p>
+          <div class="big-number">{{ eventData.dayStat.count }}</div>
+          <p class="label-bottom">visitantes</p>
+        </div>
+
+        <div class="card map-card">
+          @if (mapUrl()) {
+          <iframe
+            [src]="mapUrl()"
+            width="100%"
+            height="100%"
+            style="border: 0"
+            loading="lazy"
+            allowfullscreen
+          >
+          </iframe>
+          <div class="map-overlay">
+            <mat-icon>location_on</mat-icon>
+          </div>
+          }
+        </div>
+      </section>
+
+      <section class="card chart-card">
+        <div class="chart-header">
+          <h4>Visitantes</h4>
+          <button mat-flat-button class="filter-btn">Hoje</button>
+        </div>
+        <div class="chart-wrapper">
+          <canvas #visitorsChart></canvas>
+        </div>
+        <div class="chart-footer">
+          <span>Dia 2</span>
+          <span>{{ eventData.dayStat.count }} visitantes</span>
+        </div>
+      </section>
+    </div>
+  </main>
+  }
+
+  <app-bottom-menu></app-bottom-menu>
+</div>

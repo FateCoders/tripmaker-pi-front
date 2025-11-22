@@ -1,6 +1,6 @@
 // src/app/pages/users/administrator/events/events.ts
 
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, Input } from '@angular/core';
 import { HeaderTitle } from '../../../../components/header-title/header-title';
 import { FooterUsercomumComponent } from '../../../../components/public/bottom-menu/bottom-menu.component';
 import { RoutesService } from '../../../../services/routes.service';
@@ -33,9 +33,12 @@ import { Route } from '../../../../interfaces/routes';
   templateUrl: './events.html',
   styleUrl: './events.scss',
 })
+
 export class AdministratorEvents implements OnInit {
+  @Input() userRoute:string = ''; 
   private routesService = inject(RoutesService);
   private router = inject(Router);
+
 
   activeTab: string = 'Rotas';
 
@@ -77,7 +80,6 @@ export class AdministratorEvents implements OnInit {
   loadRoutes() {
     const routesFromService = this.routesService.getVisibleRoutes();
 
-    // CORREÇÃO: Adicionado o tipo 'Route' ao parâmetro
     const mappedRoutes: TabsListCard[] = routesFromService.map((route: Route) => {
       return {
         id: route.id,

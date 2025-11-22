@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RoutesDetais } from './routes-detais';
+import { PromoterNewEvent } from './promoter-new-event';
 
-describe('RoutesDetais', () => {
-  let component: RoutesDetais;
-  let fixture: ComponentFixture<RoutesDetais>;
+describe('PromoterNewEvent', () => {
+  let component: PromoterNewEvent;
+  let fixture: ComponentFixture<PromoterNewEvent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RoutesDetais]
+      imports: [PromoterNewEvent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RoutesDetais);
+    fixture = TestBed.createComponent(PromoterNewEvent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

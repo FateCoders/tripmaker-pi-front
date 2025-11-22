@@ -1,20 +1,23 @@
 <div class="map-container">
-    <iframe
-      class="map-iframe"
-      width="100%"
-      height="100%"
-      style="border: 0"
-      loading="lazy"
-      allowfullscreen
-      referrerpolicy="no-referrer-when-downgrade"
-      src="http://googleusercontent.com/maps/google.com/0"
-    >
-    </iframe>
-  
-    <div class="bottom-sheet">
-      <div class="handle"></div>
-      <app-search-bar [(value)]="searchTerm" placeholder="Pesquise aqui"></app-search-bar>
-    </div>
-  
-    <app-bottom-menu />
+  <iframe
+    class="map-iframe"
+    width="100%"
+    height="100%"
+    style="border: 0"
+    loading="lazy"
+    allowfullscreen
+    referrerpolicy="no-referrer-when-downgrade"
+    [src]="mapUrl">
+  </iframe>
+
+  <div class="bottom-sheet">
+    <div class="handle"></div>
+    <app-search-bar
+      [(value)]="searchTerm"
+      (valueChange)="onSearch($event)"
+      placeholder="Pesquise aqui">
+    </app-search-bar>
   </div>
+
+  <app-bottom-menu />
+</div>

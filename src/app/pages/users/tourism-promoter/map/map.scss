@@ -44,12 +44,6 @@
     cursor: grab;
   }
   
-  /* Garante que a barra de pesquisa se ajuste */
-  ::ng-deep app-search-bar .search-container {
-    margin: 8px auto 0;
-    width: 100%;
-  }
-  
   app-bottom-menu {
     position: absolute;
     bottom: 0;
