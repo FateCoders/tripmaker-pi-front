@@ -30,10 +30,10 @@ export class AuthService {
   };
 
   private readonly USER_TYPE_MAP: Record<number, UserRole> = {
-    0: 'administrador',
+    0: 'promotor_turistico',
     1: 'viajante',
     2: 'empreendedor',
-    3: 'promotor_turistico'
+    3: 'administrador'
   };
 
   constructor() {
@@ -97,6 +97,7 @@ export class AuthService {
   }
 
   register(user: any): Observable<any> {
+    // A chave 'promotor_turistico' agora mapeia corretamente para 'tourism-promoter'
     const endpointSlug = this.ROLE_ENDPOINTS[user.role];
 
     if (!endpointSlug) {
