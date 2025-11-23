@@ -6,9 +6,7 @@ import {
 } from '../../components/dynamic-form/dynamic-form';
 import { Validators, ValidatorFn } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-
 import { NotificationService } from '../../services/notification-service';
-
 import { cnpjValidator } from '../../validators/cnpj.validator';
 import { phoneValidator } from '../../validators/phone.validator';
 import { matchPasswordsValidator } from '../../validators/match-passwords.validator';
@@ -28,6 +26,7 @@ export class Cadastro implements OnInit {
   selectedUserType: 'traveler' | 'entrepreneur' | 'promoter' = 'traveler';
   currentFormFields: FormFieldConfig[] = [];
   currentFormGroupValidators: ValidatorFn[] = [];
+  isLoading = false; // Adicionado para feedback visual se necessário
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
@@ -52,6 +51,8 @@ export class Cadastro implements OnInit {
   }
 
   handleRegister(formData: any): void {
+    this.isLoading = true;
+
     const roleMap = {
       traveler: 'viajante',
       entrepreneur: 'empreendedor',
@@ -65,16 +66,30 @@ export class Cadastro implements OnInit {
 
     delete userToRegister.confirmPassword;
 
-    const success = this.authService.register(userToRegister);
+    // Agora inscrevemos no Observable retornado pelo serviço
+    this.authService.register(userToRegister).subscribe({
+      next: (response) => {
+        this.isLoading = false;
+        // Código 201 indica criação com sucesso [cite: 40, 55, 74]
+        this.notificationService.open('Cadastro realizado com sucesso! Redirecionando para o login.', 'OK', 'success');
+        this.router.navigate(['/']);
+      },
+      error: (error) => {
+        this.isLoading = false;
+        console.error('Erro no cadastro:', error);
 
-    if (success) {
-      this.notificationService.open('Cadastro realizado com sucesso! Redirecionando para o login.', 'OK', 'success');
-      this.router.navigate(['/']); 
-    } else {
-      this.notificationService.open('Ocorreu um erro inesperado. Por favor, tente novamente.', 'Fechar', 'error');
-    }
+        // Tratamento básico de erro 422 (Validação) [cite: 40, 55, 74]
+        let errorMessage = 'Ocorreu um erro inesperado. Por favor, tente novamente.';
+        if (error.status === 422) {
+          errorMessage = 'Erro de validação. Verifique os dados inseridos (Email já existente ou senha fraca).';
+        }
+
+        this.notificationService.open(errorMessage, 'Fechar', 'error');
+      }
+    });
   }
 
+  // --- Definições de Campos (mantidas) ---
   private travelerFields: FormFieldConfig[] = [
     {
       name: 'name',
@@ -100,7 +115,7 @@ export class Cadastro implements OnInit {
       label: 'Telefone',
       type: 'tel',
       placeholder: '(XX) XXXXX-XXXX',
-      mask: '(00) 00000-0000', 
+      mask: '(00) 00000-0000',
       validators: [Validators.required, phoneValidator],
       validationMessages: [
         { type: 'required', message: 'O telefone é obrigatório.' },
@@ -145,7 +160,7 @@ export class Cadastro implements OnInit {
       label: 'CNPJ',
       type: 'text',
       placeholder: 'XX.XXX.XXX/XXXX-XX',
-      mask: '00.000.000/0000-00', 
+      mask: '00.000.000/0000-00',
       validators: [Validators.required, cnpjValidator],
       validationMessages: [
         { type: 'required', message: 'O CNPJ é obrigatório.' },

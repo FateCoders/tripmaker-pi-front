@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -10,6 +10,7 @@ import { NotificationService } from '../../services/notification-service';
 
 @Component({
   selector: 'app-login',
+  standalone: true,
   imports: [RouterLink, CommonModule, ReactiveFormsModule, MatButtonModule, MatInputModule, DynamicFormComponent],
   templateUrl: './login.html',
   styleUrl: './login.scss'
@@ -18,6 +19,8 @@ export class Login {
   private authService = inject(AuthService);
   private router = inject(Router);
   private notificationService = inject(NotificationService);
+
+  isLoading = false;
 
   loginFormFields: FormFieldConfig[] = [
     {
@@ -36,24 +39,34 @@ export class Login {
       label: 'Senha',
       type: 'password',
       placeholder: 'Digite sua senha',
-      validators: [Validators.required, Validators.minLength(8)],
+      validators: [Validators.required, Validators.minLength(6)],
       validationMessages: [
-        { type: 'required', message: 'Senha é obrigatória.' },
-        { type: 'minlength', message: 'A senha deve ter no mínimo 8 caracteres.' }
+        { type: 'required', message: 'Senha é obrigatória.' }
       ]
     }
   ];
 
   handleLogin(formData: any): void {
     if (formData) {
-      const user = this.authService.login(formData);
+      this.isLoading = true;
 
-      if (user) {
-        this.notificationService.open(`Bem-vindo de volta, ${user.name}!`, 'OK', 'success');
-        this.router.navigate([`/${user.role}/inicio`]);
-      } else {
-        this.notificationService.open('Email ou senha inválidos. Tente novamente.', 'Fechar', 'error');
-      }
+      this.authService.login(formData).subscribe({
+        next: (user) => {
+          this.isLoading = false;
+          this.notificationService.open(`Bem-vindo de volta, ${user.name}!`, 'OK', 'success');
+
+          if (user.role) {
+            this.router.navigate([`/${user.role}/inicio`]);
+          } else {
+            this.router.navigate(['/']);
+          }
+        },
+        error: (error) => {
+          this.isLoading = false;
+          const msg = error.message || 'Email ou senha inválidos. Tente novamente.';
+          this.notificationService.open(msg, 'Fechar', 'error');
+        }
+      });
     }
   }
 }
