@@ -7,27 +7,71 @@
   <main class="home-content">
     <app-tabs-list [tabs]="tabs" (tabChanged)="onTabChanged($event)"></app-tabs-list>
 
-    @if (activeTab === 'Rotas') {
-      <mat-list>
+    <div class="list-wrapper">
+      @if (activeTab === 'Rotas') {
+      <div class="routes-grid">
         @for(route of availableRoutes; track route.id) {
-          <mat-list-item>
-            <span matListItemTitle>{{ route.title }}</span>
-            <span matListItemLine>{{ route.description }}</span>
-            <button mat-flat-button color="primary" (click)="subscribeToRoute(route.id)">
-              Inscrever-se
+        <mat-card class="route-card" (click)="onRouteClick(route)">
+          <mat-card-header>
+            <mat-card-title>{{ route.title }}</mat-card-title>
+
+            <button
+              mat-icon-button
+              class="menu-button"
+              [matMenuTriggerFor]="menu"
+              (click)="$event.stopPropagation()"
+            >
+              <mat-icon>more_vert</mat-icon>
             </button>
-          </mat-list-item>
+
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="onEdit($event, route)">
+                <mat-icon>edit</mat-icon>
+                <span>Editar</span>
+              </button>
+              <button mat-menu-item (click)="onDelete($event, route)">
+                <mat-icon color="warn">delete</mat-icon>
+                <span class="text-warn">Excluir</span>
+              </button>
+            </mat-menu>
+          </mat-card-header>
+
+          <mat-card-content>
+            <div class="chips-container">
+              <app-chip-button
+                [label]="route.priceRange"
+                icon="attach_money"
+                [isDisabled]="true"
+              ></app-chip-button>
+              <app-chip-button
+                [label]="route.duration"
+                icon="schedule"
+                [isDisabled]="true"
+              ></app-chip-button>
+            </div>
+            <div class="icons-container">
+              @for(icon of route.transportIcons; track $index) {
+              <mat-icon>{{ icon }}</mat-icon>
+              }
+            </div>
+          </mat-card-content>
+        </mat-card>
         } @empty {
-          <div class="empty-state" style="text-align: center; padding: 20px;">Nenhuma rota encontrada.</div>
+        <div class="empty-state">
+          <mat-icon>map</mat-icon>
+          <p>Nenhuma rota encontrada.</p>
+        </div>
         }
-      </mat-list>
-    } @else {
+      </div>
+      } @else {
       <app-list-view
         [items]="currentItems"
         [enableSearch]="false"
         [enableFilter]="false"
+        (itemClick)="onEventClick($event)"
       ></app-list-view>
-    }
+      }
+    </div>
   </main>
 
   <app-bottom-menu></app-bottom-menu>

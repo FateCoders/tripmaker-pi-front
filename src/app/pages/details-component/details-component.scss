@@ -173,3 +173,49 @@ app-bottom-menu {
     color: var(--primary-color-dark);
   }
 }
+
+.footer-actions {
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  padding: 12px 16px;
+  padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  background-color: white;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  box-sizing: border-box;
+  z-index: 100;
+
+  // Estilo unificado para o botão principal (Salvar ou Marcar Presença)
+  .action-button {
+    flex-grow: 1;
+    height: 48px;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 24px; // Mais arredondado como no design
+    background-color: var(--primary-color-dark); // Azul forte
+    color: white;
+    box-shadow: none;
+
+    mat-icon {
+      margin-right: 8px;
+    }
+  }
+
+  .favorite-button {
+    background-color: var(--background-color-light); // Cinza bem claro
+    border: 1px solid #eee;
+    border-radius: 12px; // Quadrado arredondado
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    color: var(--primary-color); // Ícone azul
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
