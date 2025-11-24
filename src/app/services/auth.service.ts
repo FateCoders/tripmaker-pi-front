@@ -97,7 +97,6 @@ export class AuthService {
   }
 
   register(user: any): Observable<any> {
-    // A chave 'promotor_turistico' agora mapeia corretamente para 'tourism-promoter'
     const endpointSlug = this.ROLE_ENDPOINTS[user.role];
 
     if (!endpointSlug) {
