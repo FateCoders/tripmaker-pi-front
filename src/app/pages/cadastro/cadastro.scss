@@ -1,104 +1,165 @@
+:host {
+  display: block;
+  background: var(--background-color-light, #fafafa);
+  min-height: 100vh;
+}
+
 .cadastro_container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  
   width: 100%;
   min-height: 100dvh;
-  
-  background: var(--background-color);
   box-sizing: border-box;
-  
-  padding: 2.5rem 1rem; 
+  padding: 1.5rem;
 
   &_header {
     margin-bottom: 2rem;
+    margin-top: 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 1rem;
 
     h2 {
-      font-size: 2.5rem;
+      font-size: 2rem;
       font-weight: bold;
       color: var(--primary-color-dark);
+      margin: 0;
+    }
+    img {
+      width: 40px;
     }
   }
 
   &_formulario {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 15px;
     width: 100%;
+    max-width: 450px;
+    transition: max-width 0.3s ease;
+
+    &.full-width {
+      max-width: none;
+    }
   }
 
   &_footer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 1.5rem;
-
+    margin-top: 2rem;
+    text-align: center;
     span {
-      font-size: 12px;
+      font-size: 0.9rem;
       color: var(--text-color-light);
-
       a {
-        color: var(--text-color-light);
+        color: var(--primary-color-dark);
+        text-decoration: none;
+        font-weight: 500;
       }
     }
   }
 }
 
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-.modal-content {
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  width: 90%;
-  max-width: 400px;
-  text-align: center;
-}
-.modal-content h4 {
-  margin-top: 0;
-  font-size: 1.25rem;
-}
-.modal-actions {
-  margin-top: 1.5rem;
-  display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
-}
-.modal-actions button {
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  background: transparent;
-  cursor: pointer;
-}
-.modal-actions button.confirm {
-  background-color: var(--primary-color-dark);
-  color: white;
-  border-color: var(--primary-color-dark);
+::ng-deep .custom-stepper {
+  background: transparent !important;
+
+  .mat-horizontal-stepper-header-container {
+    display: none !important;
+  }
+
+  .mat-horizontal-content-container {
+    padding: 0 !important;
+  }
 }
 
-::ng-deep .fullscreen-dialog .mat-dialog-container {
-  padding: 0;
-  border-radius: 0 !important;
-  box-shadow: none;
-  overflow: hidden;
+.step-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  h3 {
+    font-size: 1.5rem;
+    color: var(--text-color-light);
+    font-weight: 400;
+  }
+}
+
+.preferences-step {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-top: 1rem;
+
+  .preference-group {
+    .group-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #222;
+      margin: 0 0 12px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .chips-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+  }
+}
+
+::ng-deep app-chip-button {
+  mat-chip-option {
+    background-color: var(--white-color) !important;
+    border: 1px solid #ccc !important;
+    border-radius: 8px !important;
+    min-height: 36px !important;
+
+    .mdc-evolution-chip__text-label {
+      color: #444 !important;
+      font-weight: 600 !important;
+      font-size: 0.9rem !important;
+      padding: 0 4px !important;
+    }
+
+    &.mat-mdc-chip-selected {
+      background-color: #e3f2fd !important;
+      border-color: #00a8ff !important;
+
+      .mdc-evolution-chip__text-label {
+        color: #0056b3 !important;
+      }
+    }
+
+    --mdc-chip-focus-state-layer-opacity: 0;
+  }
+
+  &.selected mat-chip-option {
+    background-color: #00a8ff !important;
+    border-color: #00a8ff !important;
+
+    .mdc-evolution-chip__text-label {
+      color: white !important;
+    }
+  }
+}
+
+.actions-footer {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 2rem;
+
+  .conclude-btn {
+    background-color: #00a8ff;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    height: 48px;
+    border-radius: 24px;
+    padding: 0 48px;
+    width: 100%;
+    max-width: 250px;
+    box-shadow: 0 4px 10px rgba(0, 168, 255, 0.3);
+
+    mat-icon {
+      margin-left: 8px;
+    }
+  }
 }
