@@ -14,6 +14,10 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: ('dynamic' as unknown) as RenderMode
   } as ServerRoute,
   {
+    path: 'viajante/rotas/:id',
+    renderMode: ('dynamic' as unknown) as RenderMode
+  } as ServerRoute,
+  {
     path: 'administrador/comercios/detalhe/:id',
     renderMode: ('dynamic' as unknown) as RenderMode
   } as ServerRoute,
