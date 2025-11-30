@@ -11,6 +11,7 @@ import { canDeactivateGuard } from './guards/can-deactivate-guard-guard';
 // ALL
 import { Login } from './pages/login/login';
 import { Cadastro } from './pages/cadastro/cadastro';
+import { ForgotPassword } from './pages/forgot-password/forgot-password';
 import { TermsComponent } from './pages/terms/terms';
 import { Profile } from './pages/profile/profile.component';
 import { MapViewComponent } from './pages/map-view/map-view';
@@ -82,6 +83,12 @@ export const routes: Routes = [
     canActivate: [loginGuard],
     canDeactivate: [canDeactivateGuard],
     data: { animation: 'CadastroPage' },
+  },
+  {
+    path: 'esqueci-senha/:token',
+    component: ForgotPassword,
+    title: 'Redefinir Senha',
+    data: { animation: 'ForgotPasswordPage' },
   },
   // [ALTERAÇÃO] Rota global para Termos, acessível a todos
   {
