@@ -10,4 +10,5 @@ export interface User {
   businessName?: string;
   region?: string;
   creationDate?: Date | string;
+  preferences?: string[];
 }

@@ -1,21 +1,48 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
-import {
-  DynamicFormComponent,
-  FormFieldConfig,
-} from '../../components/dynamic-form/dynamic-form';
+import { CommonModule } from '@angular/common';
 import { Validators, ValidatorFn } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
 
+import { MatStepper, MatStepperModule } from '@angular/material/stepper';
+import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+
+import { DynamicFormComponent, FormFieldConfig } from '../../components/dynamic-form/dynamic-form';
+import { AuthService } from '../../services/auth.service';
 import { NotificationService } from '../../services/notification-service';
+import { ChipButtonComponent } from '../../components/buttons/chip-button/chip-button';
 
 import { cnpjValidator } from '../../validators/cnpj.validator';
 import { phoneValidator } from '../../validators/phone.validator';
 import { matchPasswordsValidator } from '../../validators/match-passwords.validator';
+import { HeaderTitle } from "../../components/header-title/header-title";
+
+interface PreferenceOption {
+  label: string;
+  selected: boolean;
+}
+
+interface PreferenceGroup {
+  emoji: string;
+  title: string;
+  options: PreferenceOption[];
+}
 
 @Component({
   selector: 'app-cadastro',
-  imports: [DynamicFormComponent, RouterLink],
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterLink,
+    DynamicFormComponent,
+    MatStepperModule,
+    MatButtonModule,
+    MatChipsModule,
+    MatIconModule,
+    ChipButtonComponent,
+    HeaderTitle
+],
   templateUrl: './cadastro.html',
   styleUrl: './cadastro.scss',
 })
@@ -25,9 +52,46 @@ export class Cadastro implements OnInit {
   private authService = inject(AuthService);
   private notificationService = inject(NotificationService);
 
+  @ViewChild('stepper') stepper!: MatStepper;
+
   selectedUserType: 'traveler' | 'entrepreneur' | 'promoter' = 'traveler';
   currentFormFields: FormFieldConfig[] = [];
   currentFormGroupValidators: ValidatorFn[] = [];
+
+  tempTravelerData: any = null;
+
+  preferenceGroups: PreferenceGroup[] = [
+    {
+      emoji: '🔥',
+      title: 'Estilo de Vida / Personalidade',
+      options: [
+        { label: 'Aventureiro', selected: false },
+        { label: 'Romântico', selected: false },
+        { label: 'Caseiro', selected: false },
+        { label: 'Boêmio', selected: false },
+        { label: 'Minimalista', selected: false },
+        { label: 'Realista', selected: false },
+        { label: 'Sonhador', selected: false },
+        { label: 'Espiritualizado', selected: false },
+        { label: 'Independente', selected: false },
+        { label: 'Extrovertido', selected: false },
+        { label: 'Introvertido', selected: false },
+      ],
+    },
+    {
+      emoji: '🎯',
+      title: 'Interesses e Hobbies',
+      options: [
+        { label: 'Natureza', selected: false },
+        { label: 'Viagens', selected: false },
+        { label: 'Gastronomia', selected: false },
+        { label: 'História', selected: false },
+        { label: 'Música', selected: false },
+        { label: 'Esportes', selected: false },
+        { label: 'Arte', selected: false },
+      ],
+    },
+  ];
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
@@ -51,7 +115,31 @@ export class Cadastro implements OnInit {
     this.currentFormGroupValidators = [matchPasswordsValidator];
   }
 
-  handleRegister(formData: any): void {
+  handleFormSubmit(formData: any): void {
+    if (this.selectedUserType === 'traveler') {
+      this.tempTravelerData = formData;
+      this.stepper.next();
+    } else {
+      this.registerUser(formData);
+    }
+  }
+
+  finishTravelerRegistration(): void {
+    if (!this.tempTravelerData) return;
+
+    const selectedPreferences = this.preferenceGroups.flatMap((group) =>
+      group.options.filter((opt) => opt.selected).map((opt) => opt.label)
+    );
+
+    const finalData = {
+      ...this.tempTravelerData,
+      preferences: selectedPreferences,
+    };
+
+    this.registerUser(finalData);
+  }
+
+  private registerUser(userData: any): void {
     const roleMap = {
       traveler: 'viajante',
       entrepreneur: 'empreendedor',
@@ -59,7 +147,7 @@ export class Cadastro implements OnInit {
     };
 
     const userToRegister = {
-      ...formData,
+      ...userData,
       role: roleMap[this.selectedUserType],
     };
 
@@ -68,11 +156,23 @@ export class Cadastro implements OnInit {
     const success = this.authService.register(userToRegister);
 
     if (success) {
-      this.notificationService.open('Cadastro realizado com sucesso! Redirecionando para o login.', 'OK', 'success');
-      this.router.navigate(['/']); 
+      this.notificationService.open(
+        'Cadastro realizado com sucesso! Faça login para continuar.',
+        'OK',
+        'success'
+      );
+      this.router.navigate(['/']);
     } else {
-      this.notificationService.open('Ocorreu um erro inesperado. Por favor, tente novamente.', 'Fechar', 'error');
+      this.notificationService.open(
+        'Ocorreu um erro inesperado. Por favor, tente novamente.',
+        'Fechar',
+        'error'
+      );
     }
+  }
+
+  togglePreference(option: PreferenceOption): void {
+    option.selected = !option.selected;
   }
 
   private travelerFields: FormFieldConfig[] = [
@@ -100,7 +200,7 @@ export class Cadastro implements OnInit {
       label: 'Telefone',
       type: 'tel',
       placeholder: '(XX) XXXXX-XXXX',
-      mask: '(00) 00000-0000', 
+      mask: '(00) 00000-0000',
       validators: [Validators.required, phoneValidator],
       validationMessages: [
         { type: 'required', message: 'O telefone é obrigatório.' },
@@ -145,7 +245,7 @@ export class Cadastro implements OnInit {
       label: 'CNPJ',
       type: 'text',
       placeholder: 'XX.XXX.XXX/XXXX-XX',
-      mask: '00.000.000/0000-00', 
+      mask: '00.000.000/0000-00',
       validators: [Validators.required, cnpjValidator],
       validationMessages: [
         { type: 'required', message: 'O CNPJ é obrigatório.' },

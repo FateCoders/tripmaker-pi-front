@@ -1,22 +1,79 @@
 <main class="cadastro_container">
+  @if (stepper?.selectedIndex !== 1) {
   <section class="cadastro_container_header">
     <img src="favicon.svg" alt="Logo" />
     <h2>TripMaker</h2>
   </section>
-  <section class="cadastro_container_formulario">
+  }
+
+  <section class="cadastro_container_formulario" [class.full-width]="stepper?.selectedIndex === 1">
+    @if (selectedUserType === 'traveler') {
+    <mat-stepper [linear]="true" #stepper class="custom-stepper">
+      <mat-step>
+        <ng-template matStepLabel>Dados</ng-template>
+        <div class="step-header">
+          <h3>Crie sua conta</h3>
+        </div>
+
+        <app-dynamic-form
+          [fields]="currentFormFields"
+          [formValidators]="currentFormGroupValidators"
+          formTitle=""
+          submitButtonText="Continuar"
+          (formSubmit)="handleFormSubmit($event)"
+        >
+        </app-dynamic-form>
+      </mat-step>
+
+      <mat-step>
+        <ng-template matStepLabel>Preferências</ng-template>
+
+        <div class="preferences-step">
+          <app-header-title
+            class="pref-header"
+            [title]="'Minhas Preferências'"
+            [subtitle]="'Nos conte um pouco sobre você!'"
+          ></app-header-title>
+
+          @for (group of preferenceGroups; track group.title) {
+          <div class="preference-group">
+            <h4 class="group-title">{{ group.emoji }} {{ group.title }}</h4>
+            <div class="chips-container">
+              @for (option of group.options; track option.label) {
+              <app-chip-button
+                [label]="option.label"
+                (click)="togglePreference(option)"
+                [class.selected]="option.selected"
+              >
+              </app-chip-button>
+              }
+            </div>
+          </div>
+          }
+
+          <div class="actions-footer">
+            <button mat-flat-button class="conclude-btn" (click)="finishTravelerRegistration()">
+              Concluir <mat-icon>check</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-step>
+    </mat-stepper>
+    } @else {
     <app-dynamic-form
       [fields]="currentFormFields"
       [formValidators]="currentFormGroupValidators"
       formTitle="Seja bem vindo!"
       submitButtonText="Registrar"
-      (formSubmit)="handleRegister($event)"
+      (formSubmit)="handleFormSubmit($event)"
     >
     </app-dynamic-form>
+    }
   </section>
+
+  @if (stepper?.selectedIndex !== 1) {
   <section class="cadastro_container_footer">
-    <span
-      >Já tem uma conta?
-      <a routerLink="/">Faça login</a>
-    </span>
+    <span>Já tem uma conta? <a routerLink="/">Faça login</a></span>
   </section>
+  }
 </main>
