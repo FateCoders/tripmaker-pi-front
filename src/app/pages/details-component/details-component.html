@@ -23,40 +23,59 @@
 
     <main class="content-area">
       <section class="section">
-        @if (isEvent && !isRoute){
-        <h2>Detalhes do Evento:</h2>
-        <p class="section-text">{{ routeDetails.description }}</p>
+        @if (isEvent){
+          <h2>Detalhes do Evento:</h2>
         } @else {
-        <h2>Detalhes da Rota:</h2>
-        <p class="section-text">{{ routeDetails.description }}</p>
+          <h2>Detalhes da Rota:</h2>
         }
+        <p class="section-text">{{ routeDetails.description }}</p>
       </section>
 
       <section class="section points-section">
-        @if (isEvent && !isRoute) {
-        <div class="points-header">
-          <h2>Sobre o evento</h2>
-          <mat-icon>arrow_forward</mat-icon>
-        </div>
-
-        <app-image-carousel [images]="eventImagesUrls"></app-image-carousel>
-        } @else if (isRoute && !isEvent) {
-        <div class="points-header">
-          <h2>Pontos da Rota</h2>
-          <mat-icon>arrow_forward</mat-icon>
-        </div>
-        <app-card-carousel [items]="routePoints" />
-        } @else {
-        <p class="section-text">Selecione um tipo de conteúdo para visualizar.</p>
+        
+        @if (isEvent) {
+          <div class="points-header">
+            <h2>Imagens do evento</h2>
+            <mat-icon>arrow_forward</mat-icon>
+          </div>
+          <app-image-carousel [images]="eventImagesUrls"></app-image-carousel>
+        } 
+        
+        @else {
+          <div class="points-header">
+            <h2>Pontos da Rota</h2>
+            <mat-icon>arrow_forward</mat-icon>
+          </div>
+          <app-card-carousel 
+            [items]="routePoints">
+          </app-card-carousel>
         }
       </section>
     </main>
 
     <div class="footer-actions">
-      <button mat-flat-button color="primary" class="save-button" (click)="saveRoute()">
-        <mat-icon>flag</mat-icon>
-        SALVAR ROTA
-      </button>
+      
+      @if (isRoute) {
+        <button mat-flat-button color="primary" class="action-button" (click)="saveRoute()">
+          <mat-icon>flag</mat-icon>
+          SALVAR ROTA
+        </button>
+      }
+
+      @if (isEvent) {
+        @if (!hasPresenceMarked()) {
+          <button mat-flat-button color="primary" class="action-button" (click)="markPresence()">
+            <mat-icon>check_circle_outline</mat-icon>
+            MARCAR PRESENÇA
+          </button>
+        } @else {
+          <button mat-flat-button color="primary" class="action-button" (click)="showQrCode()">
+            <mat-icon>qr_code</mat-icon>
+            GERAR CÓDIGO DE ENTRADA
+          </button>
+        }
+      }
+
       <button mat-icon-button class="favorite-button" (click)="toggleFavorite()">
         <mat-icon>favorite_border</mat-icon>
       </button>

@@ -177,8 +177,17 @@ export const routes: Routes = [
   },
   {
     path: 'viajante/eventos/:id',
-    component: EventDetailsComponent,
+    component: DetailsComponent,
     title: 'Detalhes do Evento',
+    canActivate: [authGuard, roleGuard('viajante')],
+    data: { animation: 'ViajanteEventDetailsPage' },
+  },
+  {
+    path: 'viajante/rotas/:id',
+    component: DetailsComponent,
+    title: 'Detalhes da Rota',
+    canActivate: [authGuard, roleGuard('viajante')],
+    data: { animation: 'ViajanteRouteDetailsPage' },
   },
 
   // ROTAS DE EMPREENDEDOR
