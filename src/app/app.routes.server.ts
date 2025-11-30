@@ -42,6 +42,10 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: ('dynamic' as unknown) as RenderMode
   } as ServerRoute,
   {
+    path: 'esqueci-senha/:token',
+    renderMode: ('dynamic' as unknown) as RenderMode
+  } as ServerRoute,
+  {
     path: '**',
     renderMode: RenderMode.Prerender,
   },
